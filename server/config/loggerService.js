@@ -1,3 +1,7 @@
+/**
+ * Configuración de los logs
+ */
+
 const winston = require('winston');
 let options = {
   file: {
@@ -78,9 +82,9 @@ class LoggerService {
       obj
     })
   }
-  stream(){
+  stream() {
     this.logger.stream = {
-      write: function(message, encoding) {
+      write: function (message, encoding) {
         // use the 'info' log level so the output will be picked up by both transports (file and console)
         logger.info(message);
       }

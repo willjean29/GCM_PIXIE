@@ -22,7 +22,7 @@ const competitionSchema = mongoose.Schema({
   },
   tipo: {
     type: String,
-    trim : true,
+    trim: true,
     required: true
   },
   image: {
@@ -39,4 +39,4 @@ const competitionSchema = mongoose.Schema({
   }
 });
 
-module.exports = mongoose.model('Competition',competitionSchema);
+module.exports = mongoose.model('Competition', competitionSchema);

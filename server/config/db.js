@@ -1,21 +1,25 @@
+/**
+ * Conexión a la base de datos
+ */
+
 const mongoose = require('mongoose');
 
-class ConectionDB{
-  constructor(){
+class ConectionDB {
+  constructor() {
     this.connectDB()
   }
 
-  static getInstance(){
-    if(!this.connectionDB){
+  static getInstance() {
+    if (!this.connectionDB) {
       this.connectionDB = new ConectionDB();
-    }else{
+    } else {
       return this.connectionDB;
     }
   }
 
-  async connectDB(){
+  async connectDB() {
     try {
-      await mongoose.connect(process.env.DB_PIXIE,{
+      await mongoose.connect(process.env.DB_PIXIE, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
         useFindAndModify: false

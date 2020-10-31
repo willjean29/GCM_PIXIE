@@ -3,73 +3,73 @@ const bcrypt = require('bcrypt');
 const clientSchema = mongoose.Schema({
   name: {
     type: String,
-    trim : true,
+    trim: true,
     // required: true
   },//nombre
   lastName: {
     type: String,
-    trim : true,
+    trim: true,
     // required: true
   },//apellido
   dni: {
     type: String,
-    trim : true,
+    trim: true,
     required: true
   },
   // SEXO
   sexo: {
     type: String,
-    trim : true,
+    trim: true,
   },
   // identificacion
   email: {
     type: String,
-    trim : true,
+    trim: true,
     // required: true
   },//correo
   password: {
     type: String,
-    trim : true,
+    trim: true,
     // required: true
   },//contraseña
   image: {
     type: String,
-    trim : true
+    trim: true
   },
   token: {
     type: String,
-    trim : true,
+    trim: true,
   },//imagen
-  estado:{
+  estado: {
     type: Boolean,
     default: false
   },//status
-  puntuacion:[{
-    idBusiness:{
+  puntuacion: [{
+    idBusiness: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Business"
     },
-    puntos:{
+    puntos: {
       type: Number,
       default: 0
     }
   }],
-  premios:[{
-    idBusiness:{
+  premios: [{
+    idBusiness: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Business"
     },//bd para premios
-    idPremio:{
+    idPremio: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Prize'
     }
   }],
-  role:{
+  role: {
     type: String,
-    trim : true,
+    trim: true,
     default: "CLIENT"
   },
-  registro:{
+  registro: {
     type: Date,
     default: Date.now()
   },
@@ -77,21 +77,21 @@ const clientSchema = mongoose.Schema({
 })
 
 // hashear el password
-clientSchema.pre('save',function(next) {
+clientSchema.pre('save', function (next) {
   // si el password ya esta hasheado
-  if(!this.isModified('password')){
+  if (!this.isModified('password')) {
     return next();
   }
   // si no esta hasheado
-  const password = bcrypt.hashSync(this.password,bcrypt.genSaltSync(10));
+  const password = bcrypt.hashSync(this.password, bcrypt.genSaltSync(10));
   this.password = password;
   next();
 });
 
 clientSchema.methods = {
-  compararPassword: function(password) {
-    return bcrypt.compareSync(password,this.password);
+  compararPassword: function (password) {
+    return bcrypt.compareSync(password, this.password);
   }
 }
 
-module.exports = mongoose.model('Client',clientSchema);
+module.exports = mongoose.model('Client', clientSchema);

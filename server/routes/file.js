@@ -1,6 +1,6 @@
 const express = require('express');
 const fileController = require('../controllers/fileController');
-const {uploadCSV} = require('../middlewares/uploadFileCSV');
+const { uploadCSV } = require('../middlewares/uploadFileCSV');
 const authController = require('../controllers/authController');
 const router = express.Router();
 

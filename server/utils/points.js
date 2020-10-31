@@ -1,6 +1,12 @@
-function puntosSoles (soles,puntos,total){
+/**
+ * 
+ * @param {*} soles 
+ * @param {*} puntos 
+ * @param {*} total 
+ */
+function puntosSoles(soles, puntos, total) {
   let puntosTotal = 0;
-  puntosTotal = (total/soles)*puntos;
+  puntosTotal = (total / soles) * puntos;
   return Math.floor(puntosTotal);
 }
 

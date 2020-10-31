@@ -1,83 +1,84 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+
 const administratorSchema = mongoose.Schema({
   names: {
     type: String,
-    trim : true,
+    trim: true, //trim: borra los espacios de la derecha si existen
     required: true
   },
   lastNameP: {
     type: String,
-    trim : true,
+    trim: true,
     required: true
   },
   lastNameA: {
     type: String,
-    trim : true,
+    trim: true,
     required: true
   },
   dni: {
     type: String,
-    trim : true,
+    trim: true,
     required: true
   },
   email: {
     type: String,
-    trim : true,
+    trim: true,
     required: true
   },
   password: {
     type: String,
-    trim : true,
+    trim: true,
     required: true
   },
   image: {
     type: String,
-    trim : true
+    trim: true
   },
   token: {
     type: String,
-    trim : true,
+    trim: true,
   },
-  estado:{
+  estado: {
     type: Boolean,
     default: false
   },
   direccion: {
     type: String,
-    trim : true
+    trim: true
   },
   departamento: {
     type: String,
-    trim : true
+    trim: true
   },
   provincia: {
     type: String,
-    trim : true
+    trim: true
   },
   distrito: {
     type: String,
-    trim : true
+    trim: true
   },
   telefono: {
     type: String,
-    trim : true
+    trim: true
   },
   celular: {
     type: String,
-    trim : true
+    trim: true
   },
   genero: {
     type: String,
-    trim : true
+    trim: true
   },
-  cargo:{
+  cargo: {
     type: String,
-    trim : true
+    trim: true
   },
-  role:{
+  role: {
     type: String,
-    trim : true,
+    trim: true,
     default: "ADMIN"
   },
   fechaNacimiento: {
@@ -87,21 +88,21 @@ const administratorSchema = mongoose.Schema({
 });
 
 // hashear el password
-administratorSchema.pre('save',function(next) {
+administratorSchema.pre('save', function (next) {
   // si el password ya esta hasheado
-  if(!this.isModified('password')){
+  if (!this.isModified('password')) {
     return next();
   }
   // si no esta hasheado
-  const password = bcrypt.hashSync(this.password,bcrypt.genSaltSync(10));
+  const password = bcrypt.hashSync(this.password, bcrypt.genSaltSync(10));
   this.password = password;
   next();
 });
 
 administratorSchema.methods = {
-  compararPassword: function(password) {
-    return bcrypt.compareSync(password,this.password);
+  compararPassword: function (password) {
+    return bcrypt.compareSync(password, this.password);
   }
 }//Metodo para el administrador
 
-module.exports = mongoose.model("Administrator",administratorSchema);
+module.exports = mongoose.model("Administrator", administratorSchema);

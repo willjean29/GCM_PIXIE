@@ -1,5 +1,9 @@
+/**
+ * Para la subida de archivos al S3
+ * Guía: Documentación de AWS S3
+ */
 const AWS = require("aws-sdk");
-require('dotenv').config({ path: "variables.env"});
+require('dotenv').config();
 
 const { IAM_USER_KEY, IAM_USER_SECRET, S3_BUCKET } = process.env;
 

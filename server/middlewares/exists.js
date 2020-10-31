@@ -1,59 +1,60 @@
+/** 
+ * Verifica el acceso a ciertas funcionalidades según el estado del usuario
+ **/
+
+//Se importa los modelos
 const Administrator = require('../models/Administrator');
 const Business = require('../models/Business');
 const Competition = require('../models/Competition');
 const Catalog = require('../models/Catalog');
+
 const existsCompetitionSimple = async (idAdministrator) => {
   // buscamos administrador
   let existe = false;
   const administrator = await Administrator.findById(idAdministrator);
   // console.log(administrator)
-  if(!administrator) return existe;
+  if (!administrator) return existe;
 
-  const business = await Business.findOne({administrador: administrator._id});
+  const business = await Business.findOne({ administrador: administrator._id });
   // console.log(business);
-  if(!business) return existe;
+  if (!business) return existe;
 
   // buscar concurso simple referente a la empresa de
-  const competition = await Competition.findOne({business: business._id});
+  const competition = await Competition.findOne({ business: business._id });
 
-  if(!competition){
+  if (!competition) {
     return existe;
   }
-  
 
-  if(competition.tipo === "simple"){
+  if (competition.tipo === "simple") {
     existe = true;
     return existe;
   }
-  
 }
 
-const existsCatalogoBusiness = async(idAdministrator) =>{
+const existsCatalogoBusiness = async (idAdministrator) => {
   // buscamos administrador
   let existe = false;
   const administrator = await Administrator.findById(idAdministrator);
   // console.log(administrator)
-  if(!administrator) return existe;
+  if (!administrator) return existe;
 
-  const business = await Business.findOne({administrador: administrator._id});
+  const business = await Business.findOne({ administrador: administrator._id });
   // console.log(business);
-  if(!business) return existe;
+  if (!business) return existe;
 
   // buscamos si tiene asociado un catalogo
-  const catalog = await Catalog.findOne({business: business._id});
+  const catalog = await Catalog.findOne({ business: business._id });
 
-  if(!catalog) {
+  if (!catalog) {
     return existe;
-  }else{
+  } else {
     existe = true;
     return existe;
   }
-  
-  
-  
 }
 
-module.exports =  {
+module.exports = {
   existsCompetitionSimple,
   existsCatalogoBusiness
 }

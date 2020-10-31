@@ -1,4 +1,8 @@
+/**
+ * Lee un archivos excel desde un link
+ */
 const XLSX = require('xlsx');
+
 const leerCSV = (url) => {
   const excel = XLSX.readFile(url);
   const nombre = excel.SheetNames;
