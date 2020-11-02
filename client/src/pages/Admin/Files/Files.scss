@@ -1,0 +1,18 @@
+@import '../../../scss//index.scss'; //Idk why im importing this unu
+
+.files{
+    &__content{
+        &-title{
+            font-size: 0em + 30px / $defaultFontSize; //
+        }
+
+        &-functions{
+           
+           &-buttons{
+                text-align: right;
+                margin-right: 10px;
+            }
+        }
+    }
+}
+
