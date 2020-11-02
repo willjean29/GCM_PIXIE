@@ -1,8 +1,14 @@
 import React from 'react';
 import { Tabs, Card,  Avatar,Row, Col} from 'antd';
-import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
+import { EditOutlined, EllipsisOutlined, SettingOutlined, InfoCircleFilled, GlobalOutlined, FileImageOutlined } from '@ant-design/icons';
+
+import List from './List/List'
+import LogoBusiness from './Logo/LogoBusiness'
+
+import Logo from '../../../assets/img/png/no-avatar.png'
 
 import './Business.scss';
+
 const Business = () => {
 
   const { Meta } = Card;
@@ -14,20 +20,14 @@ const Business = () => {
     <Row>
     <Col span={16} push={8}>
     <Tabs className="card-container">
-      <TabPane tab="Tab Title 1" key="1">
-        <p>Content of Tab Pane 1</p>
-        <p>Content of Tab Pane 1</p>
-        <p>Content of Tab Pane 1</p>
+      <TabPane tab={<span><InfoCircleFilled />Información</span>} key="1" >
+        <List/>
       </TabPane>
-      <TabPane tab="Tab Title 2" key="2">
-        <p>Content of Tab Pane 2</p>
-        <p>Content of Tab Pane 2</p>
-        <p>Content of Tab Pane 2</p>
+      <TabPane tab={<span><GlobalOutlined />Mapa</span>} key="2" >
+        
       </TabPane>
-      <TabPane tab="Tab Title 3" key="3">
-        <p>Content of Tab Pane 3</p>
-        <p>Content of Tab Pane 3</p>
-        <p>Content of Tab Pane 3</p>
+      <TabPane tab={<span><FileImageOutlined />Logo</span>} key="3" >
+        <LogoBusiness/>
       </TabPane>
     </Tabs>
     
@@ -38,7 +38,7 @@ const Business = () => {
         cover={
           <img
             alt="example"
-            src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+            src={Logo}
           />
         }
         actions={[
@@ -49,7 +49,7 @@ const Business = () => {
       >
         <Meta
           avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-          title="Card title"
+          title="Nombre de empresa"
           description="This is the description"
         />
       </Card>
