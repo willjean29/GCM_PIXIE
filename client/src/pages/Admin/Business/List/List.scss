@@ -1,0 +1,28 @@
+@import "./../../../../index.scss";
+.labelL{
+    margin-right: 0px;//300
+    margin-bottom: 1rem;
+    margin-left: auto;
+    color: black;
+    font-size: 0.95rem;
+    font-weight: 300;
+    font-family: 'Courier New', Courier, monospace;
+    //font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
+	//	'Droid Sans', 'Helvetica Neue', sans-serif;
+    &__card{
+        font-size: 0.75rem;
+    }
+    &__top{//font-family: 'Courier New', Courier, monospace;
+        font-size: 1.50rem;
+        padding-bottom: 20px;
+        font-weight: bold;
+    }
+}
+
+.ant-descriptions-item-label {
+    color: rgba(0, 0, 0, 0.85);
+    /* font-weight: normal; */
+    font-size: 14px;
+    line-height: 1.5715;
+    text-align: start;
+}
