@@ -1,8 +1,9 @@
 import React from 'react';
 import {Layout, Tabs} from 'antd';
-import Logo from '../../../assets/img/png/logo.png';
+import Logo from '../../../assets/img/png/icon.png';
 // import RegisterForm from '../../../components/Admin/RegisterForm';
-// import LoginForm from '.././../../components/Admin/LoginForm';
+import LoginForm from './components/LoginForm';
+
 import './SingIn.scss';
 const SingIn = () => {
   const {Content} = Layout;
@@ -16,7 +17,7 @@ const SingIn = () => {
         <div className="sing-in__content-tabs">
           <Tabs type="card" hideAdd={false}>
             <TabPane tab={<span>Ingresar</span>} key="1">
-              {/* <LoginForm/> */}
+              <LoginForm/>
             </TabPane>
             <TabPane tab={<span>Registrarse</span>} key="2">
               {/* <RegisterForm/> */}

@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
-import {Switch, Route} from 'react-router-dom';
+import {Switch, Route, Redirect} from 'react-router-dom';
 import {GithubOutlined, FacebookOutlined, InstagramOutlined} from '@ant-design/icons';
 import {Layout} from 'antd';
+import AdminSingIn from '../pages/Admin/SingIn';
 import MenuSider from '../components/Admin/MenuSider';
 import MenuTop from '../components/Admin/MenuTop';
 import './LayoutAdmin.scss';
@@ -10,7 +11,15 @@ const LayoutAdmin = (props) => {
   const {routes} = props;
   const [menuCollapsed, setMenuCollapsed] = useState(false);
   const {Header, Content, Footer} = Layout;
- 
+  const authentication = null;
+  if(!authentication){
+    return (
+      <>
+        <Route exact path="/admin/login" component={AdminSingIn}/>
+        <Redirect to="/admin/login"/>
+      </>
+    )
+  }
   return (  
     <Layout>
       <MenuSider menuCollapsed={menuCollapsed}/>
