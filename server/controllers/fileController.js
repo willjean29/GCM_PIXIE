@@ -1,7 +1,7 @@
 /*
   FILECONTROLLER:
-  Controlador de template, de
-  inicio de sesión y validación de datos.
+  Controlador de template, se encarga
+  del manejo de archivos.
 */
 
 // Importando modelos
@@ -107,6 +107,7 @@ const cargarDataCliente = async (req,res) => {
   const business = await Business.findById(file.business);
 
   const competition = await Competition.findOne({business: business._id});
+  
   if(!competition){
     return res.status(404).json({
       ok: false,
