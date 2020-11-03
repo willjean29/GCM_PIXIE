@@ -1,12 +1,14 @@
 import React from 'react'
+import { green } from '@ant-design/colors';
 import { Layout, Card, Table, Tag, Space, Button } from 'antd' // Esto sirve para importar los componentes
-import { DownloadOutlined ,UploadOutlined,FileExcelOutlined ,SafetyOutlined} from '@ant-design/icons';
+import { DownloadOutlined, UploadOutlined, FileExcelOutlined, SafetyOutlined,EyeOutlined,CheckCircleOutlined } from '@ant-design/icons'
 
 import './Files.scss' // importa el css
 
 const Files = () => {
-  const {Content} = Layout
-  const {TableLayout} = Card
+  const {Content} = Layout;
+    const {TableLayout} = Card;
+
   // Borrar esto unu
   const columns = [
     {
@@ -23,24 +25,22 @@ const Files = () => {
     {
       title: 'Estado',
       key: 'status',
-      render: (color) =><SafetyOutlined /> //Acá podria enviarse el color del icono unu
+      render: (color) => <SafetyOutlined /> // Acá podria enviarse el color del icono unu
     },
     {
       title: 'Tipo',
       dataIndex: 'type',
       key: 'types',
-      render: text => "Registro de Ventas"
+      render: text => 'Registro de Ventas'
     },
     {
       title: 'Acciones',
       key: 'actions',
-      render: (namecsv)=> (
+      render: (namecsv) => (
         <Space size='middle'>
-          <Button type='primary' icon={<DownloadOutlined />}>
-                C
-              </Button>
-          <Button >
-                D
+          <Button type='primary' icon={<CheckCircleOutlined />}>
+          </Button>
+          <Button type='primary' icon={<EyeOutlined />} >
           </Button>
         </Space>
       )
@@ -52,26 +52,24 @@ const Files = () => {
       key: '1',
       name: 'registroVentas052020.csv',
       age: 32,
-      address: 'New York No. 1 Lake Park',
+      address: 'New York No. 1 Lake Park'
     }
   ]
   return (
     <Layout className='files'>
       <Content className='files__content'>
-        <h1 className='files__content-title'>Registro de Ventas</h1>
-        <Card className='files__content-functions'>
-          <Content className='files__content-functions-buttons'>
-            <Space size='middle'>
-              <Button name='btn_upload' icon={<UploadOutlined />} type='primary'>
-                Cargar registros
-              </Button>
-              <Button name='btn_download' icon={<DownloadOutlined />}>
-                Descargar template
-              </Button>
-            </Space>
-          </Content>
-        </Card>
-        <br />
+        <h1 className='files__content-title'>Registros de Ventas</h1>
+        <Content className='files__content-functions-buttons'>
+          <Space size='middle'>
+            <Button icon={<UploadOutlined />} type='primary'>
+              Cargar registros
+            </Button>
+            <Button icon={<DownloadOutlined />}>
+              Descargar template
+            </Button>
+          </Space>
+        </Content>
+        <br/>
         <Card className='files__content-body'>
           <Table className='files__content-body-table' columns={columns} dataSource={data} />
         </Card>
