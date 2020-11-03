@@ -10,6 +10,7 @@
 		display: flex;
 		padding: 0;
 		height: 65px;
+		z-index: 500;
 	}
 	&__content {
 		min-height: calc(100vh - 65px);
@@ -17,5 +18,8 @@
 	}
 	&__footer {
 		padding: 20px;
+		background-color: #fff;
+		display: flex;
+		justify-content: space-between;
 	}
 }

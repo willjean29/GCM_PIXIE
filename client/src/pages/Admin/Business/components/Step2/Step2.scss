@@ -1,0 +1,13 @@
+.ant-card-head-title {
+	font-size: 16px !important;
+}
+.business-form {
+	.ant-form-item-label {
+		label {
+			font-weight: bold;
+		}
+	}
+	&__submit {
+		text-align: right;
+	}
+}
