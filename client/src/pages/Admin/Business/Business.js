@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Steps, Button, message, Card, Divider} from 'antd';
+import {Steps,Card} from 'antd';
 
 import Step1 from './components/Step1';
 import Step2 from './components/Step2';

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Switch, Route} from 'react-router-dom';
 import {GithubOutlined, FacebookOutlined, InstagramOutlined} from '@ant-design/icons';
-import {Layout, Card} from 'antd';
+import {Layout} from 'antd';
 import MenuSider from '../components/Admin/MenuSider';
 import MenuTop from '../components/Admin/MenuTop';
 import './LayoutAdmin.scss';
@@ -22,7 +22,7 @@ const LayoutAdmin = (props) => {
           <LoadRouters routes={routes}/>
         </Content>
         <Footer className="layout-admin__footer">  
-          {/* <strong>
+          <strong>
             Copyright &copy; 2020 <b style={{color: '#1890ff'}}>PIXIE</b> 
           </strong>
           <div>
@@ -32,8 +32,7 @@ const LayoutAdmin = (props) => {
           </div>
           <div>
             <b style={{color: '#1890ff'}}>Version</b> 1.0.0
-          </div> */}
-          footer...
+          </div>
         </Footer>
       </Layout>
     </Layout>
