@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import {UserOutlined, IdcardOutlined, MailOutlined, LockOutlined} from '@ant-design/icons';
 import {Steps,Card,Form,Input,Button,Row,Col,Divider} from 'antd';
+import {useFormik} from 'formik';
+import * as Yup from 'yup';
 import './RegisterForm.scss';
 
 const RegisterForm = () => {
@@ -50,27 +52,43 @@ const RegisterForm = () => {
 }
 
 const Step1 = ({next}) => {
+  const formik = useFormik({
+    initialValues: {
+      token: ''
+    },
+    validationSchema: Yup.object({
+      token: Yup.string().required("El token es obligatorio")
+    }),
+    onSubmit: (formData) => next()
+  })
   return (
     <>
       <Card type="inner" title="Llenar Formulario">
         <Form
           className="token-admin-form"
+          onChange={formik.handleChange}
+          onFinish={formik.handleSubmit}
         >
           <Row gutter={24}>
             <Col span={24} md={16}>
               <Form.Item
                 size="large"
+                validateStatus={formik.errors.token ? "error" : "success"}
               >
                 <Input
                   addonBefore={<UserOutlined />}
                   placeholder="Token WebMaster"
                   size="large"
+                  name="token"
+                  value={formik.values.token}
+                  type="text"
                 />
+                <span style={{color : '#b83a38'}} className="msg-error">{formik.errors.token}</span>
               </Form.Item>
             </Col>
             <Col span={24} md={8}>
               <Form.Item className="token-admin-form__submit">
-                <Button type="primary" size="large" htmlType="submit" className="btn-submit" onClick={next}>
+                <Button type="primary" size="large" htmlType="submit" className="btn-submit">
                   Validar
                 </Button>
               </Form.Item>
@@ -95,26 +113,44 @@ const Step1 = ({next}) => {
 }
 
 const Step2 = ({next, prev}) => {
+  const formik = useFormik({
+    initialValues: {
+      dni: ''
+    },
+    validationSchema: Yup.object({
+      dni: Yup.string().required("El DNI es obligatorio")
+          .min(8,"El DNI debe contener 8 caracteres")
+          .max(8,"El DNI debe contener 8 caracteres")
+    }),
+    onSubmit: (formData) => next()
+  })
   return (
     <>
       <Card type="inner" title="Llenar Formulario">
         <Form
           className="token-admin-form"
+          onChange={formik.handleChange}
+          onFinish={formik.handleSubmit}
         >
           <Row gutter={10}>
             <Col span={24} md={16}>
               <Form.Item
+                validateStatus={formik.errors.dni ? "error" : "success"}
               >
                 <Input
                   addonBefore={<IdcardOutlined />}
                   placeholder="Ingresar DNI"
                   size="large"
+                  name="dni"
+                  type="text"
+                  value={formik.values.dni}
                 />
+                <span style={{color : '#b83a38'}} className="msg-error">{formik.errors.dni}</span>
               </Form.Item>
             </Col>
             <Col span={24} md={4}>
               <Form.Item className="token-admin-form__submit">
-                <Button type="primary" size="large" htmlType="submit" className="btn-submit" onClick={next}>
+                <Button type="primary" size="large" htmlType="submit" className="btn-submit">
                   Validar
                 </Button>
               </Form.Item>
@@ -146,6 +182,28 @@ const Step2 = ({next, prev}) => {
 }
 
 const Step3 = ({next, prev}) => {
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      password: '',
+      repeatPassword: ''
+    },
+    validationSchema: Yup.object({
+      name: Yup.string().required("El nombre es obligatorio"),
+      email: Yup.string()
+        .email("Ingrese un email valido")
+        .required("El email es obligatorio"),
+      password: Yup.string()
+        .required("La contraseña es obligatoria")
+        .oneOf([Yup.ref("repeatPassword")],'Las contraseñas no son iguales')
+        .min(8,"La contraseña debe tener minimo 6 caracteres"),
+      repeatPassword: Yup.string()
+        .required("La contraseña es obligatoria")
+        .oneOf([Yup.ref("password")],"Las contraseñas no son iguales")
+        .min(8,"La contraseña debe tener minimo 6 caracteres"),
+    }),
+    onSubmit: (formData) => next(false)
+  })
   return (
     <>
       <Card
@@ -155,6 +213,8 @@ const Step3 = ({next, prev}) => {
         <Form
           layout="vertical"
           className="token-admin-form"
+          onChange={formik.handleChange}
+          onFinish={formik.handleSubmit} 
         >
           <Row gutter={24}>
             <Col span={24} md={12}>
@@ -162,6 +222,8 @@ const Step3 = ({next, prev}) => {
                 <Input
                   addonBefore={<UserOutlined />}
                   placeholder="Nombres"
+                  type="text"
+                  name="names"
                 />
               </Form.Item>
             </Col>
@@ -170,6 +232,8 @@ const Step3 = ({next, prev}) => {
                 <Input
                   addonBefore={<UserOutlined />}
                   placeholder="A. Paterno"
+                  type="text"
+                  name="lastNameP"
                 />
               </Form.Item>
             </Col>
@@ -181,34 +245,54 @@ const Step3 = ({next, prev}) => {
                 <Input
                   addonBefore={<UserOutlined />}
                   placeholder="A. Materno"
+                  type="text"
+                  name="lastNameM"
                 />
               </Form.Item>
             </Col>
             <Col span={24} md={12}>
-              <Form.Item>
+              <Form.Item
+                 validateStatus={formik.errors.email ? "error" : "success"}
+              >
                 <Input
                   addonBefore={<MailOutlined />}
                   placeholder="Correo"
+                  value={formik.values.email}
+                  name='email'
+                  type="text"
                 />
+                <span style={{color : '#b83a38'}} className="msg-error">{formik.errors.email}</span>
               </Form.Item>
             </Col>
           </Row>
 
           <Row gutter={24}>
             <Col span={24} md={12}>
-              <Form.Item>
+              <Form.Item
+                 validateStatus={formik.errors.password ? "error" : "success"}
+              >
                 <Input
                   addonBefore={<LockOutlined />}
                   placeholder="Contraseña"
+                  type="password"
+                  name="password"
+                  value={formik.values.password}
                 />
+                <span style={{color : '#b83a38'}} className="msg-error">{formik.errors.password}</span>
               </Form.Item>
             </Col>
             <Col span={24} md={12}>
-              <Form.Item>
+              <Form.Item
+                 validateStatus={formik.errors.repeatPassword ? "error" : "success"}
+              >
                 <Input
                   addonBefore={<LockOutlined />}
                   placeholder="Repetir Contraseña"
+                  type="password" 
+                  name="repeatPassword"
+                  value={formik.values.repeatPassword}
                 />
+                <span style={{color : '#b83a38'}} className="msg-error">{formik.errors.repeatPassword}</span>
               </Form.Item>
             </Col>
           </Row>
@@ -221,7 +305,7 @@ const Step3 = ({next, prev}) => {
                 </Button>
               </Col>
               <Col>
-                <Button type="primary" htmlType="submit" className="btn-submit" onClick={() => next(false)}>
+                <Button type="primary" htmlType="submit" className="btn-submit">
                   Registrar
                 </Button>
               </Col>
