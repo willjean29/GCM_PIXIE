@@ -1,15 +1,32 @@
-import React from 'react'
-import { green } from '@ant-design/colors';
-import { Layout, Card, Table, Tag, Space, Button } from 'antd' // Esto sirve para importar los componentes
+import React,{useState} from 'react'
+//import { green } from '@ant-design/colors';
+import {Layout, Card, Table, Tag, Space, Button } from 'antd' // Esto sirve para importar los componentes
 import { DownloadOutlined, UploadOutlined, FileExcelOutlined, SafetyOutlined,EyeOutlined,CheckCircleOutlined } from '@ant-design/icons'
-
+import Modal from '../../../components/Admin/Modal';
+import UploadFileForm from '../../components/UploadFileForm'
 import './Files.scss' // importa el css
 
-const Files = () => {
-  const {Content} = Layout;
-    const {TableLayout} = Card;
 
-  // Borrar esto unu
+const Files = (props) => {
+  const {Content} = Layout;
+  const {TableLayout} = Card;
+
+
+  const [showModal, setShowModal] = useState(false);
+  const [modalTitle, setModalTitle] = useState("");
+  const [contentModal, setContentModal] = useState(null);
+
+  const uploadHandlerFunction = () =>{
+
+    setModalTitle("Cargar Archivo");
+    setContentModal(
+      <UploadFileForm setShowModal = {setShowModal}/>
+    )
+  
+    setShowModal(true);
+   
+  }
+
   const columns = [
     {
       title: 'Icono',
@@ -25,13 +42,13 @@ const Files = () => {
     {
       title: 'Estado',
       key: 'status',
-      render: (color) => <SafetyOutlined /> // Acá podria enviarse el color del icono unu
+      render: () => <SafetyOutlined /> // Acá podria enviarse el color del icono unu
     },
     {
       title: 'Tipo',
       dataIndex: 'type',
       key: 'types',
-      render: text => 'Registro de Ventas'
+      render: () => 'Registro de Ventas'
     },
     {
       title: 'Acciones',
@@ -64,7 +81,7 @@ const Files = () => {
             <Button icon={<UploadOutlined />} type='primary'>
               Cargar registros
             </Button>
-            <Button icon={<DownloadOutlined />}>
+            <Button icon={<DownloadOutlined />} onClick = {uploadHandlerFunction}>
               Descargar template
             </Button>
           </Space>
@@ -76,7 +93,16 @@ const Files = () => {
       </Content>
     </Layout>
   // <h1>Estamos en el manejador de archivo-templates del administrador</h1>
-  )
+/*
+  <Modal
+        title={modalTitle}
+        isVisible = {showModal}
+        setIsVisble = {setShowModal}
+      >
+      {contentModal}
+    </Modal>
+*/
+  );
 }
 
 export default Files
