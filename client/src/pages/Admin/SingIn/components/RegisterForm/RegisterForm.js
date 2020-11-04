@@ -59,16 +59,18 @@ const Step1 = ({next}) => {
           <Row gutter={24}>
             <Col span={24} md={16}>
               <Form.Item
+                size="large"
               >
                 <Input
                   addonBefore={<UserOutlined />}
                   placeholder="Token WebMaster"
+                  size="large"
                 />
               </Form.Item>
             </Col>
             <Col span={24} md={8}>
               <Form.Item className="token-admin-form__submit">
-                <Button type="primary" htmlType="submit" className="btn-submit" onClick={next}>
+                <Button type="primary" size="large" htmlType="submit" className="btn-submit" onClick={next}>
                   Validar
                 </Button>
               </Form.Item>
@@ -99,26 +101,27 @@ const Step2 = ({next, prev}) => {
         <Form
           className="token-admin-form"
         >
-          <Row gutter={24}>
+          <Row gutter={10}>
             <Col span={24} md={16}>
               <Form.Item
               >
                 <Input
                   addonBefore={<IdcardOutlined />}
                   placeholder="Ingresar DNI"
+                  size="large"
                 />
               </Form.Item>
             </Col>
             <Col span={24} md={4}>
               <Form.Item className="token-admin-form__submit">
-                <Button type="primary" htmlType="submit" className="btn-submit" onClick={next}>
+                <Button type="primary" size="large" htmlType="submit" className="btn-submit" onClick={next}>
                   Validar
                 </Button>
               </Form.Item>
             </Col>
             <Col span={24} md={4}>
               <Form.Item className="token-admin-form__submit">
-                <Button htmlType="button" className="btn-submit" onClick={prev}>
+                <Button htmlType="button" size="large" className="btn-submit" onClick={prev}>
                   Volver
                 </Button>
               </Form.Item>
