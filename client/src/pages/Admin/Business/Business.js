@@ -20,14 +20,14 @@ const Business = () => {
       <Col span={24} className="labelL__top">Información de mi Empresa</Col>
       <Col span={16} push={8}>
         <Tabs className="card-container">
-          <TabPane tab={<span><InfoCircleFilled />Información</span>} key="1" >
+          <TabPane tab={<span className="tab_text"><InfoCircleFilled />Información</span>} key="1" >
             <List/>
           </TabPane>
-          <TabPane tab={<span><GlobalOutlined />Mapa</span>} key="2" >
-            
+          <TabPane tab={<span className="tab_text"><GlobalOutlined />Mapa</span>} key="2" >
+            //Mapa
           </TabPane>
-          <TabPane tab={<span><FileImageOutlined />Logo</span>} key="3" >
-            <LogoBusiness/>
+          <TabPane tab={<span className="tab_text"><FileImageOutlined />Logo</span>} key="3" >
+            <LogoBusiness/>6
           </TabPane>
         </Tabs>
       </Col>

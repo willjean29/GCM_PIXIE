@@ -1,10 +1,9 @@
 import React from 'react'
 
-import { Descriptions, Badge, Button } from 'antd';
+import { Descriptions, Button } from 'antd';
 import { EditOutlined, DeleteOutlined} from '@ant-design/icons';
 
 import './List.scss';
-import DescriptionsItem from 'antd/lib/descriptions/Item';
 const List = () => {
   
     return (  
@@ -16,14 +15,12 @@ const List = () => {
             <Descriptions.Item className="labelL" label="DEPARTAMENTO">LIMA</Descriptions.Item>
             <Descriptions.Item className="labelL" label="DISTRITO" span={2}>VILLA EL SALVADOR</Descriptions.Item>
             <Descriptions.Item className="labelL" label="DIRECCIÓN" span={4}>CAR.ANTIGUA PANAMERICANA </Descriptions.Item>
-            <Descriptions.Item className="labelL" label="Acciones de empresa">
-            Puede realizar estas acciones en caso desea actualizar la informacion adicional de su empresa
-            <br />
-            <br />
-            <Button className="btn_left" icon={<EditOutlined/>} type="primary">Editar</Button>
-            <Button className="btn_right" icon={<DeleteOutlined />} danger>Eliminar</Button>
-            </Descriptions.Item>
         </Descriptions>
+
+          <h3 className="text">Acciones de empresa</h3>
+          <p className="text">Puede realizar estas acciones en caso desea actualizar la informacion adicional de su empresa</p>
+            <Button className="btn_edit" icon={<EditOutlined/>}>Editar</Button>
+            <Button type="primary" className="btn_danger" icon={<DeleteOutlined />} danger>Eliminar</Button>
       </>
     );
 }

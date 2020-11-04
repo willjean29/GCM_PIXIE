@@ -3,26 +3,65 @@
     margin-right: 0px;//300
     margin-bottom: 1rem;
     margin-left: auto;
-    color: black;
+    color: rgb(58, 49, 49);
     font-size: 0.95rem;
     font-weight: 300;
     font-family: 'Courier New', Courier, monospace;
     //font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
 	//	'Droid Sans', 'Helvetica Neue', sans-serif;
     &__card{
-        font-size: 0.75rem;
+        font-size: 0.85rem;
+        padding-left: 0%;
     }
     &__top{//font-family: 'Courier New', Courier, monospace;
-        font-size: 1.50rem;
+        font-size: 1.8rem;
         padding-bottom: 20px;
         font-weight: bold;
+        line-height: 1.5715;
+    }
+}
+.ant-descriptions-bordered
+.ant-descriptions-item-label  {
+    color: rgba(0, 0, 0, 0.85);
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1.5715;
+    text-align: start;
+    background-color: #6fa2c06b;
+    padding: 10px 20px;//16 24
+    text-align: center;
+}
+
+.ant-descriptions-bordered
+.ant-descriptions-item-content{
+    padding: 10px 24px;
+    border-right: 1px solid #f0f0f0;
+    
+}
+
+.ant-descriptions-bordered
+.ant-descriptions-view{
+    border: 1px solid rgba(90, 111, 165, 0.85);
+    //margin-right: 10%;
+}
+.ant-descriptions-bordered{
+    margin: 3%;
+}
+
+.btn{
+    border: 1px solid transparent;
+    padding: .375rem .75rem;
+    &_edit{
+        color: #1f2d3d;
+        background-color: #ffc107;
+        border-color: #ffc107;
+        margin-left: 4%;
+    }
+    &_danger{
+        margin-left: 65%;
     }
 }
 
-.ant-descriptions-item-label {
-    color: rgba(0, 0, 0, 0.85);
-    /* font-weight: normal; */
-    font-size: 14px;
-    line-height: 1.5715;
-    text-align: start;
+.text{
+    margin-left: 4%
 }

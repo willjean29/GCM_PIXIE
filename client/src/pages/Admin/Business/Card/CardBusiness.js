@@ -5,6 +5,8 @@ import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/ico
 
 import Logo from '../../../../assets/img/png/no-avatar.png'
 
+import './CardBusiness.scss';
+
 const CardBusiness = () =>{
 
     return(
@@ -22,10 +24,10 @@ const CardBusiness = () =>{
           <EditOutlined key="edit" />,
           <EllipsisOutlined key="ellipsis" />,
         ]}
-      >
-        <Descriptions className="labelL" title="Nombre de Empresa"  layout="horizontal" bordered  column={{ xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }}>
+        >
+        <Descriptions title="Nombre de Empresa"  layout="vertical" bordered  column={{ xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }}>
             <Descriptions.Item className="labelL__card" label="RUC" span={4}>20421239275</Descriptions.Item>
-            <Descriptions.Item className="labelL__card" label="Clientes" span={4}>0</Descriptions.Item>
+            <Descriptions.Item className="labelL__card" label="Clientes" span={2}>0</Descriptions.Item>
             <Descriptions.Item className="labelL__card" label="Estado">
                 <Badge status="processing" text="ACTIVO" />
             </Descriptions.Item>
