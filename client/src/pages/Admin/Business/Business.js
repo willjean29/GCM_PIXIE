@@ -27,7 +27,7 @@ const Business = () => {
             //Mapa
           </TabPane>
           <TabPane tab={<span className="tab_text"><FileImageOutlined />Logo</span>} key="3" >
-            <LogoBusiness/>6
+            <LogoBusiness/>
           </TabPane>
         </Tabs>
       </Col>

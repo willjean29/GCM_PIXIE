@@ -1,7 +1,9 @@
 import React from 'react'
 //Upload logo
-import { Upload, message, Button} from 'antd';
-import { InboxOutlined, UploadOutlined } from '@ant-design/icons';
+import { Upload, message, Button, Form,Input, Row, Col} from 'antd';
+import { InboxOutlined} from '@ant-design/icons';
+
+import './LogoBusiness.scss';
 
 const LogoBusiness = () => {
   
@@ -26,11 +28,32 @@ const LogoBusiness = () => {
 
     return (  
       <>
-        <Upload {...props}>
-            <Button icon={<UploadOutlined />}>Click to Upload</Button>
-        </Upload>
+        <Form
+          labelCol={{
+            span: 15,
+          }}
+          wrapperCol={{
+            span: 30,
+          }}
+          layout="horizontal"
+          >
+            <Row>
+            <Col span={5} push={19}>
+              <Form.Item  className="input_text">
+                <Button type={"primary"}>Enviar</Button>
+                
+              </Form.Item>
+            </Col>
+            <Col span={19} pull={5}>
+              <Form.Item className="input_text">
+                <Input placeholder="Archivo" disabled/>
+              </Form.Item>
+            </Col>
+            </Row>
+          </Form>
+
         <Dragger {...props}>
-            <p className="ant-upload-drag-icon">
+            <p className="ant-upload-drag-icon"> 
             <InboxOutlined />
             </p>
             <p className="ant-upload-text">Click or drag file to this area to upload</p>
@@ -39,10 +62,20 @@ const LogoBusiness = () => {
             band files
             </p>
         </Dragger>
+        
       </>
     );
 }
 export default LogoBusiness; 
+
+/*<Modal
+    visible={previewVisible}
+    title={previewTitle}
+    footer={null}
+    onCancel={this.handleCancel}
+  >
+    <img alt="example" style={{ width: '100%' }} src={previewImage} />
+  </Modal>*/
 
 /*function getBase64(img, callback) {
   const reader = new FileReader();
