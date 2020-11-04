@@ -8,7 +8,6 @@ const Step2 = ({next, prev}) => {
       <Card
         type="inner"
         title="Llenar Formulario"
-        bordered
       >
         <Form
           layout="vertical"
