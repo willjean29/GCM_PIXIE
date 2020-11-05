@@ -57,7 +57,7 @@ class LogoBusiness extends React.Component {
     handleChange (e){
       if(e.target.files.length===1){
         console.log(e)
-        let files = e.target.files[0];//FileList[0] = file
+        //let files = e.target.files[0];//FileList[0] = file
         console.warn(e.target.files.length);
         if(beforeUpload(e)){
           getBase64(e, imageUrl =>
@@ -68,8 +68,7 @@ class LogoBusiness extends React.Component {
           message.success('La imagen se cargó correctamente, pulse ENVIAR!');
         }else{
           this.setState({
-            imageUrl:'',
-            loading : true
+            imageUrl:''
           })
         }
       }else{console.log("No selecciono")
@@ -83,7 +82,7 @@ class LogoBusiness extends React.Component {
 
     render(){
 
-      const {imageUrl, loading } = this.state;
+      const {imageUrl} = this.state;
 
     return (  
       <>

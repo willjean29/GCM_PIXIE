@@ -6,7 +6,6 @@ import LayoutClient from '../layouts/LayoutClient';
 import AdminHome from '../pages/Admin';
 import AdminSingIn from '../pages/Admin/SingIn';
 import AdminBusiness from '../pages/Admin/Business';
-import AdminBusinessEdit from '../pages/Admin/Business/Edit';
 import AdminProfile from '../pages/Admin/Profile';
 import AdminFiles from '../pages/Admin/Files';
 
@@ -40,11 +39,6 @@ const routes = [
       {
         path: '/admin/business',
         component: AdminBusiness,
-        exact: true
-      },
-      {
-        path: '/admin/business/edit',
-        component: AdminBusinessEdit,
         exact: true
       },
       {

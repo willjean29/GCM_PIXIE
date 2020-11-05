@@ -24,7 +24,7 @@ const Business = () => {
             <List/>
           </TabPane>
           <TabPane tab={<span className="tab_text"><GlobalOutlined />Mapa</span>} key="2" >
-            //Mapa
+            Mapa
           </TabPane>
           <TabPane tab={<span className="tab_text"><FileImageOutlined />Logo</span>} key="3" >
             <LogoBusiness/>
