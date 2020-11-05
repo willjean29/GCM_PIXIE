@@ -3,9 +3,21 @@ import {FacebookOutlined, LinkedinOutlined, InstagramOutlined } from '@ant-desig
 import {
   Form,
   Input,
-  Button
+  Button,message
 } from 'antd';
 import './Edit.scss';
+
+function handleChange (e){
+    //console.log(e)
+    //let files = e.target.files[0];//FileList[0] = file
+    //console.warn(e.target.files.length);
+      message.success('Se actualizó correctamente!');
+    
+      /*this.setState({
+        imageUrl:'',
+        loading : true
+      })*/
+}
 
 const Edit = () => {
 
@@ -61,7 +73,7 @@ const Edit = () => {
             <Input size={"large"} prefix={<InstagramOutlined />} className="label__input_Text"/>
           </Form.Item>
           <Form.Item >
-            <Button className="btn_primary" size={"large"} block>Actualizar</Button>
+            <Button className="btn_primary" onClick={handleChange} size={"large"} block>Actualizar</Button>
           </Form.Item>
         </Form>
         </>

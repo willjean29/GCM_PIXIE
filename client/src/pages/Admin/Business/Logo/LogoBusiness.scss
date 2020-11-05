@@ -1,9 +1,4 @@
-.ant-upload.ant-upload-drag{
-    width: 86%;
-    height: 100%;
-    margin: 8%;
-    margin-top: 2%;
-}
+
 .input_text{
     margin-right: 0.25px;//300
     margin-bottom: 0rem;
@@ -13,4 +8,24 @@
     font-size: 1.80rem;
     font-weight: 900;
     font-family: 'Courier New', Courier, monospace;
+}
+
+.ant-image-img {
+    width: 30rem;
+    vertical-align: middle;
+    height: 21rem;
+    margin: 2rem;
+    margin-left: 6rem;
+}
+
+.img_business{
+    width: 30rem;
+    vertical-align: middle;
+    height: 21rem;
+    margin: 2rem;
+    margin-left: 6rem;
+}
+
+.ant-form input[type='file'] {
+    /* display: block; */
 }
