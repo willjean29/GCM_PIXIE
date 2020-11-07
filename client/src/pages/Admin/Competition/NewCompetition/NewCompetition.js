@@ -1,8 +1,34 @@
 import React from 'react';
-import {Card, Row, Col, Form, Input, Button, Divider} from 'antd';
-import {CalendarOutlined, DollarOutlined, HeartOutlined} from '@ant-design/icons';
+import {Card, Row, Col, Form, Input, Button, Divider, DatePicker} from 'antd';
+import {DollarOutlined, HeartOutlined} from '@ant-design/icons';
+import moment from 'moment';
+import {useFormik} from 'formik';
+import * as Yup from 'yup';
 import './NewCompetition.scss';
 const NewCompetition = () => {
+  const formik = useFormik({
+    initialValues: {
+      nombre: '',
+      soles: '',
+      puntos: '',
+      fechaInicio: moment().add(1,'days'),
+      fechaFin: moment().add(30,'days')
+    },
+    validationSchema: Yup.object({
+      nombre: Yup.string().required('El nombre es obligatorio'),
+      soles: Yup.number('Ingrese un número valido').required('La cantidad en soles es obligatoria')
+        .min(1,'Ingrese una cantida valida'),
+      puntos: Yup.number('Ingrese un número valido').required('La cantidad de puntos es obligatoria')
+        .min(1,'Ingrese una cantida valida'),
+      fechaInicio: Yup.date().required("Las fechas son obligatorias"),
+      fechaFin: Yup.date().required("Las fechas son obligatorias"),
+    }),
+    onSubmit: (formData) => console.log(formData)
+  });
+  const disabledDate = (current) => {
+    // Can not select days before today and today
+    return current && current < moment().endOf('day');
+  }
   return (  
     <>
       <Card>
@@ -17,16 +43,22 @@ const NewCompetition = () => {
             <Form
               layout="vertical"
               className="competition-new-form__register"
+              onChange={formik.handleChange}
+              onFinish={formik.handleSubmit}
             >
               
               <Row gutter={24}>
                 <Col span={24}>
-                  <Form.Item label="Nombre del Concurso">
+                  <Form.Item label="Nombre del Concurso"
+                    validateStatus={formik.errors.nombre ? 'error' : 'success'}
+                  >
                     <Input
                       type="text"
                       name="nombre"
                       size="large"
+                      value={formik.values.nombre}
                     />
+                     <span style={{color : '#b83a38'}}>{formik.errors.nombre}</span>
                   </Form.Item>
                 </Col>
               </Row>
@@ -37,23 +69,33 @@ const NewCompetition = () => {
 
               <Row gutter={24}>
                 <Col span={24} md={12}>
-                  <Form.Item label="Nuevos Soles">
+                  <Form.Item label="Nuevos Soles"
+                    validateStatus={formik.errors.soles ? 'error' : 'success'}
+                  >
                     <Input
-                      type="estado"
+                      type="number"
+                      min={1}
                       name="soles"
                       size="large"
                       addonBefore={<DollarOutlined />}
+                      value={formik.values.soles}
                     />
+                   <span style={{color : '#b83a38'}}>{formik.errors.soles}</span>
                   </Form.Item>
                 </Col>
                 <Col span={24} md={12}>
-                  <Form.Item label="Puntos">
+                  <Form.Item label="Puntos"
+                    validateStatus={formik.errors.puntos ? 'error' : 'success'}
+                  >
                     <Input
-                      type="text"
+                      type="number"
+                      min={1}
                       name="puntos"
                       size="large"
                       addonBefore={<HeartOutlined />}
+                      value={formik.values.puntos}
                     />
+                    <span style={{color : '#b83a38'}}>{formik.errors.puntos}</span>
                   </Form.Item>
                 </Col>
               </Row>
@@ -64,23 +106,33 @@ const NewCompetition = () => {
 
               <Row gutter={24}>
                 <Col span={24} md={12}>
-                  <Form.Item label="Fecha Inicio">
-                    <Input
-                      type="estado"
-                      name="fechaInicio"
+                  <Form.Item label="Fecha Inicio"
+                    validateStatus={formik.errors.fechaInicio ? 'error' : 'success'}
+                  >
+                    <DatePicker
+                      disabledDate={disabledDate}
                       size="large"
-                      addonBefore={<CalendarOutlined />}
+                      name="fechaInicio"
+                      format="DD/MM/YYYY"
+                      defaultValue={formik.values.fechaInicio}
+                      // onChange={(e,value) => {formik.values.fechaInicio=value}}
                     />
+                    <span style={{color : '#b83a38'}}>{formik.errors.fechaInicio}</span>
                   </Form.Item>
                 </Col>
                 <Col span={24} md={12}>
-                  <Form.Item label="Fecha Final">
-                    <Input
-                      type="text"
-                      name="fechaFin"
+                  <Form.Item label="Fecha Final"
+                    validateStatus={formik.errors.fechaFin ? 'error' : 'success'}
+                  >
+                    <DatePicker
+                      disabledDate={disabledDate}
                       size="large"
-                      addonBefore={<CalendarOutlined />}
+                      name="fechaFin"
+                      format="DD/MM/YYYY"
+                      defaultValue={formik.values.fechaFin}
+                      // onChange={(e,value) => {formik.values.fechaFin=value}}
                     />
+                    <span style={{color : '#b83a38'}}>{formik.errors.fechaFin}</span>
                   </Form.Item>
                 </Col>
               </Row>

@@ -10,6 +10,7 @@ const Step1 = ({next}) => {
       ruc: ''
     },
     validationSchema: Yup.object({
+      /*eslint dot-location: ["error", "object"]*/
       ruc: Yup.string().required("El RUC es obligatorio").
         min(11,"El RUC debe contener 11 caracteres").
         max(11,"El RUC debe contener 11 caracteres")
@@ -53,7 +54,7 @@ const Step1 = ({next}) => {
       </Card>
       <Divider
         style={{
-          margin: '40px 0 24px',
+          margin: '40px 0 24px'
         }}
       />
       <div>

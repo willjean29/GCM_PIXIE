@@ -5,7 +5,6 @@ import {useFormik} from 'formik';
 import * as Yup from 'yup';
 import './Login.scss';
 const LoginForm = () => {
-  const valor = true;
   const formik = useFormik({
     initialValues: {
       email: '',
