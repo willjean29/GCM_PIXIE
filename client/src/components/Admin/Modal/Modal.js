@@ -6,11 +6,12 @@ const Modal = (props) =>{
         <ModalAnt
             title = {title}
             visible = {isVisible}
-            onCancel={()=>setIsVisible(false)}
+            onCancel={()=>setIsVisible(false)}  
             footer={false}
         >
             {props.childen}
         </ModalAnt>
     );
 }
+
 export default Modal;

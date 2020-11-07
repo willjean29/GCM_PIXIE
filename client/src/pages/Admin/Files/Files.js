@@ -1,30 +1,30 @@
-import React,{useState} from 'react'
-//import { green } from '@ant-design/colors';
-import {Layout, Card, Table, Tag, Space, Button } from 'antd' // Esto sirve para importar los componentes
-import { DownloadOutlined, UploadOutlined, FileExcelOutlined, SafetyOutlined,EyeOutlined,CheckCircleOutlined } from '@ant-design/icons'
-import Modal from '../../../components/Admin/Modal';
-import UploadFileForm from '../../components/UploadFileForm'
+import React, { useState } from 'react'
+// import { green } from '@ant-design/colors'
+import { Layout, Card, Table, Tooltip, Space, Button } from 'antd' // Esto sirve para importar los componentes
+import {DownloadOutlined, UploadOutlined, FileExcelOutlined, SafetyOutlined, EyeOutlined, CheckCircleOutlined } from '@ant-design/icons'
+import Modal from '../../../components/Admin/Modal'
+import UploadFileForm from './UploadFileForm'
 import './Files.scss' // importa el css
-
 
 const Files = (props) => {
   const {Content} = Layout;
   const {TableLayout} = Card;
+ 
+  const text_upload = '¡Carga el RV del mes!'
+  const text_download = 'Descarga el template del RV'
 
+  const [showModal, setShowModal] = useState(false)
+  const [modalTitle, setModalTitle] = useState('')
+  const [contentModal, setContentModal] = useState(null)
 
-  const [showModal, setShowModal] = useState(false);
-  const [modalTitle, setModalTitle] = useState("");
-  const [contentModal, setContentModal] = useState(null);
+  const uploadHandlerFunction = () => {
 
-  const uploadHandlerFunction = () =>{
-
-    setModalTitle("Cargar Archivo");
+    setModalTitle('Cargar Registro de Ventas')
     setContentModal(
-      <UploadFileForm setShowModal = {setShowModal}/>
+      <UploadFileForm setShowModal={setShowModal} />
     )
-  
+
     setShowModal(true);
-   
   }
 
   const columns = [
@@ -57,7 +57,7 @@ const Files = (props) => {
         <Space size='middle'>
           <Button type='primary' icon={<CheckCircleOutlined />}>
           </Button>
-          <Button type='primary' icon={<EyeOutlined />} >
+          <Button type='primary' icon={<EyeOutlined />}>
           </Button>
         </Space>
       )
@@ -78,12 +78,17 @@ const Files = (props) => {
         <h1 className='files__content-title'>Registros de Ventas</h1>
         <Content className='files__content-functions-buttons'>
           <Space size='middle'>
-            <Button icon={<UploadOutlined />} type='primary'>
-              Cargar registros
-            </Button>
-            <Button icon={<DownloadOutlined />} onClick = {uploadHandlerFunction}>
-              Descargar template
-            </Button>
+            <Tooltip placement='top' title={text_upload}>
+              <Button icon={<UploadOutlined />} type='primary' onClick={uploadHandlerFunction}>
+                Cargar registros
+              </Button>
+            </Tooltip>
+            <Tooltip placement='top' title={text_download}>
+              <Button icon={<DownloadOutlined />}> 
+              
+                Descargar template
+              </Button>
+            </Tooltip>
           </Space>
         </Content>
         <br/>
@@ -91,18 +96,12 @@ const Files = (props) => {
           <Table className='files__content-body-table' columns={columns} dataSource={data} />
         </Card>
       </Content>
+      <Modal title={modalTitle} isVisible={showModal} setIsVisible={setShowModal}>
+        {contentModal}
+      </Modal>
     </Layout>
-  // <h1>Estamos en el manejador de archivo-templates del administrador</h1>
-/*
-  <Modal
-        title={modalTitle}
-        isVisible = {showModal}
-        setIsVisble = {setShowModal}
-      >
-      {contentModal}
-    </Modal>
-*/
-  );
+
+  )
 }
 
 export default Files
