@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
 // import { green } from '@ant-design/colors'
 import { Layout, Card, Table, Tooltip, Space, Button } from 'antd' // Esto sirve para importar los componentes
-import {DownloadOutlined, UploadOutlined, FileExcelOutlined, SafetyOutlined, EyeOutlined, CheckCircleOutlined } from '@ant-design/icons'
+import { DownloadOutlined, UploadOutlined, FileExcelOutlined, SafetyOutlined, EyeOutlined, CheckCircleOutlined } from '@ant-design/icons'
 import Modal from '../../../components/Admin/Modal'
 import UploadFileForm from './UploadFileForm'
 import './Files.scss' // importa el css
 
 const Files = (props) => {
-  const {Content} = Layout;
-  const {TableLayout} = Card;
- 
+  const {Content} = Layout
+  const {TableLayout} = Card
+
   const text_upload = '¡Carga el RV del mes!'
   const text_download = 'Descarga el template del RV'
 
@@ -24,7 +24,7 @@ const Files = (props) => {
       <UploadFileForm setShowModal={setShowModal} />
     )
 
-    setShowModal(true);
+    setShowModal(true)
   }
 
   const columns = [
@@ -32,7 +32,7 @@ const Files = (props) => {
       title: 'Icono',
       dataIndex: 'icon',
       key: 'icon',
-      render: text => <FileExcelOutlined />
+      render: () => <FileExcelOutlined />
     },
     {
       title: 'Nombre',
@@ -55,9 +55,9 @@ const Files = (props) => {
       key: 'actions',
       render: (namecsv) => (
         <Space size='middle'>
-          <Button type='primary' icon={<CheckCircleOutlined />}>
+          <Button type='primary' icon={<CheckCircleOutlined />} success>
           </Button>
-          <Button type='primary' icon={<EyeOutlined />}>
+          <Button type='primary' icon={<EyeOutlined />} danger>
           </Button>
         </Space>
       )
@@ -68,8 +68,6 @@ const Files = (props) => {
     {
       key: '1',
       name: 'registroVentas052020.csv',
-      age: 32,
-      address: 'New York No. 1 Lake Park'
     }
   ]
   return (
@@ -84,8 +82,7 @@ const Files = (props) => {
               </Button>
             </Tooltip>
             <Tooltip placement='top' title={text_download}>
-              <Button icon={<DownloadOutlined />}> 
-              
+              <Button icon={<DownloadOutlined />} href='www.google.com'>
                 Descargar template
               </Button>
             </Tooltip>

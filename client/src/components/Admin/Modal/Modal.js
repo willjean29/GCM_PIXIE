@@ -9,7 +9,7 @@ const Modal = (props) =>{
             onCancel={()=>setIsVisible(false)}  
             footer={false}
         >
-            {props.childen}
+            {props.children}
         </ModalAnt>
     );
 }

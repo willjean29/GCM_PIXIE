@@ -4,22 +4,23 @@ import { Upload, Layout, Card, message  } from 'antd' // Esto sirve para importa
 import { InboxOutlined } from '@ant-design/icons'
 import './UploadFileForm.scss'
 const UploadFileForm = () => {
-  const {Content} = Layout
-  const { Dragger } = Upload
+  const {Content} = Layout;
+  const { Dragger } = Upload;
 
   const props = {
     name: 'file',
-    multiple: true,
+    multiple: false,
     action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+    accept : ".csv",
     onChange(info) {
       const { status } = info.file
       if (status !== 'uploading') {
         console.log(info.file, info.fileList)
       }
       if (status === 'done') {
-        message.success(`${info.file.name} file uploaded successfully.`)
+        message.success(`La carga del archivo ${info.file.name} fue exitosa.`)
       } else if (status === 'error') {
-        message.error(`${info.file.name} file upload failed.`)
+        message.error(`La carga del archivo ${info.file.name} falló.`)
       }
     }
   }
