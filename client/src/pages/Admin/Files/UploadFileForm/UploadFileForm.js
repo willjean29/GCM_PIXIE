@@ -1,6 +1,6 @@
 // Componente para Modal de Carga de Archivos
 import React from 'react'
-import { Upload, Layout, Card, message  } from 'antd' // Esto sirve para importar los componentes
+import { Space,Form, Col, Row, Button,Upload, Layout, Card, message  } from 'antd' // Esto sirve para importar los componentes
 import { InboxOutlined } from '@ant-design/icons'
 import './UploadFileForm.scss'
 const UploadFileForm = () => {
@@ -29,6 +29,12 @@ const UploadFileForm = () => {
     <Layout>
       <Content>
         <Card>
+       
+        <Form
+          className="forms"
+         // onFinish={}
+        >
+           
           <Dragger {...props}>
             <p className='ant-upload-drag-icon'>
               <InboxOutlined />
@@ -39,7 +45,22 @@ const UploadFileForm = () => {
             <p className='ant-upload-hint'>
              Soporte para una carga única del Registro de Ventas.
             </p>
-          </Dragger>,
+          </Dragger>
+         
+         <br></br>
+         <Row justify="center"> 
+         <Col span={24} md={8}>
+              <Form.Item>
+                
+                <Button type="primary" htmlType="submit" className="btn-submit" size="large">
+                 Enviar archivo
+                </Button>
+              </Form.Item>
+            </Col>
+            </Row>
+            
+          </Form>
+        
         </Card>
       </Content>
     </Layout>

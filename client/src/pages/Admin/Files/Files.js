@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-// import { green } from '@ant-design/colors'
+//import { green } from '@ant-design/colors'
 import { Layout, Card, Table, Tooltip, Space, Button } from 'antd' // Esto sirve para importar los componentes
-import { DownloadOutlined, UploadOutlined, FileExcelOutlined, SafetyOutlined, EyeOutlined, CheckCircleOutlined } from '@ant-design/icons'
+import { DeleteOutlined,DownloadOutlined, UploadOutlined, FileExcelOutlined, SafetyOutlined, EyeOutlined, CheckCircleOutlined } from '@ant-design/icons'
 import Modal from '../../../components/Admin/Modal'
 import UploadFileForm from './UploadFileForm'
 import './Files.scss' // importa el css
@@ -32,7 +32,7 @@ const Files = (props) => {
       title: 'Icono',
       dataIndex: 'icon',
       key: 'icon',
-      render: () => <FileExcelOutlined />
+      render: () => <FileExcelOutlined/>
     },
     {
       title: 'Nombre',
@@ -42,7 +42,7 @@ const Files = (props) => {
     {
       title: 'Estado',
       key: 'status',
-      render: () => <SafetyOutlined /> // Acá podria enviarse el color del icono unu
+      render: () => <SafetyOutlined/> // Acá podria enviarse el color del icono unu
     },
     {
       title: 'Tipo',
@@ -55,9 +55,11 @@ const Files = (props) => {
       key: 'actions',
       render: (namecsv) => (
         <Space size='middle'>
-          <Button type='primary' icon={<CheckCircleOutlined />} success>
+          <Button type='primary' icon={<CheckCircleOutlined />} >
           </Button>
-          <Button type='primary' icon={<EyeOutlined />} danger>
+          <Button type='primary' icon={<EyeOutlined />} >
+          </Button>
+          <Button type='primary' icon={<DeleteOutlined />} >
           </Button>
         </Space>
       )
