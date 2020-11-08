@@ -14,4 +14,10 @@ router.post('/verificar-ruc',
   businessController.validarRUC
 );
 
+// Para registar empresa
+router.post('/registrar',
+  authController.adminsitradorAutenticado,
+  businessController.registrarEmpresa
+);
+
 module.exports = router;
