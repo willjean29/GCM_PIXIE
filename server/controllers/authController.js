@@ -13,7 +13,8 @@ require('dotenv').config();
 
 // Para verificar si el administrador esta autenticado
 const adminsitradorAutenticado = (req, res, next) => {
-  let token = req.get('token');
+  //let token = req.get('token');
+  let token = req.headers['access-token'];
 
   jwt.verify(token, process.env.SEED_JWT, (err, decoded) => {
     if (err) {

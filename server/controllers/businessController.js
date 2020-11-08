@@ -14,7 +14,10 @@ const Business = require('../models/Business');
 const Administrator = require('../models/Administrator');
 
 // Importando middlewares
-const { existsCompetitionSimple, existsCatalogoBusiness } = require('../middlewares/exists');
+const { 
+  existsCompetitionSimple, 
+  existsCatalogoBusiness 
+} = require('../middlewares/exists');
 
 require('dotenv').config();
 
@@ -41,10 +44,10 @@ const validarRUC = async(req,res) => {
 }
 
 const registrarEmpresa = async(req,res) => {
-  console.log(req.user);
+  //console.log(req.user);
   const rucBusiness = req.body.ruc;
 
-  const administrator = await Administrator.findById(req.user._id).catch((err) => {
+  const administrator = await Administrator.findById(req.body.administrador).catch((err) => {
     return res.status(400).json({
       ok: false,
       err
@@ -66,7 +69,6 @@ const registrarEmpresa = async(req,res) => {
     });
   });
 
-  console.log("hay empresa");
   if(business) return res.status(400).json({
     ok: false,
     err: {
@@ -75,12 +77,12 @@ const registrarEmpresa = async(req,res) => {
   });
 
   // Se valida y se crea una nueva
-  const {ruc,nombreComercial,razonSocial,tipo,estado,direccion,
+  const {administrador,ruc,nombreComercial,razonSocial,tipo,estado,direccion,
     departamento,provincia,distrito,web,facebook,red} = req.body;
   const redes = {web,facebook,red};
 
   business = new Business({
-    administrador: req.user._id,
+    administrador,//: req.user._id,
     ruc,
     nombreComercial,
     razonSocial,
