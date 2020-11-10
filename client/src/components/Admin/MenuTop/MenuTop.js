@@ -1,5 +1,5 @@
-import React from 'react';
-import {Button} from 'antd';
+import React  from 'react';
+import {Button}  from 'antd';
 import {MenuUnfoldOutlined, PoweroffOutlined, MenuFoldOutlined} from '@ant-design/icons';
 import Logo from '../../../assets/img/png/icon.png';
 import './MenuTop.scss';
@@ -25,7 +25,6 @@ const MenuTop = (props) => {
         </Button>
       </div>
     </div>
-
   );
 }
  

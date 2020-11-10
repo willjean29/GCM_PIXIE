@@ -27,7 +27,7 @@ const MenuSider = (props) => {
         <Menu.Item key="/admin/business">
           <Link to="/admin/business">
             <BankOutlined />
-            <span className="nav-text">Empresa</span>
+            <span className="nav-text">Empresa</span> 
           </Link>
         </Menu.Item>
         <Menu.Item key="/admin/files">

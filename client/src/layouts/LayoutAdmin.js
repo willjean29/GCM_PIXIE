@@ -14,12 +14,12 @@ const LayoutAdmin = (props) => {
     <Layout>
       <MenuSider menuCollapsed={menuCollapsed}/>
       <Layout className="layout-admin" style={{marginLeft: menuCollapsed ? "80px" : "200px" }}>
+        <Content className="layout-admin__content">
+            <LoadRouters routes={routes}/>
+        </Content>
         <Header className="layout-admin__header">
           <MenuTop menuCollapsed={menuCollapsed} setMenuCollapsed={setMenuCollapsed}/>
         </Header>
-        <Content className="layout-admin__content">
-          <LoadRouters routes={routes}/>
-        </Content>
         <Footer className="layout-admin__footer">  
           Footer ...
         </Footer>
