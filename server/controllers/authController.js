@@ -3,7 +3,8 @@
  * Inicio de sesión y su validación
  */
 
-const jwt = require('jsonwebtoken');
+const WebMaster = require('../models/WebMaster');
+ const jwt = require('jsonwebtoken');
 const Administrator = require('../models/Administrator');
 require('dotenv').config();
 
@@ -17,7 +18,7 @@ const adminsitradorAutenticado = (req, res, next) => {
       return res.status(401).json({
         ok: false,
         err: {
-          msg: "'Token no valido"
+          msg: "Token no valido"
         }
       })
 
@@ -30,7 +31,7 @@ const adminsitradorAutenticado = (req, res, next) => {
   })
 }
 
-const autenticarAdministrador2 = async (req, res) => {
+const autenticarAdministrador = async (req, res) => {
 
   // verificar usuario y password en la DB
   let { email, password } = req.body;
@@ -62,6 +63,7 @@ const autenticarAdministrador2 = async (req, res) => {
     expiresIn: '48h'
   });
 
+  //= res.sent: respuesta al servidor
   res.json({
     ok: true,
     administrator,
@@ -70,6 +72,38 @@ const autenticarAdministrador2 = async (req, res) => {
 
 }
 
+const validarTokenAdmin = async (req, res) => {
+  let { token } = req.body;
+  console.log(token)
+  let existeToken = false;
+  const webmasters = await WebMaster.find({ role: "webMaster" });
+  // console.log(webmasters);
+
+  webmasters.forEach((webmaster) => {
+    const verificarToken = webmaster.compararPassword(token);
+    // console.log(verificarToken);
+    if (verificarToken) {
+      existeToken = true;
+    } else {
+      existeToken = false;
+    }
+  });
+
+  if (existeToken) {
+    res.json({
+      ok: true,
+      msg: 'WebMaster validado'
+    });
+  } else {
+    res.json({
+      ok: false,
+      msg: 'Token no valido'
+    });
+  }
+}
+
 module.exports = {
   adminsitradorAutenticado,
+  autenticarAdministrador,
+  validarTokenAdmin,
 }
