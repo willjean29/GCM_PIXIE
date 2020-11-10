@@ -1,5 +1,5 @@
 /**
- * ¿Se usa? xd
+ * Middleware de autorización para cada petición del administrador
  */
 const jwt = require('jsonwebtoken');
 
