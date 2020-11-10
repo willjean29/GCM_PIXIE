@@ -1,5 +1,5 @@
 /**
- * 
+ * Middelwares para subida de imágenes
  */
 
 const multer = require('multer');

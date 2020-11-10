@@ -1,5 +1,5 @@
 /**
- * Servidor ;w;
+ * Servidor Cloudinary
  */
 
 const cloudinary = require('cloudinary');
