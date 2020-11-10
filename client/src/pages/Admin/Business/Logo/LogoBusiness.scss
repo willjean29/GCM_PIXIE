@@ -7,7 +7,6 @@
     color: black;
     font-size: 1.80rem;
     font-weight: 900;
-    font-family: 'Courier New', Courier, monospace;
 }
 
 .ant-image-img {
@@ -27,5 +26,5 @@
 }
 
 .ant-form input[type='file'] {
-    /* display: block; */
+     display: inline-block; 
 }

@@ -65,7 +65,7 @@ class List extends React.Component {
   
           <h3 className="text">Acciones de empresa</h3>
           <p className="text">Puede realizar estas acciones en caso desea actualizar la informacion adicional de su empresa</p>
-            <Button className="btn_edit" icon={<EditOutlined/> } onClick={this.showModal}>Editar</Button>
+            <Button type="primary" className="btn_edit" icon={<EditOutlined/> } onClick={this.showModal}>Editar</Button>
             <Button type="primary" className="btn_danger" icon={<DeleteOutlined />} danger>Eliminar</Button>
   
             <Modal

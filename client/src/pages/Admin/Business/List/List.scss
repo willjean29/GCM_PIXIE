@@ -3,10 +3,10 @@
     margin-right: 0px;//300
     margin-bottom: 1rem;
     margin-left: auto;
-    color: rgb(58, 49, 49);
+    //color: rgb(58, 49, 49);
     font-size: 0.95rem;
-    font-weight: 300;
-    font-family: 'Courier New', Courier, monospace;
+    //font-weight: 300;
+    //font-family: 'Courier New', Courier, monospace;
     //font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
 	//	'Droid Sans', 'Helvetica Neue', sans-serif;
     &__card{
@@ -22,14 +22,14 @@
 }
 .ant-descriptions-bordered
 .ant-descriptions-item-label  {
-    color: rgba(0, 0, 0, 0.85);
+    /*color: rgba(0, 0, 0, 0.85);
     font-size: 16px;
     font-weight: bold;
     line-height: 1.5715;
     text-align: start;
-    background-color: #6fa2c06b;
+    //background-color: #6fa2c06b;
     padding: 10px 20px;//16 24
-    text-align: center;
+    text-align: center;*/
 }
 
 .ant-descriptions-bordered
@@ -41,7 +41,7 @@
 
 .ant-descriptions-bordered
 .ant-descriptions-view{
-    border: 1px solid rgba(90, 111, 165, 0.85);
+    //border: 1px solid rgba(90, 111, 165, 0.85);
     //margin-right: 10%;
 }
 .ant-descriptions-bordered{
@@ -53,8 +53,8 @@
     padding: .375rem .75rem;
     &_edit{
         color: #1f2d3d;
-        background-color: #ffc107;
-        border-color: #ffc107;
+        //background-color: #ffc107;
+        //border-color: #ffc107;
         margin-left: 4%;
     }
     &_danger{
@@ -77,18 +77,19 @@
     background-color: #fff;
     background-clip: border-box;
     border: 0 solid rgba(0,0,0,.125);
-    border-radius: .25rem;
+    border-radius: .70rem;
     max-width: 80%;//83.333333%;
-    margin-left: auto!important;
+    margin-left: 35px!important;
     margin-right: auto!important;
     &__header{
         padding: .75rem 1.25rem;
         margin-bottom: 40px;
-        background-color: rgba(8, 24, 66, 0.85);
-        border-bottom: 0 solid rgba(6, 26, 80, 0.342);
+        //background-color: rgba(8, 24, 66, 0.85);
+        //border-bottom: 0 solid rgba(6, 26, 80, 0.342);
         &__title{
             margin-bottom: .150rem;
-            color: #fff;
+            padding-left: 7rem;
+            //color: #fff;
             font-size: 1.75rem;
         }
     }
@@ -105,10 +106,10 @@
     margin-right: 0px;//300
     margin-bottom: 1rem;
     margin-left: 1%;
-    color: black;
+    /*color: black;
     font-size: 1.80rem;
-    font-weight: 900;
-    font-family: 'Courier New', Courier, monospace;
+    font-weight: 900;*/
+    //font-family: 'Courier New', Courier, monospace;
     &__input{
         //text-align: right!important;
         padding-bottom: 2%;
