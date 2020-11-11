@@ -1,3 +1,6 @@
+/**
+ * Rutas de la empresa
+ */
 const express = require('express');
 const router = express.Router();
 
@@ -18,6 +21,13 @@ router.post('/verificar-ruc',
 router.post('/registrar',
   authController.adminsitradorAutenticado,
   businessController.registrarEmpresa
+);
+
+// agregar/actualizar avatar de la empresa
+router.post('/avatar',
+    authController.adminsitradorAutenticado,
+    uploadImage,
+    businessController.agregarAvatarEmpresa
 );
 
 module.exports = router;
