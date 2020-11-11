@@ -4,10 +4,11 @@
   inicio de sesión y validación de datos.
 */
 
+const axios = require('axios');
+const jwt = require('jsonwebtoken');
+
 // Importando modelos
 const Administrator = require('../models/Administrator');
-
-const jwt = require('jsonwebtoken');
 
 require('dotenv').config();
 
@@ -31,6 +32,29 @@ const adminsitradorAutenticado = (req, res, next) => {
   })
 }
 
+const verificarDNI = async(req,res) => {
+  const {dni} = req.body;
+  const url = `${process.env.LINK_API_DNI}/${dni}?token=${process.env.API_KEY}`;
+  console.log(url);
+
+  try {
+    const response = await axios.get(url);
+    return res.json({
+      ok: true,
+      user : response.data
+    });
+  } catch (error) {
+    console.log("Error 404");
+    return res.status(404).json({
+      ok: false,
+      err: {
+        msg: "El DNI ingresado no existe"
+      }
+    });
+  }
+}
+
 module.exports = {
-  adminsitradorAutenticado
+  adminsitradorAutenticado,
+  verificarDNI
 }
