@@ -10,7 +10,7 @@ const MenuTop = (props) => {
       <div className="menu-top__left">
         <img 
           src={Logo}
-          alt="Agustin Navarro Galdon" 
+          alt="PIXIE - Sistema de Incentivos a las ventas" 
           className="menu-top__left-logo"
         />
         <Button type="link" onClick={() => setMenuCollapsed(!menuCollapsed) }>

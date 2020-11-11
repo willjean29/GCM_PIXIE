@@ -8,6 +8,8 @@ import AdminSingIn from '../pages/Admin/SingIn';
 import AdminBusiness from '../pages/Admin/Business';
 import AdminProfile from '../pages/Admin/Profile';
 import AdminFiles from '../pages/Admin/Files';
+import AdminCompetitionNew from '../pages/Admin/Competition/NewCompetition';
+import AdminCompetitionInfo from '../pages/Admin/Competition/InfoCompetition';
 
 // import pages client
 import Home from '../pages/Home';
@@ -39,6 +41,16 @@ const routes = [
       {
         path: '/admin/business',
         component: AdminBusiness,
+        exact: true
+      },
+      {
+        path: '/admin/competition/new',
+        component: AdminCompetitionNew,
+        exact: true
+      },
+      {
+        path: '/admin/competition/info',
+        component: AdminCompetitionInfo,
         exact: true
       },
       {

@@ -1,16 +1,21 @@
 import React from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import {ConfigProvider} from 'antd';
+import ES from 'antd/lib/locale/es_ES';
+import 'moment/locale/es';
 import routes from './config/routes';
 
 function App() {
   return (
-    <Router>
-      <Switch>
-        {routes.map((route, index) => (
-          <RoutesWithSubRoutes key={index} {...route}/>
-        ))}
-      </Switch>
-    </Router>
+    <ConfigProvider locale={ES}>
+      <Router>
+        <Switch>
+          {routes.map((route, index) => (
+            <RoutesWithSubRoutes key={index} {...route}/>
+          ))}
+        </Switch>
+      </Router>
+    </ConfigProvider>
   );
 }
 

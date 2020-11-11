@@ -28,7 +28,8 @@
 			.ant-tabs {
 				width: 90vw;
 				@media (min-width: $media-breackpoint-up-lg) {
-					width: auto;
+					width: 50vw;
+					height: auto;
 				}
 			}
 
@@ -54,7 +55,7 @@
 				border-radius: 0 !important;
 				margin: 0 !important;
 				@media (min-width: $media-breackpoint-up-lg) {
-					width: 220px;
+					width: 50%;
 					font-size: 0em + 23px / $defaultFontSize;
 				}
 				&-btn {
