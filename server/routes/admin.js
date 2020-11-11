@@ -1,18 +1,20 @@
 const express = require('express');
 const router = express.Router();
 
-router.post('/singin',(req,res) => {
-  res.json({
-    ok: true,
-    msg: "Prueba endpont"
-  })
-})
+// Importando controladores
+const administratorController = require('../controllers/administratorController');
+const authController = require('../controllers/authController');
 
-router.get('/admin',(req,res) => {
-  res.json({
-    ok: true,
-    msg: "Prueba endpont"
-  })
-})
+// Para validar el DNI del adminsitradorAutenticado
+router.post('/verificar-dni',authController.verificarDNI);
+
+// Para agregar nuevo administrador 
+router.post('/register',administratorController.agregarAdministrador);
+
+// Para obtener administrador por ID
+router.get('/administrator/:id',administratorController.obtenerAdministratorID);
+
+// Para obtener todos los administradores
+router.get('/all',administratorController.obtenerAdministradores);
 
 module.exports = router;
