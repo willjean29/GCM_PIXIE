@@ -1,13 +1,13 @@
-import React, { useState } from 'react'
+import React from 'react'
 
-import { Layout, Card, Table, Tooltip, Space, Button } from 'antd' // Esto sirve para importar los componentes
-import { DeleteOutlined, DownloadOutlined, UploadOutlined, FileExcelOutlined, SafetyOutlined, EyeOutlined, CheckCircleOutlined } from '@ant-design/icons'
+import { Layout, Card, Table} from 'antd' // Esto sirve para importar los componentes
+// import { DeleteOutlined, DownloadOutlined, UploadOutlined, FileExcelOutlined, SafetyOutlined, EyeOutlined, CheckCircleOutlined } from '@ant-design/icons'
 
 import './ViewFile.scss' // importa el css
 
 const ViewFile = (props) => {
   const {Content} = Layout
-  const {TableLayout} = Card
+  // const {TableLayout} = Card
 
 
   const columns = [
