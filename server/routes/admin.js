@@ -3,7 +3,6 @@
  */
 const express = require('express');
 const router = express.Router();
-const authController = require('../controllers/authController');
 
 // Importando controladores
 const administratorController = require('../controllers/administratorController');
@@ -13,6 +12,10 @@ router.post('/login', authController.autenticarAdministrador);
 
 // Para validar el DNI del adminsitradorAutenticado
 router.post('/verificar-dni',authController.verificarDNI);
+
+// registrar token de web master
+router.post('/registrarToken', authController.registrarTokenAdmin);
+
 // validar token de web master
 router.post('/validarToken', authController.validarTokenAdmin);
 

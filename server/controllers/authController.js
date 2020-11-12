@@ -84,7 +84,7 @@ const autenticarAdministrador = async (req, res) => {
 
   let token = jwt.sign({
     administrator: administrator
-  }, process.env.SEED_JWT, {
+  }, process.env.JWT_SECRET, {
     expiresIn: '48h'
   });
 
@@ -127,9 +127,27 @@ const validarTokenAdmin = async (req, res) => {
   }
 }
 
+const registrarTokenAdmin = async (req, res) => {
+  console.log(req.body);
+  const master = new WebMaster(req.body);
+  try {
+    await master.save();
+    res.json({
+      ok: true,
+      mag: 'webMaster registrado'
+    })
+  } catch (error) {
+    res.json({
+      ok: false,
+      err: error
+    })
+  }
+}
+
 module.exports = {
   adminsitradorAutenticado,
   autenticarAdministrador,
+  registrarTokenAdmin,
   validarTokenAdmin,
   verificarDNI
 }

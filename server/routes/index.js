@@ -15,7 +15,7 @@ app.use('/business', require('./business'));
 // endpoints for files
 app.use('/file', require('./file'));
 
-// endpoints for admin
-app.use('/admin', require('./admin'));
+// // endpoints for admin
+// app.use('/admin', require('./admin'));
 
 module.exports = app;

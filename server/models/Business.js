@@ -1,4 +1,3 @@
-    red: {
 const mongoose = require('mongoose');
 
 const businessSchema = mongoose.Schema({

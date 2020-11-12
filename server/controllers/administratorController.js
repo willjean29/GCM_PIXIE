@@ -52,12 +52,12 @@ const agregarAdministrador = async(req,res) => {
     });
   });
 
-  const token = jwt.sign({id: administrator._id}, process.env.JWT_SECRET);
+  // const token = jwt.sign({id: administrator._id}, process.env.JWT_SECRET);
 
   res.json({
     ok: true,
     administrator,
-    token,
+    // token,
     msg: "Administrador registrado con exito"
   });
 }
