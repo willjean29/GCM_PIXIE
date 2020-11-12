@@ -1,10 +1,19 @@
-import React from 'react';
+import React, {useEffect} from 'react';
+import {useHistory} from 'react-router-dom';
+import {useSelector, useDispatch} from 'react-redux';
 import {Form, Input, Button} from 'antd';
 import {UserOutlined, LockOutlined} from '@ant-design/icons';
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
+import {loginUserAction} from '../../../../../redux/actions/authActions';
 import './Login.scss';
 const LoginForm = () => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const authentication = useSelector(state => state.authentication.auth);
+  const loginUser = (user) => dispatch(loginUserAction(user));
+
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -14,8 +23,16 @@ const LoginForm = () => {
       email: Yup.string().email('Ingrese un email válido').required("El email es obligatorio"),
       password: Yup.string().required('El password es obligatorio')
     }),
-    onSubmit: (formData) => console.log(formData),
+    onSubmit: (formData) => loginUser(formData),
   });
+
+  useEffect(() => {
+    if(authentication){
+      history.replace('/admin');
+    }
+    // eslint-disable-next-line
+  }, [authentication])
+
   return (  
     <Form className="login-form" onChange={formik.handleChange} onFinish={formik.handleSubmit}>
       <Form.Item 

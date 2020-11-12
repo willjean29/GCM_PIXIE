@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {Switch, Route, Redirect} from 'react-router-dom';
+import {useSelector} from 'react-redux';
 import {GithubOutlined, FacebookOutlined, InstagramOutlined} from '@ant-design/icons';
 import {Layout} from 'antd';
 import AdminSingIn from '../pages/Admin/SingIn';
@@ -10,8 +11,9 @@ import './LayoutAdmin.scss';
 const LayoutAdmin = (props) => {
   const {routes} = props;
   const [menuCollapsed, setMenuCollapsed] = useState(false);
-  const [authentication, setAuthentication] = useState(true);
+  // const [authentication, setAuthentication] = useState(true);
   const {Header, Content, Footer} = Layout;
+  const authentication = useSelector(state => state.authentication.auth);
   if(!authentication){
     return (
       <>
@@ -62,5 +64,5 @@ function LoadRouters({routes}) {
     </Switch>
   );
 }
- 
+
 export default LayoutAdmin;

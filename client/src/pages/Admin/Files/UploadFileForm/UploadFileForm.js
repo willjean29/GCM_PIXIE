@@ -1,6 +1,6 @@
 // Componente para Modal de Carga de Archivos
 import React from 'react'
-import { Space,Form, Col, Row, Button,Upload, Layout, Card, message  } from 'antd' // Esto sirve para importar los componentes
+import { Form, Col, Row, Button,Upload, Layout, Card, message  } from 'antd' // Esto sirve para importar los componentes
 import { InboxOutlined } from '@ant-design/icons'
 import './UploadFileForm.scss'
 const UploadFileForm = () => {

@@ -8,7 +8,7 @@ import './Files.scss' // importa el css
 
 const Files = (props) => {
   const {Content} = Layout
-  const {TableLayout} = Card
+  // const {TableLayout} = Card
 
   const text_upload = '¡Carga el RV del mes!'
   const text_download = 'Descarga el template del RV'
