@@ -5,11 +5,12 @@ import LayoutClient from '../layouts/LayoutClient';
 // import pages admin
 import AdminHome from '../pages/Admin';
 import AdminSingIn from '../pages/Admin/SingIn';
-import AdminBusiness from '../pages/Admin/Business';
 import AdminProfile from '../pages/Admin/Profile';
 import AdminFiles from '../pages/Admin/Files';
 import AdminCompetitionNew from '../pages/Admin/Competition/NewCompetition';
 import AdminCompetitionInfo from '../pages/Admin/Competition/InfoCompetition';
+import AdminBusinessNew from '../pages/Admin/Business/NewBusiness';
+import AdminBusinessInfo from '../pages/Admin/Business/InfoBusiness';
 
 // import pages client
 import Home from '../pages/Home';
@@ -39,8 +40,13 @@ const routes = [
         exact: true
       },
       {
-        path: '/admin/business',
-        component: AdminBusiness,
+        path: '/admin/business/new',
+        component: AdminBusinessNew,
+        exact: true
+      },
+      {
+        path: '/admin/business/info',
+        component: AdminBusinessInfo,
         exact: true
       },
       {

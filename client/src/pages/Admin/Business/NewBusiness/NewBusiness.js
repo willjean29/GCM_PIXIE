@@ -1,12 +1,10 @@
 import React, {useState} from 'react';
 import {Steps,Card} from 'antd';
-
 import Step1 from './components/Step1';
 import Step2 from './components/Step2';
 import Step3 from './components/Step3';
-import './Business.scss';
-
-const Business = () => {
+import './NewBusiness.scss';
+const NewBusiness = () => {
   const {Step} = Steps;
   const [current, setCurrent] = useState(0);
   const next = () => {
@@ -30,8 +28,6 @@ const Business = () => {
       content: <Step3 next={next} prev={prev}/>
     }
   ];
-
-
   return (  
     <>
       <Card>
@@ -51,4 +47,4 @@ const Business = () => {
   );
 }
  
-export default Business;
+export default NewBusiness;

@@ -31,12 +31,20 @@ const MenuSider = (props) => {
             <span className="nav-text">Perfil</span>
           </Link>
         </Menu.Item>
-        <Menu.Item key="/admin/business">
-          <Link to="/admin/business">
-            <BankOutlined />
-            <span className="nav-text">Empresa</span>
-          </Link>
-        </Menu.Item>
+        <SubMenu icon={<BankOutlined />} title="Empresa">
+          <Menu.Item key="/admin/business/new">
+            <Link to="/admin/business/new">
+              <CarryOutOutlined />
+              <span className="nav-text">Registrar</span>
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="/admin/business/info">
+            <Link to="/admin/business/info">
+              <CarryOutOutlined />
+              <span className="nav-text">Información</span>
+            </Link>
+          </Menu.Item>
+        </SubMenu>
         <SubMenu icon={<AimOutlined />} title="Concursos">
           <Menu.Item key="/admin/competition/new">
             <Link to="/admin/competition/new">
