@@ -59,7 +59,7 @@ const Files = (props) => {
           </Button>
           <Button type='primary' icon={<EyeOutlined />} >
           </Button>
-          <Button type='primary' icon={<DeleteOutlined />} >
+          <Button type='primary' danger icon={<DeleteOutlined />} >
           </Button>
         </Space>
       )
@@ -75,7 +75,9 @@ const Files = (props) => {
   return (
     <Layout className='files'>
       <Content className='files__content'>
-        <h1 className='files__content-title'>Registros de Ventas</h1>
+        <Card>
+          <h1 className='files__content-title'>Registros de Ventas</h1>
+        </Card>
         <Content className='files__content-functions-buttons'>
           <Space size='middle'>
             <Tooltip placement='top' title={text_upload}>
@@ -92,7 +94,7 @@ const Files = (props) => {
         </Content>
         <br/>
         <Card className='files__content-body'>
-          <Table className='files__content-body-table' columns={columns} dataSource={data} />
+          <Table className='files__content-body-table' columns={columns} dataSource={data} scroll={{x: 380}}/>
         </Card>
       </Content>
       <Modal title={modalTitle} isVisible={showModal} setIsVisible={setShowModal}>
