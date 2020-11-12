@@ -1,0 +1,15 @@
+.ant-card-head-title {
+	font-size: 16px !important;
+}
+.ruc-form {
+	.ant-form-item-label {
+		label {
+			font-weight: bold;
+		}
+	}
+	&__submit {
+		.btn-submit {
+			width: 100%;
+		}
+	}
+}

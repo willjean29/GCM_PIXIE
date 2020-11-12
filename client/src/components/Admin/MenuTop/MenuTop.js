@@ -1,5 +1,5 @@
-import React from 'react';
-import {Button} from 'antd';
+import React  from 'react';
+import {Button}  from 'antd';
 import {MenuUnfoldOutlined, PoweroffOutlined, MenuFoldOutlined} from '@ant-design/icons';
 import Logo from '../../../assets/img/png/icon.png';
 import './MenuTop.scss';
@@ -10,7 +10,7 @@ const MenuTop = (props) => {
       <div className="menu-top__left">
         <img 
           src={Logo}
-          alt="Agustin Navarro Galdon" 
+          alt="PIXIE - Sistema de Incentivos a las ventas" 
           className="menu-top__left-logo"
         />
         <Button type="link" onClick={() => setMenuCollapsed(!menuCollapsed) }>
@@ -25,7 +25,6 @@ const MenuTop = (props) => {
         </Button>
       </div>
     </div>
-
   );
 }
  

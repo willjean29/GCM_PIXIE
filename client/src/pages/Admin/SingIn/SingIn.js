@@ -1,8 +1,9 @@
 import React from 'react';
 import {Layout, Tabs} from 'antd';
-import Logo from '../../../assets/img/png/logo.png';
-// import RegisterForm from '../../../components/Admin/RegisterForm';
-// import LoginForm from '.././../../components/Admin/LoginForm';
+import Logo from '../../../assets/img/png/icon.png';
+import RegisterForm from './components/RegisterForm';
+import LoginForm from './components/LoginForm';
+
 import './SingIn.scss';
 const SingIn = () => {
   const {Content} = Layout;
@@ -11,15 +12,15 @@ const SingIn = () => {
     <Layout className="sing-in">
       <Content className="sing-in__content">
         <h1 className="sing-in__content-logo">
-          <img src={Logo} alt="Agustin Navarro Galdon"/>
+          <img src={Logo} alt="PIXIE - Sistema de Incentivos a las ventas"/>
         </h1>
         <div className="sing-in__content-tabs">
           <Tabs type="card" hideAdd={false}>
             <TabPane tab={<span>Ingresar</span>} key="1">
-              {/* <LoginForm/> */}
+              <LoginForm/>
             </TabPane>
             <TabPane tab={<span>Registrarse</span>} key="2">
-              {/* <RegisterForm/> */}
+              <RegisterForm/>
             </TabPane>
           </Tabs>
         </div>
