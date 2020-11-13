@@ -1,8 +1,9 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Switch, Route, Redirect} from 'react-router-dom';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {GithubOutlined, FacebookOutlined, InstagramOutlined} from '@ant-design/icons';
 import {Layout} from 'antd';
+import {userLogAction} from '../redux/actions/authActions';
 import AdminSingIn from '../pages/Admin/SingIn';
 import MenuSider from '../components/Admin/MenuSider';
 import MenuTop from '../components/Admin/MenuTop';
@@ -10,10 +11,17 @@ import './LayoutAdmin.scss';
 
 const LayoutAdmin = (props) => {
   const {routes} = props;
+  const dispatch = useDispatch();
   const [menuCollapsed, setMenuCollapsed] = useState(false);
   // const [authentication, setAuthentication] = useState(null);
   const {Header, Content, Footer} = Layout;
   const authentication = useSelector(state => state.authentication.auth);
+  const userLog = () => dispatch(userLogAction());
+  
+  useEffect(() => {
+    userLog();
+  }, [dispatch])
+
   if(!authentication){
     return (
       <>

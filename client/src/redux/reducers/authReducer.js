@@ -11,7 +11,7 @@ import {
 const initialState = {
   loading: false,
   error: false,
-  auth: localStorage.getItem('token') ? true : false,
+  auth: localStorage.getItem('access-token-admin') ? true : false,
   admin: null
 }
 const authReducer = (state = initialState, action) => {
@@ -23,40 +23,22 @@ const authReducer = (state = initialState, action) => {
         loading: true,
       }
     case LOGIN_USER_OK:
+    case USER_LOG_OK:
       return {
         ...state,
         loading: false,
-        user: action.payload.user,
-        auth: true
+        admin: action.payload,
+        auth: true,
+        error: false
       }
     case LOGIN_USER_ERROR:
+    case USER_LOG_ERROR:
       // localStorage.removeItem('token');
       return {
         ...state,
         loading: false,
         auth: false,
-        error: action.payload
-      }
-    case USER_LOG_OK:
-      return {
-        ...state,
-        loading: false,
-        user: action.payload.user,
-        auth: true
-      }
-    case USER_LOG_ERROR:
-      return {
-        ...state,
-        loading: false,
-        auth: false,
-        error: action.payload
-      }
-    case LOGOUT_USER:
-      return {
-        auth: false,
-        user: null,
-        loading: null,
-        error: null
+        error: true
       }
     default:
       return state

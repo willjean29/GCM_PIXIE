@@ -12,29 +12,7 @@ const Administrator = require('../models/Administrator');
 const WebMaster = require('../models/WebMaster');
 
 require('dotenv').config();
-// Para verificar si el administrador esta autenticado
-const adminsitradorAutenticado = (req, res, next) => {
-  //let token = req.get('token');
-  let token = req.headers['access-token'];
 
-  jwt.verify(token, process.env.SEED_JWT, (err, decoded) => {
-    if (err) {
-      // Pruebas en Rest API 
-      return res.status(401).json({
-        ok: false,
-        err: {
-          msg: "Token no valido"
-        }
-      })
-
-      // Redireccionar en el sistema
-      // return res.redirect('/admin/login'):
-    }
-
-    req.administrator = decoded.administrator;
-    next();
-  })
-}
 const verificarDNI = async(req,res) => {
   const {dni} = req.body;
   const url = `${process.env.LINK_API_DNI}/${dni}?token=${process.env.API_KEY}`;
@@ -57,6 +35,7 @@ const verificarDNI = async(req,res) => {
     });
   }
 }
+
 const autenticarAdministrador = async (req, res) => {
 
   // verificar usuario y password en la DB
@@ -93,7 +72,8 @@ const autenticarAdministrador = async (req, res) => {
   res.json({
     ok: true,
     administrator,
-    token
+    token,
+    msg: `Bienvenid@ ${administrator.names}`
   });
 
 }
@@ -145,9 +125,37 @@ const registrarTokenAdmin = async (req, res) => {
   }
 }
 
+const administradorActual = async (req,res) => {
+  let admin;
+  try {
+    admin = await Administrator.findById(req.administrator._id);
+  } catch (error) {
+    return res.status(500).json({
+      ok: false,
+      err: {
+        msg: "Error del servidor"
+      }
+    })
+  }
+
+  if(!admin){
+    res.status(400).json({
+      ok: false,
+      err: {
+        msg: "El usuario no existe"
+      }
+    })
+  }
+
+  res.json({
+    ok: true,
+    admin
+  })
+}
+
 module.exports = {
-  adminsitradorAutenticado,
   autenticarAdministrador,
+  administradorActual,
   registrarTokenAdmin,
   validarTokenAdmin,
   verificarDNI

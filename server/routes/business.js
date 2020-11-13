@@ -8,26 +8,27 @@ const router = express.Router();
 const businessController = require('../controllers/businessController');
 const authController = require('../controllers/authController');
 
-const { verificarToken } = require('../middlewares/verifyToken');
+const { verifyTokenAdmin } = require('../middlewares/verifyToken');
 const { uploadImage } = require('../middlewares/uploadImage');
 
 // Para validar RUC
 router.post('/verificar-ruc',
   // authController.adminsitradorAutenticado,
+  verifyTokenAdmin,
   businessController.validarRUC
 );
 
 // Para registar empresa
 router.post('/registrar',
-  authController.adminsitradorAutenticado,
+  verifyTokenAdmin,
   businessController.registrarEmpresa
 );
 
 // agregar/actualizar avatar de la empresa
 router.post('/avatar',
-    authController.adminsitradorAutenticado,
-    uploadImage,
-    businessController.agregarAvatarEmpresa
+  verifyTokenAdmin,
+  uploadImage,
+  businessController.agregarAvatarEmpresa
 );
 
 module.exports = router;
