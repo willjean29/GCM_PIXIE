@@ -33,12 +33,19 @@ const authReducer = (state = initialState, action) => {
       }
     case LOGIN_USER_ERROR:
     case USER_LOG_ERROR:
-      // localStorage.removeItem('token');
       return {
         ...state,
         loading: false,
         auth: false,
         error: true
+      }
+    case LOGOUT_USER:
+      return {
+        ...state,
+        loading: false,
+        error: false,
+        auth: false,
+        admin: null
       }
     default:
       return state

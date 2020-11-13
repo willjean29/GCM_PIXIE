@@ -4,7 +4,8 @@ import {
   LOGIN_USER_ERROR,
   USER_LOG,
   USER_LOG_OK,
-  USER_LOG_ERROR
+  USER_LOG_ERROR,
+  LOGOUT_USER
 } from '../types';
 import Notification from '../../components/UiElements/Notification';
 import clienteAxios from '../../config/clienteAxios';
@@ -66,4 +67,15 @@ const userLogOk = (data) => ({
 
 const userLogError = () => ({
   type: USER_LOG_ERROR
+})
+
+export const logoutUserAction = () => {
+  return (dispatch) => {
+    localStorage.removeItem('access-token-admin');
+    dispatch(logoutUser());
+  }
+}
+
+const logoutUser = () => ({
+  type : LOGOUT_USER
 })
