@@ -44,7 +44,8 @@ const verificarDNI = async(req,res) => {
     const response = await axios.get(url);
     return res.json({
       ok: true,
-      user : response.data
+      user : response.data,
+      msg: "DNI validado"
     });
   } catch (error) {
     console.log("Error 404");

@@ -11,7 +11,7 @@ import './LayoutAdmin.scss';
 const LayoutAdmin = (props) => {
   const {routes} = props;
   const [menuCollapsed, setMenuCollapsed] = useState(false);
-  // const [authentication, setAuthentication] = useState(true);
+  // const [authentication, setAuthentication] = useState(null);
   const {Header, Content, Footer} = Layout;
   const authentication = useSelector(state => state.authentication.auth);
   if(!authentication){

@@ -30,7 +30,9 @@ const agregarAdministrador = async(req,res) => {
   if(admin){
     return res.status(400).json({
       ok: false,
-      msg: "El DNI ya se encuentra registrado"
+      err: {
+        msg: "El DNI ya se encuentra registrado"
+      }
     });
   }
 
@@ -39,7 +41,9 @@ const agregarAdministrador = async(req,res) => {
   if(admin) {
     return res.status(400).json({
       ok: false,
-      msg: "El correo ya se encuentra registrado"
+      err: {
+        msg: "El correo ya se encuentra registrado"
+      }
     });
   }
 

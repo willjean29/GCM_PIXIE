@@ -7,13 +7,13 @@ import {
   USER_LOG_ERROR,
   LOGOUT_USER
 } from '../types';
-const initialState = {
-  auth: localStorage.getItem('token') ? true : false,
-  user : null,
-  loading: null,
-  error: null
-}
 
+const initialState = {
+  loading: false,
+  error: false,
+  auth: localStorage.getItem('token') ? true : false,
+  admin: null
+}
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case LOGIN_USER:
