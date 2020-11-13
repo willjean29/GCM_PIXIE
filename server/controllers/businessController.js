@@ -89,7 +89,8 @@ const validarRUC = async(req,res) => {
     const response = await axios.get(url);
     return res.json({
       ok: true,
-      business: response.data
+      business: response.data,
+      msg: "RUC validado"
     });
   } catch (error) {
     console.log("Error 404");
@@ -106,7 +107,7 @@ const registrarEmpresa = async(req,res) => {
   //console.log(req.user);
   const rucBusiness = req.body.ruc;
 
-  const administrator = await Administrator.findById(req.body.administrador).catch((err) => {
+  const administrator = await Administrator.findById(req.administrator._id).catch((err) => {
     return res.status(400).json({
       ok: false,
       err
@@ -141,7 +142,7 @@ const registrarEmpresa = async(req,res) => {
   const redes = {web,facebook,red};
 
   business = new Business({
-    administrador,//: req.user._id,
+    administrador: administrator._id,//: req.user._id,
     ruc,
     nombreComercial,
     razonSocial,
@@ -176,7 +177,8 @@ const registrarEmpresa = async(req,res) => {
 
   res.json({
     ok: true,
-    business
+    business,
+    msg: "Emnpresa Registrada"
   });
 }
 

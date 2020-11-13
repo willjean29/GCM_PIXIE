@@ -47,10 +47,13 @@ export const userLogAction = () => {
     try {
       const response = await clienteAxios.get('/admin/auth');
       const data = response.data;
-      console.log(data);
+      // console.log(data);
+      console.log(localStorage.getItem("access-token-admin"));
       dispatch(userLogOk(data.admin));
     } catch (error) {
       console.log(error.response)
+      console.log(localStorage.getItem("access-token-admin"));
+
       dispatch(userLogError());
     }
   }

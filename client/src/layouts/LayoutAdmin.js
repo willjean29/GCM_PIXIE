@@ -17,7 +17,7 @@ const LayoutAdmin = (props) => {
   const {Header, Content, Footer} = Layout;
   const authentication = useSelector(state => state.authentication.auth);
   const userLog = () => dispatch(userLogAction());
-  
+
   useEffect(() => {
     userLog();
   }, [dispatch])

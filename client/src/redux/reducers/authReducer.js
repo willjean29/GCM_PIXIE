@@ -9,10 +9,10 @@ import {
 } from '../types';
 
 const initialState = {
-  loading: false,
-  error: false,
   auth: localStorage.getItem('access-token-admin') ? true : false,
-  admin: null
+  user : null,
+  loading: null,
+  error: null
 }
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -23,15 +23,27 @@ const authReducer = (state = initialState, action) => {
         loading: true,
       }
     case LOGIN_USER_OK:
+      return {
+        ...state,
+        loading: false,
+        user: action.payload,
+        auth: true
+      }
+    case LOGIN_USER_ERROR:
+      // localStorage.removeItem('token');
+      return {
+        ...state,
+        loading: false,
+        auth: false,
+        error: true
+      }
     case USER_LOG_OK:
       return {
         ...state,
         loading: false,
-        admin: action.payload,
-        auth: true,
-        error: false
+        user: action.payload,
+        auth: true
       }
-    case LOGIN_USER_ERROR:
     case USER_LOG_ERROR:
       return {
         ...state,
@@ -41,11 +53,11 @@ const authReducer = (state = initialState, action) => {
       }
     case LOGOUT_USER:
       return {
-        ...state,
-        loading: false,
-        error: false,
+        token: null,
         auth: false,
-        admin: null
+        user: null,
+        loading: null,
+        error: null
       }
     default:
       return state
