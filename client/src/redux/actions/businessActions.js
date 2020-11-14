@@ -4,7 +4,10 @@ import {
   BUSINESS_ADMIN_ERROR,
   BUSINESS_EDIT,
   BUSINESS_EDIT_OK,
-  BUSINESS_EDIT_ERROR
+  BUSINESS_EDIT_ERROR,
+  BUSINESS_IMAGE,
+  BUSINESS_IMAGE_OK,
+  BUSINESS_IMAGE_ERROR
 } from '../types';
 import Notification from '../../components/UiElements/Notification';
 import clienteAxios from '../../config/clienteAxios';
@@ -61,4 +64,38 @@ const actualizarEmpresaOk = (data) => ({
 })
 const actualizarEmpresaError = () => ({
   type: BUSINESS_EDIT_ERROR
+})
+
+export const imagenEmpresaAction = (dataImage) => {
+  return async (dispatch) => {
+    dispatch(imagenEmpresa());
+    tokenAuthAdmin();
+    try {
+      const formData = new FormData();
+      formData.append('image', dataImage.file);
+      const response = await clienteAxios.put('/business/avatar',formData,{
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+      const data = response.data;
+      Notification(data.ok,data.msg);
+      dispatch(imagenEmpresaOk(data.business));
+    } catch (error) {
+      const msg = error.response.data ? error.response.data.err.msg : "Hubo un error";
+      Notification(error.response.data.ok,msg);
+      dispatch(imagenEmpresaError());
+    }
+  }
+}
+
+const imagenEmpresa = () => ({
+  type: BUSINESS_IMAGE
+})
+const imagenEmpresaOk = (data) => ({
+  type: BUSINESS_IMAGE_OK,
+  payload: data
+})
+const imagenEmpresaError = () => ({
+  type: BUSINESS_IMAGE_ERROR
 })

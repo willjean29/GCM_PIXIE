@@ -21,7 +21,7 @@ const {
 
 require('dotenv').config();
 const agregarAvatarEmpresa = async (req, res) => {
-  const id = req.user._id;
+  const id = req.administrator._id;
   const administrator = await Administrator.findById(id).catch((err) => {
     //Respuesta al servidor
     return res.status(400).json({
@@ -76,7 +76,8 @@ const agregarAvatarEmpresa = async (req, res) => {
 
   res.json({
     ok: true,
-    business
+    business,
+    msg: "Imagen Registrada"
   });
 }
 

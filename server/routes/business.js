@@ -36,7 +36,7 @@ router.put('/',
 );
 
 // agregar/actualizar avatar de la empresa
-router.post('/avatar',
+router.put('/avatar',
   verifyTokenAdmin,
   uploadImage,
   businessController.agregarAvatarEmpresa

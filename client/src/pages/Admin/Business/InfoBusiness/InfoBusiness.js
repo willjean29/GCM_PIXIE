@@ -6,6 +6,7 @@ import Information from './components/Information';
 import Maps from './components/Maps';
 import Logo from './components/Logo';
 import {obtenerEmpresaAction} from '../../../../redux/actions/businessActions';
+import NoAvatar from '../../../../assets/img/png/no-avatar.png';
 import './InfoBusiness.scss';
 const InfoBusiness = () => {
   const dispatch = useDispatch();
@@ -35,7 +36,7 @@ const InfoBusiness = () => {
               cover={
                 <Image
                   width={200}
-                  src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+                  src={business.imagen ? business.imagen : NoAvatar}
                   className="card__image"
                 />
               }
@@ -61,7 +62,7 @@ const InfoBusiness = () => {
                 {/* Acciones */}
               </TabPane>
               <TabPane tab={<span className="tab_text"><RedditOutlined />Logo</span>} key="3" >
-                <Logo/>
+                <Logo business={business}/>
               </TabPane>
             </Tabs>
           </Col>
