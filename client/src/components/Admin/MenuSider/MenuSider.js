@@ -18,7 +18,7 @@ const MenuSider = (props) => {
   const {SubMenu} = Menu;
   const {Sider} = Layout;
   const administrador = useSelector(state => state.authentication.user);
-  console.log(administrador);
+
   return (  
     <Sider className="admin-sider" collapsed={menuCollapsed}>
       <Menu theme="dark" mode="inline" defaultSelectedKeys={[pathname]}>

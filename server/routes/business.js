@@ -11,6 +11,11 @@ const authController = require('../controllers/authController');
 const { verifyTokenAdmin } = require('../middlewares/verifyToken');
 const { uploadImage } = require('../middlewares/uploadImage');
 
+router.get('/',
+  verifyTokenAdmin,
+  businessController.obtenerEmpresa
+);
+
 // Para validar RUC
 router.post('/verificar-ruc',
   // authController.adminsitradorAutenticado,
@@ -22,6 +27,12 @@ router.post('/verificar-ruc',
 router.post('/registrar',
   verifyTokenAdmin,
   businessController.registrarEmpresa
+);
+
+// actualizar empresa
+router.put('/',
+  verifyTokenAdmin,
+  businessController.actualizarEmpresa
 );
 
 // agregar/actualizar avatar de la empresa

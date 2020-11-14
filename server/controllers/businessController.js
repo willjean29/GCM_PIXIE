@@ -182,8 +182,69 @@ const registrarEmpresa = async(req,res) => {
   });
 }
 
+const obtenerEmpresa = async(req,res) => {
+  const idBusiness = req.administrator._id;
+  let business;
+  try {
+    business = await Business.findOne({administrador: idBusiness});
+  } catch (error) {
+    return res.status(400).json({
+      ok: false,
+      err: {
+        msg: "Error del servidor"
+      }
+    })
+  }
+
+  if(!business){
+    return res.status(400).json({
+      ok: false,
+      err: {
+        msg: "La empresa no existe"
+      }
+    })
+  }
+
+  res.json({
+    ok: true,
+    business,
+    msg: "Empresa Actual"
+  })
+}
+
+const actualizarEmpresa = async(req,res) => {
+  const id = req.administrator._id;
+  const {web,facebook,red} = req.body;
+  const redes = {web,facebook,red};
+  const data = {
+    redes: redes
+  }
+
+  const business = await Business.findOneAndUpdate({administrador: id},data,{new: true, runValidators: true}).catch((err) => {
+    return res.status(400).json({
+      ok: false,
+      err
+    });
+  })
+
+  if(!business) return res.status(400).json({
+    ok: false,
+    err: {
+      msg: "La empresa no se encuentra registrada"
+    }
+  });
+
+  res.json({
+    ok: true,
+    business,
+    msg: "Empresa Actualizada"
+  });
+}
+
 module.exports = {
   agregarAvatarEmpresa,
+  actualizarEmpresa,
   validarRUC,
-  registrarEmpresa
+  registrarEmpresa,
+  obtenerEmpresa
 }

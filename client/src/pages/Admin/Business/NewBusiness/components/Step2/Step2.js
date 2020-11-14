@@ -29,13 +29,13 @@ const Step2 = ({next, prev}) => {
         ...formData,
         ruc: businessData && businessData.ruc,
         razonSocial: businessData && businessData.razonSocial,
-        nombreComercial: businessData && businessData.razonSocial,
-        direccion: businessData && businessData.razonSocial,
-        estado: businessData && businessData.razonSocial,
-        tipo: businessData && businessData.razonSocial,
-        departamento: businessData && businessData.razonSocial,
-        provincia: businessData && businessData.razonSocial,
-        distrito: businessData && businessData.razonSocial,
+        nombreComercial: businessData && businessData.nombreComercial,
+        direccion: businessData && businessData.direccion,
+        estado: businessData && businessData.estado,
+        tipo: businessData && businessData.tipo,
+        departamento: businessData && businessData.departamento,
+        provincia: businessData && businessData.provincia,
+        distrito: businessData && businessData.distrito,
       }
       registrarEmpresa(dataBusiness, next);
     }
