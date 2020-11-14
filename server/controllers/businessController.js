@@ -21,8 +21,70 @@ const {
 
 require('dotenv').config();
 
-const validarRUC = async(req,res) => {
-  const {ruc} = req.body;
+const agregarAvatarEmpresa = async(req, res) => {
+  const id = req.administrator._id;
+
+  // Buscamos al administrador
+  const administrator = await Administrator.findById(id).catch((err) => {
+    return res.status(400).json({
+      ok: false,
+      err
+    });
+  })
+
+  if (!administrator) return res.status(400).json({
+    ok: false,
+    err: {
+      msg: "El administrador no existe o no tiene permisos"
+    }
+  });
+
+  // Validamos que el administrador tenga una empresa asociada
+  const business = await Business.findOne({ administrador: administrator._id }).catch((err) => {
+    return res.status(400).json({
+      ok: false,
+      err
+    });
+  });
+
+  if (!business) return res.status(400).json({
+    ok: false,
+    err: {
+      msg: "El administrador no tiene relación con la empresa"
+    }
+  });
+
+  // Validamos que exista un archivo y lo subimos
+  if (req.file) {
+    const result = await cloudinary.v2.uploader.upload(req.file.path);
+    console.log(result);
+    console.log(req.file);
+    // Asignamos el link a la empresa y lo guardamos en la BD
+    business.imagen = result.secure_url;
+    await fs.unlink(req.file.path);
+  }
+
+  try {
+    // Guardamos todos los cambios del modelo de empresa
+    await business.save();
+  } catch (err) {
+    return res.status(400).json({
+      ok: false,
+      err: {
+        msg: "No se pudo guardar la imagen"
+      }
+    });
+  }
+
+  res.json({
+    ok: true,
+    business,
+    msg: "Imagen Registrada"
+  });
+}
+
+const validarRUC = async(req, res) => {
+  const { ruc } = req.body;
   const url = `${process.env.LINK_API_RUC}/${ruc}?token=${process.env.API_KEY}`;
   console.log(url);
 
@@ -30,7 +92,8 @@ const validarRUC = async(req,res) => {
     const response = await axios.get(url);
     return res.json({
       ok: true,
-      business: response.data
+      business: response.data,
+      msg: "RUC validado"
     });
   } catch (error) {
     console.log("Error 404");
@@ -43,7 +106,7 @@ const validarRUC = async(req,res) => {
   }
 }
 
-const registrarEmpresa = async(req,res) => {
+const registrarEmpresa = async(req, res) => {
   //console.log(req.user);
   const rucBusiness = req.body.ruc;
 
@@ -57,7 +120,7 @@ const registrarEmpresa = async(req,res) => {
   if(!administrator) return res.status(400).json({
     ok: false,
     err: {
-      msg: "El administrator no existe o no tiene permisos"
+      msg: "El administrador no existe o no tiene permisos"
     }
   });
 
@@ -82,7 +145,7 @@ const registrarEmpresa = async(req,res) => {
   const redes = {web,facebook,red};
 
   business = new Business({
-    administrador,//: req.user._id,
+    administrador: administrator._id,
     ruc,
     nombreComercial,
     razonSocial,
@@ -117,11 +180,75 @@ const registrarEmpresa = async(req,res) => {
 
   res.json({
     ok: true,
-    business
+    business,
+    msg: "Emnpresa Registrada"
+  });
+}
+
+const obtenerEmpresa = async(req, res) => {
+  const idBusiness = req.administrator._id;
+  let business;
+
+  try {
+    business = await Business.findOne({administrador: idBusiness});
+  } catch (error) {
+    return res.status(400).json({
+      ok: false,
+      err: {
+        msg: "Error del servidor"
+      }
+    })
+  }
+
+  if(!business){
+    return res.status(400).json({
+      ok: false,
+      err: {
+        msg: "La empresa no existe"
+      }
+    })
+  }
+
+  res.json({
+    ok: true,
+    business,
+    msg: "Empresa Actual"
+  })
+}
+
+const actualizarEmpresa = async(req, res) => {
+  const id = req.administrator._id;
+  const {web,facebook,red} = req.body;
+  const redes = {web,facebook,red};
+  const data = {
+    redes: redes
+  }
+
+  const business = await Business.findOneAndUpdate({administrador: id},data,{new: true, runValidators: true}).catch((err) => {
+    return res.status(400).json({
+      ok: false,
+      err
+    });
+  })
+
+  if(!business) return res.status(400).json({
+    ok: false,
+    err: {
+      msg: "La empresa no se encuentra registrada"
+    }
+  });
+
+  res.json({
+    ok: true,
+    business,
+    msg: "Empresa Actualizada"
   });
 }
 
 module.exports = {
+  agregarAvatarEmpresa,
   validarRUC,
-  registrarEmpresa
+  registrarEmpresa,
+  obtenerEmpresa,
+  actualizarEmpresa
 }

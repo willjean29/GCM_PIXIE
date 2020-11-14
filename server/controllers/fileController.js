@@ -18,7 +18,7 @@ const { puntosSoles } = require('../utils/points');
 // Importando middlewares
 const { existsCompetitionSimple, existsCatalogoBusiness } = require('../middlewares/exists');
 
-const registrarArchivo = async(req,res) => {
+const registrarArchivo = async(req, res) => {
   let file;
   const id = req.user._id;
   const business = await Business.findOne({administrador: id}).catch((err) => {
@@ -54,7 +54,7 @@ const registrarArchivo = async(req,res) => {
   })
 }
 
-const obtenerDatosArchivo = async(req,res) => {
+const obtenerDatosArchivo = async(req, res) => {
   const administrator = await Administrator.findById(req.user._id).lean();
   const existeConcursoSimple = await existsCompetitionSimple(req.user._id);
   const existeCatalogoBusiness = await existsCatalogoBusiness(req.user._id);
@@ -85,7 +85,7 @@ const obtenerDatosArchivo = async(req,res) => {
   })
 }
 
-const cargarDataCliente = async (req,res) => {
+const cargarDataCliente = async (req, res) => {
   const id = req.params.id;
 
   const file = await File.findById(id).catch((err) => {

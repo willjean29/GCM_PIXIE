@@ -21,9 +21,9 @@ const {
   existsCatalogoBusiness 
 } = require('../middlewares/exists');
 
-const agregarAdministrador = async(req,res) => {
+const agregarAdministrador = async(req, res) => {
   const data = req.body;
-  const {dni,email} = req.body;
+  const { dni, email } = req.body;
 
   // Validamos que no exista alguien registrado con el mismo DNI
   let admin = await Administrator.findOne({dni: dni});
@@ -52,17 +52,14 @@ const agregarAdministrador = async(req,res) => {
     });
   });
 
-  const token = jwt.sign({id: administrator._id}, process.env.JWT_SECRET);
-
   res.json({
     ok: true,
     administrator,
-    token,
     msg: "Administrador registrado con exito"
   });
 }
 
-const obtenerAdministratorID = async(req,res) => {
+const obtenerAdministratorID = async(req, res) => {
   let id = req.params.id;
 
   const administrator = await Administrator.findById(id).catch((err) => {
@@ -85,17 +82,17 @@ const obtenerAdministratorID = async(req,res) => {
   });
 }
 
-const obtenerAdministradores = async(req,res) => {
-    const admins = await Administrator.find().catch((err) => {
-        return res.status(401).status({
-          ok: false,
-          err
-        });
-      });
+const obtenerAdministradores = async(req, res) => {
+  const admins = await Administrator.find().catch((err) => {
+    return res.status(401).status({
+      ok: false,
+      err
+    });
+  });
 
-    res.json({
-      admins
-    })
+  res.json({
+    admins
+  })
 }
 
 module.exports = {
