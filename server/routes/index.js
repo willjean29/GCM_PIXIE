@@ -15,6 +15,9 @@ app.use('/business', require('./business'));
 // endpoints for files
 app.use('/file', require('./file'));
 
+// endpoints for competitionController
+app.use('/competition',require('./competition'));
+
 // // endpoints for admin
 // app.use('/admin', require('./admin'));
 

@@ -65,6 +65,12 @@ const businessSchema = mongoose.Schema({
       ref: 'Client'
     }
   }],
+  concursos : [{
+    idCompetition: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Competition'
+    }
+  }],
   redes: {
     facebook: {
       type: String,
