@@ -23,6 +23,10 @@ const fileSchema = new mongoose.Schema({
   link: {
     type: String,
     trim: true,
+  },
+  key: {
+    type: String,
+    trim: true,
   }
 })
 

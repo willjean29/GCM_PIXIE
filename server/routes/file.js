@@ -14,6 +14,11 @@ router.post('/upload',
   fileController.registrarArchivo
 );
 
+router.get('/all',
+  verifyTokenAdmin,
+  fileController.obtenerArchivos
+);
+
 router.get('/ventas/:id',
   verifyTokenAdmin,
   fileController.obtenerDatosArchivo

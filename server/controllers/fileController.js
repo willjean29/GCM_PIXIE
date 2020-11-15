@@ -42,7 +42,8 @@ const registrarArchivo = async(req,res) => {
     file = new File({
       name: `${shortId.generate()}.csv`,
       type: req.file.mimetype,
-      business: business._id
+      business: business._id,
+      key: shortId.generate()
     })
     console.log(req.file);
     await file.save();
@@ -76,6 +77,47 @@ const registrarArchivo = async(req,res) => {
       msg: "Archivo Registrado"
     })
   }
+}
+
+const obtenerArchivos = async (req,res) => {
+  let business;
+  try {
+    business = await Business.findOne({administrador: req.administrator._id});
+  } catch (error) {
+    return res.status(500).json({
+      ok: false,
+      err: {
+        msg : "Error del servidor"
+      }
+    })
+  }
+
+  if(!business){
+    return res.status(500).json({
+      ok: false,
+      err: {
+        msg : "La empresa no existe"
+      }
+    }) 
+  }
+
+  let files = await File.find({business: business._id});
+
+  if(!files){
+    return res.status(400).json({
+      ok: false,
+      err: {
+        msg: "No existe archivos"
+      }
+    })
+  }
+
+  res.json({
+    ok: true,
+    msg: "Archivos obtenidos",
+    files
+  })
+ 
 }
 
 const obtenerDatosArchivo = async(req,res) => {
@@ -243,6 +285,7 @@ const eliminarArchivo = async (req,res) => {
 module.exports = {
   registrarArchivo,
   obtenerDatosArchivo,
+  obtenerArchivos,
   cargarDataCliente,
   eliminarArchivo
 }

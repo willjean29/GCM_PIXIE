@@ -43,3 +43,7 @@ export const BUSINESS_IMAGE_ERROR = "BUSINESS_IMAGE_ERROR";
 export const FILE_SALE = "FILE_SALE";
 export const FILE_SALE_OK = "FILE_SALE_OK";
 export const FILE_SALE_ERROR = "FILE_SALE_ERROR";
+
+export const GET_FILES = "GET_FILES";
+export const GET_FILES_OK = "GET_FILES_OK";
+export const GET_FILES_ERROR = "GET_FILES_ERROR";

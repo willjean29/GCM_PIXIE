@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import { Form, Col, Row, Button,Upload, Layout, Card, message  } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 import './UploadFileForm.scss'
-const UploadFileForm = ({setShowModal, registrarArchivo}) => {
+const UploadFileForm = ({setShowModal, registrarArchivo, setReloadFiles}) => {
   const {Content} = Layout;
   const { Dragger } = Upload;
   const [fileList, setFileList] = useState([]);
@@ -33,6 +33,7 @@ const UploadFileForm = ({setShowModal, registrarArchivo}) => {
       registrarArchivo(fileList);
       message.success(`Archivo Registrado`);
       setFileList([]);
+      setReloadFiles(true);
       setShowModal(false);
     }
   }
