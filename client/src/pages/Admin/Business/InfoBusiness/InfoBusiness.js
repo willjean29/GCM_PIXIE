@@ -36,12 +36,12 @@ const InfoBusiness = () => {
               cover={
                 <Image
                   width={200}
-                  src={business.imagen ? business.imagen : NoAvatar}
+                  src={business ? (business.imagen ? business.imagen : NoAvatar) : NoAvatar}
                   className="card__image"
                 />
               }
             >
-              <Card.Meta title="UNMSM" description="Empresa Registrada" className="card__description"/>
+              <Card.Meta title={business && business.nombreComercial} description="Empresa Afiliada" className="card__description"/>
               <Descriptions bordered column={1} className="card__content">
                 <Descriptions.Item label="RUC">{business && business.ruc}</Descriptions.Item>
                 <Descriptions.Item label="Clientes">{business && business.clientes.length}</Descriptions.Item>

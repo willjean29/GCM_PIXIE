@@ -1,12 +1,16 @@
 import React, { useState } from 'react'
 //import { green } from '@ant-design/colors'
 import { Layout, Card, Table, Tooltip, Space, Button } from 'antd' // Esto sirve para importar los componentes
-import { DeleteOutlined,DownloadOutlined, UploadOutlined, FileExcelOutlined, SafetyOutlined, EyeOutlined, CheckCircleOutlined } from '@ant-design/icons'
-import Modal from '../../../components/Admin/Modal'
-import UploadFileForm from './UploadFileForm'
+import { DeleteOutlined,DownloadOutlined, UploadOutlined, FileExcelOutlined, SafetyOutlined, EyeOutlined, CheckCircleOutlined } from '@ant-design/icons';
+import {useDispatch} from 'react-redux';
+import Modal from '../../../components/Admin/Modal';
+import UploadFileForm from './UploadFileForm';
+import {registrarArchivoAction} from '../../../redux/actions/fileActions';
 import './Files.scss' // importa el css
 
 const Files = (props) => {
+  const dispatch = useDispatch();
+  const registrarArchivo = (file) => dispatch(registrarArchivoAction(file));
   const {Content} = Layout
   // const {TableLayout} = Card
 
@@ -21,7 +25,10 @@ const Files = (props) => {
 
     setModalTitle('Cargar Registro de Ventas')
     setContentModal(
-      <UploadFileForm setShowModal={setShowModal} />
+      <UploadFileForm 
+        setShowModal={setShowModal} 
+        registrarArchivo={registrarArchivo}
+      />
     )
 
     setShowModal(true)
@@ -86,7 +93,7 @@ const Files = (props) => {
               </Button>
             </Tooltip>
             <Tooltip placement='top' title={text_download}>
-              <Button icon={<DownloadOutlined />} href='www.google.com'>
+              <Button icon={<DownloadOutlined />} href='http://localhost:4000/uploads/Template.csv'>
                 Descargar template
               </Button>
             </Tooltip>

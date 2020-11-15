@@ -10,48 +10,72 @@ const Business = require('../models/Business');
 const Administrator = require('../models/Administrator');
 const Competition = require('../models/Competition');
 const Client = require('../models/Client');
-
+const shortId = require('shortid');
 // Importando utilidades
 const { leerCSV } = require('../utils/leerCSV');
 const { puntosSoles } = require('../utils/points');
-
+const { uploadToS3 } = require("../utils/aws");
 // Importando middlewares
 const { existsCompetitionSimple, existsCatalogoBusiness } = require('../middlewares/exists');
 
 const registrarArchivo = async(req,res) => {
+
   let file;
-  const id = req.user._id;
-  const business = await Business.findOne({administrador: id}).catch((err) => {
+  const id = req.administrator._id;
+  const business = await Business.findOne({ administrador: id }).catch((err) => {
+    logger.error('Error en database', err)
     return res.status(400).json({
       ok: false,
-      err: {
-          msg: "Error en database"
-      }
+      err
     })
   });
 
-  if(!business) return res.status(400).json({
+  if (!business) return res.status(400).json({
     ok: false,
     err: {
       msg: "La empresa no se encuentra registrada"
     }
   })
 
-  if(req.file){
-    // Crea el archivo en la BD
+  if (req.file) {
+    //Crea el archivo eb la BD
     file = new File({
-      name: req.file.filename,
+      name: `${shortId.generate()}.csv`,
       type: req.file.mimetype,
       business: business._id
     })
-    // Guarda el archivo en la BD
+    console.log(req.file);
     await file.save();
-  }
 
-  res.json({
-    ok: true,
-    file
-  })
+    const { originalname, buffer } = req.file;
+    const fileName = originalname.split(".");
+    const ext = fileName[fileName.length - 1];
+
+    const fileInfo = {
+      name: `${file._id}.${ext}`,
+      path: `empresas/${business.id}`,
+    };
+
+    const fileSent = await uploadToS3(fileInfo, buffer);
+
+    if (!fileSent.ok) {
+      return res.status(400).json({ 
+        ok: false,
+        err: {
+          msg: "Error al subir el archivo" 
+        }
+      });
+    }
+    console.log(fileSent);
+    file.link = fileSent.data.Location; //es el link que te bota el aws cuando se sube al s3
+    await file.save()
+
+    res.json({
+      ok: true,
+      file,
+      msg: "Archivo Registrado"
+    })
+  }
 }
 
 const obtenerDatosArchivo = async(req,res) => {
