@@ -1,3 +1,7 @@
+/*
+  Rutas de la empresa.
+*/
+
 const express = require('express');
 const router = express.Router();
 
@@ -5,19 +9,38 @@ const router = express.Router();
 const businessController = require('../controllers/businessController');
 const authController = require('../controllers/authController');
 
-const { verificarToken } = require('../middlewares/verifyToken');
+const { verifyTokenAdmin } = require('../middlewares/verifyToken');
 const { uploadImage } = require('../middlewares/uploadImage');
+
+// Para obtener empresa actual
+router.get('/',
+  verifyTokenAdmin,
+  businessController.obtenerEmpresa
+);
 
 // Para validar RUC
 router.post('/verificar-ruc',
-  // authController.adminsitradorAutenticado,
+  verifyTokenAdmin,
   businessController.validarRUC
 );
 
 // Para registar empresa
 router.post('/registrar',
-  authController.adminsitradorAutenticado,
+  verifyTokenAdmin,
   businessController.registrarEmpresa
+);
+
+// Para actualizar empresa
+router.put('/',
+  verifyTokenAdmin,
+  businessController.actualizarEmpresa
+);
+
+// Para agregar/actualizar avatar de la empresa
+router.put('/avatar',
+  verifyTokenAdmin,
+  uploadImage,
+  businessController.agregarAvatarEmpresa
 );
 
 module.exports = router;
