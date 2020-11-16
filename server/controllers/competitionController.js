@@ -113,7 +113,7 @@ const agregarImagenConcurso = async (req,res) => {
     }
   });
 
-  const competition = await Competition.findOne({business: business._id}).catch((err) => {
+  const competition = await Competition.findOne({business: business._id}).populate('business').catch((err) => {
     return res.status(400).json({
       ok: false,
       err

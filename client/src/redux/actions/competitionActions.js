@@ -4,7 +4,10 @@ import {
   REGISTER_COMPETITION_ERROR,
   GET_COMPETITION,
   GET_COMPETITION_OK,
-  GET_COMPETITION_ERROR
+  GET_COMPETITION_ERROR,
+  COMPETITION_IMAGE,
+  COMPETITION_IMAGE_OK,
+  COMPETITION_IMAGE_ERROR
 } from '../types';
 
 import Notification from '../../components/UiElements/Notification';
@@ -69,3 +72,38 @@ const obtenerConcursoError = () => ({
   type: GET_COMPETITION_ERROR
 })
 
+export const agregarImagenAction = (dataImage) => {
+  return async (dispatch) => {
+    dispatch(agregarImagen());
+    tokenAuthAdmin()
+    try {
+      const formData = new FormData();
+      formData.append('image', dataImage.file);
+      const response = await clienteAxios.put('/competition/image',formData,{
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+      const data = response.data;
+      Notification(data.ok,data.msg);
+      console.log(data);
+      dispatch(agregarImagenOk(data.competition));
+    } catch (error) {
+      console.log(error.response);
+      const msg = error.response.data ? error.response.data.err.msg : "Hubo un error";
+      Notification(error.response.data.ok,msg);
+      dispatch(agregarImagenError());
+    }
+  }
+}
+
+const agregarImagen = () => ({
+  type: COMPETITION_IMAGE
+})
+const agregarImagenOk = (data) => ({
+  type: COMPETITION_IMAGE_OK,
+  payload: data
+})
+const agregarImagenError = () => ({
+  type: COMPETITION_IMAGE_ERROR
+})

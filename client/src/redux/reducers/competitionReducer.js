@@ -4,7 +4,10 @@ import {
   REGISTER_COMPETITION_ERROR,
   GET_COMPETITION,
   GET_COMPETITION_OK,
-  GET_COMPETITION_ERROR
+  GET_COMPETITION_ERROR,
+  COMPETITION_IMAGE,
+  COMPETITION_IMAGE_OK,
+  COMPETITION_IMAGE_ERROR
 } from '../types';
 
 const initialState = {
@@ -17,12 +20,14 @@ const competitionReducer = (state = initialState, action) => {
   switch (action.type) {
     case REGISTER_COMPETITION: 
     case GET_COMPETITION:
+    case COMPETITION_IMAGE:
       return {
         ...state,
         loading: true
       }
     case REGISTER_COMPETITION_OK: 
     case GET_COMPETITION_OK:
+    case COMPETITION_IMAGE_OK:
       return {
         ...state,
         loading: false,
@@ -30,6 +35,7 @@ const competitionReducer = (state = initialState, action) => {
       }
     case REGISTER_COMPETITION_ERROR: 
     case GET_COMPETITION_ERROR:
+    case COMPETITION_IMAGE_ERROR:
       return {
         ...state,
         loading: false,
