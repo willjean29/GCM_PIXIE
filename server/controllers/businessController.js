@@ -167,6 +167,7 @@ const registrarEmpresa = async(req,res) => {
 
   // Actualizamos el estado del administrador
   administrator.estado = true;
+  administrator.empresa = business._id;
   try {
     await administrator.save();
   } catch (error) {

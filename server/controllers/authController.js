@@ -128,7 +128,7 @@ const registrarTokenAdmin = async (req, res) => {
 const administradorActual = async (req,res) => {
   let admin;
   try {
-    admin = await Administrator.findById(req.administrator._id);
+    admin = await Administrator.findById(req.administrator._id).populate('empresa');
   } catch (error) {
     return res.status(500).json({
       ok: false,
