@@ -2,14 +2,16 @@ import React from 'react';
 import {Card, Row, Col, Form, Input, Button, Divider, DatePicker} from 'antd';
 import {DollarOutlined, HeartOutlined} from '@ant-design/icons';
 import {useDispatch} from 'react-redux';
+import {useHistory} from 'react-router-dom';
 import moment from 'moment';
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
 import {registrarConcursoAction} from '../../../../redux/actions/competitionActions';
 import './NewCompetition.scss';
-const NewCompetition = () => {
+const NewCompetition = ({setReloadUser}) => {
   const dispatch = useDispatch();
-  const registrarConcurso = (data) => dispatch(registrarConcursoAction(data));
+  const history = useHistory();
+  const registrarConcurso = (data,setReloadUser) => dispatch(registrarConcursoAction(data,setReloadUser));
   const formik = useFormik({
     initialValues: {
       nombre: '',
@@ -35,7 +37,8 @@ const NewCompetition = () => {
         fechaInicio: formData.fechaInicio.format("YYYY-MM-DD"),
         tipo: 'simple'
       }
-      registrarConcurso(dataCompetition);
+      registrarConcurso(dataCompetition,setReloadUser);
+      history.replace('/admin/competition/info')
     }
   });
   const disabledDate = (current) => {

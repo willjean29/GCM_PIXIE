@@ -26,12 +26,17 @@ const competitionReducer = (state = initialState, action) => {
         loading: true
       }
     case REGISTER_COMPETITION_OK: 
+      return {
+        loading: false,
+        error: false
+      }
     case GET_COMPETITION_OK:
     case COMPETITION_IMAGE_OK:
       return {
         ...state,
         loading: false,
-        data: action.payload
+        data: action.payload,
+        error: false
       }
     case REGISTER_COMPETITION_ERROR: 
     case GET_COMPETITION_ERROR:

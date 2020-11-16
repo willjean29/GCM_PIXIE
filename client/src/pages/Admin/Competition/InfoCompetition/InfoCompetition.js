@@ -16,6 +16,7 @@ const InfoCompetition = () => {
   const { TabPane } = Tabs;
   useEffect(() => {
     obtenerConcurso();
+    // eslint-disable-next-line
   }, [dispatch])
   return (
     <>

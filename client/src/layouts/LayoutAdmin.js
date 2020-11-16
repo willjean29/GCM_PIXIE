@@ -3,24 +3,30 @@ import {Switch, Route, Redirect} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
 import {GithubOutlined, FacebookOutlined, InstagramOutlined} from '@ant-design/icons';
 import {Layout} from 'antd';
+import { useMediaQuery } from 'react-responsive';
 import {userLogAction} from '../redux/actions/authActions';
 import AdminSingIn from '../pages/Admin/SingIn';
 import MenuSider from '../components/Admin/MenuSider';
 import MenuTop from '../components/Admin/MenuTop';
+import MenuMobile from '../components/Admin/MenuMobile';
 import './LayoutAdmin.scss';
 
 const LayoutAdmin = (props) => {
   const {routes} = props;
   const dispatch = useDispatch();
   const [menuCollapsed, setMenuCollapsed] = useState(false);
+  const [visible, setVisible] = useState(false);
   // const [authentication, setAuthentication] = useState(null);
   const {Header, Content, Footer} = Layout;
   const authentication = useSelector(state => state.authentication.auth);
   const userLog = () => dispatch(userLogAction());
-
+  const [reloadUser, setReloadUser] = useState(false);
+  const isTabletOrMobile = useMediaQuery({ query: '(max-width: 768px)' })
   useEffect(() => {
     userLog();
-  }, [dispatch])
+    setReloadUser(false);
+    // eslint-disable-next-line
+  }, [dispatch,reloadUser])
 
   if(!authentication){
     return (
@@ -32,13 +38,21 @@ const LayoutAdmin = (props) => {
   }
   return (  
     <Layout>
-      <MenuSider menuCollapsed={menuCollapsed}/>
-      <Layout className="layout-admin" style={{marginLeft: menuCollapsed ? "80px" : "200px" }}>
+      {
+        isTabletOrMobile ? (
+          <MenuMobile visible={visible} setVisible={setVisible}/>
+        ) : (
+          <MenuSider menuCollapsed={menuCollapsed} setMenuCollapsed={setMenuCollapsed}/>
+        )
+      }
+      <Layout className="layout-admin" 
+        style={{marginLeft: isTabletOrMobile ? "0px" : (menuCollapsed ? "80px" : "200px" )}}
+      >
         <Content className="layout-admin__content">
-            <LoadRouters routes={routes}/>
+            <LoadRouters routes={routes} setReloadUser={setReloadUser}/>
         </Content>
         <Header className="layout-admin__header">
-          <MenuTop menuCollapsed={menuCollapsed} setMenuCollapsed={setMenuCollapsed}/>
+          <MenuTop menuCollapsed={menuCollapsed} setMenuCollapsed={setMenuCollapsed} setVisible={setVisible}/>
         </Header>
         <Footer className="layout-admin__footer">  
           <strong>
@@ -58,7 +72,7 @@ const LayoutAdmin = (props) => {
   );
 }
 
-function LoadRouters({routes}) {  
+function LoadRouters({routes,setReloadUser}) {  
   return (
     <Switch>
       {routes.map((route,index) => (
@@ -66,7 +80,7 @@ function LoadRouters({routes}) {
           key={index}
           path={route.path}
           exact={route.exact}
-          component={route.component}
+          render={(props) => (<route.component setReloadUser={setReloadUser} {...props}/>)}
         />
       ))}
     </Switch>

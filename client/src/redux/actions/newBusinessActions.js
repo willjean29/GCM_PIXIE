@@ -38,7 +38,7 @@ const validarRucError = () => ({
   type: RUC_ERROR
 })
 
-export const registrarEmpresaAction = (dataBusiness,next) => {
+export const registrarEmpresaAction = (dataBusiness,next,setReloadUser) => {
   return async (dispatch) => {
     dispatch(registrarEmpresa());
     tokenAuthAdmin();
@@ -46,10 +46,14 @@ export const registrarEmpresaAction = (dataBusiness,next) => {
       const response = await clienteAxios.post('/business/registrar',dataBusiness);
       const data = response.data;
       console.log(data);
-      if(data.ok) next();
       Notification(data.ok,data.msg);
       dispatch(registrarEmpresaOk());
+      if(data.ok) {
+        next();
+        setReloadUser(true);
+      };
     } catch (error) {
+      console.log(error);
       const msg = error.response.data ? error.response.data.err.msg : "Hubo un error";
       Notification(error.response.data.ok,msg);
       dispatch(registrarEmpresaError());

@@ -18,6 +18,7 @@ const InfoBusiness = () => {
   useEffect(() => {
     obtenerEmpresa();
     setReloadBusiness(false);
+    // eslint-disable-next-line
   }, [dispatch,reloadBusiness])
   return (  
     <>

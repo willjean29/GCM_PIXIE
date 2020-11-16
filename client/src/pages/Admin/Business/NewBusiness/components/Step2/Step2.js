@@ -5,10 +5,10 @@ import {useSelector, useDispatch} from 'react-redux';
 import {useFormik} from 'formik';
 import {registrarEmpresaAction} from '../../../../../../redux/actions/newBusinessActions';
 import './Step2.scss';
-const Step2 = ({next, prev}) => {
+const Step2 = ({next, prev, setReloadUser}) => {
   const dispatch = useDispatch();
   const businessData = useSelector(state => state.newBusiness.business);
-  const registrarEmpresa = (data,next) => dispatch(registrarEmpresaAction(data,next));
+  const registrarEmpresa = (data,next,setReloadUser) => dispatch(registrarEmpresaAction(data,next,setReloadUser));
   const formik = useFormik({
     initialValues: {
       ruc: '',
@@ -37,7 +37,7 @@ const Step2 = ({next, prev}) => {
         provincia: businessData && businessData.provincia,
         distrito: businessData && businessData.distrito,
       }
-      registrarEmpresa(dataBusiness, next);
+      registrarEmpresa(dataBusiness, next,setReloadUser);
     }
   })
   return (  

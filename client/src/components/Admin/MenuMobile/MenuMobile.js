@@ -1,8 +1,8 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {Link, useHistory} from 'react-router-dom';
 import {useSelector} from 'react-redux';
-import {Layout, Menu, Tooltip} from 'antd';
-import { useMediaQuery } from 'react-responsive';
+import {Drawer, Menu, Tooltip} from 'antd';
+import Icon from '../../../assets/img/png/icon.png';
 import {
   HomeOutlined, 
   UserOutlined, 
@@ -12,27 +12,19 @@ import {
   CarryOutOutlined
 } from '@ant-design/icons';
 
-import './MenuSider.scss';
-const MenuSider = (props) => {
-  const {menuCollapsed, setMenuCollapsed} = props;
+import './MenuMobile.scss';
+const MenuMobile = ({visible,setVisible}) => {
   const {location:{pathname}} = useHistory();
   const {SubMenu} = Menu;
-  const {Sider} = Layout;
   const administrador = useSelector(state => state.authentication.user);
-  const isTabletOrMobile = useMediaQuery({ query: '(max-width: 768px)' })
-  useEffect(() => {
-    isTabletOrMobile && setMenuCollapsed(true) 
-    // eslint-disable-next-line
-  }, [isTabletOrMobile])
   return (  
-    <>
-    <Sider className="admin-sider" collapsed={menuCollapsed}
-      breakpoint="md"
-      collapsedWidth= {isTabletOrMobile ? "0" : "80"}
-      onBreakpoint={broken => {
-        console.log(broken+ "dsfsdfsdfsf");
-      }}
-    >
+    <Drawer
+    title={<span><img src={Icon} alt="PIXIE - Sistema de Incentivos a las ventas"/></span>}
+    placement="left"
+    closable={false}
+    onClose= {() => setVisible(false)}
+    visible={visible}
+  >
       <Menu theme="dark" mode="inline" defaultSelectedKeys={[pathname]}>
         <Menu.Item key="/admin">
           <Link to="/admin">
@@ -115,9 +107,8 @@ const MenuSider = (props) => {
           }
         </Menu.Item>
       </Menu>
-    </Sider>
-    </>
+  </Drawer>
   );
 }
  
-export default MenuSider;
+export default MenuMobile;

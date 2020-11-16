@@ -4,7 +4,7 @@ import Step1 from './components/Step1';
 import Step2 from './components/Step2';
 import Step3 from './components/Step3';
 import './NewBusiness.scss';
-const NewBusiness = () => {
+const NewBusiness = ({setReloadUser}) => {
   const {Step} = Steps;
   const [current, setCurrent] = useState(0);
   const next = () => {
@@ -21,7 +21,7 @@ const NewBusiness = () => {
     },
     {
       title: 'Registrar',
-      content: <Step2 next={next} prev={prev}/>,
+      content: <Step2 next={next} prev={prev} setReloadUser={setReloadUser}/>,
     },
     {
       title: 'Resultado',

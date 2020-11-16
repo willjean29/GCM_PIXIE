@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {UserOutlined, IdcardOutlined, MailOutlined, LockOutlined} from '@ant-design/icons';
 import {Steps,Card,Form,Input,Button,Row,Col,Divider} from 'antd';

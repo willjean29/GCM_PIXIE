@@ -19,12 +19,13 @@ export const registrarArchivoAction = (dataFile) => {
     try {
       const formData = new FormData();
       formData.append('csv', file);
+      // eslint-disable-next-line
       const response = await clienteAxios.post('/file/upload',formData,{
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       });
-      const data = response.data;
+      // const data = response.data;
       // Notification(data.ok,data.msg);
       dispatch(registrarArchivoOk());
     } catch (error) {

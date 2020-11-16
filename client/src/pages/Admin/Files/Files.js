@@ -26,6 +26,7 @@ const Files = (props) => {
   useEffect(() => {
     obtenerArchivos();
     setReloadFiles(false);
+    // eslint-disable-next-line
   }, [dispatch,reloadFiles])
 
   const uploadHandlerFunction = () => {

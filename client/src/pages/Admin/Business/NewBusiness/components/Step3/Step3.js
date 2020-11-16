@@ -6,8 +6,9 @@ const Step3 = () => {
   const history = useHistory();
   useEffect(() => {
     setTimeout(() => {
-      history.replace('/admin/files');
+      history.replace('/admin/business/info');
     }, 1500);
+    // eslint-disable-next-line
   }, [])
   return (  
     <Result
