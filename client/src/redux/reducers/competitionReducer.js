@@ -1,7 +1,10 @@
 import {
   REGISTER_COMPETITION,
   REGISTER_COMPETITION_OK,
-  REGISTER_COMPETITION_ERROR
+  REGISTER_COMPETITION_ERROR,
+  GET_COMPETITION,
+  GET_COMPETITION_OK,
+  GET_COMPETITION_ERROR
 } from '../types';
 
 const initialState = {
@@ -13,17 +16,20 @@ const initialState = {
 const competitionReducer = (state = initialState, action) => {
   switch (action.type) {
     case REGISTER_COMPETITION: 
+    case GET_COMPETITION:
       return {
         ...state,
         loading: true
       }
     case REGISTER_COMPETITION_OK: 
+    case GET_COMPETITION_OK:
       return {
         ...state,
         loading: false,
         data: action.payload
       }
     case REGISTER_COMPETITION_ERROR: 
+    case GET_COMPETITION_ERROR:
       return {
         ...state,
         loading: false,

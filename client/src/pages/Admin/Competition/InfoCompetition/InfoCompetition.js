@@ -1,12 +1,22 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { RedditOutlined, InfoCircleOutlined, CheckCircleOutlined} from '@ant-design/icons';
 import { Card, Row, Col, Descriptions, Tabs, Image, Button } from 'antd';
+import {useSelector, useDispatch} from 'react-redux';
+import moment from 'moment';
+import {obtenerConcursoAction} from '../../../../redux/actions/competitionActions';
+import NoAvatar from '../../../../assets/img/png/no-avatar.png';
 import Information from './components/Information';
 import Actions from './components/Actions';
 import Logo from './components/Logo';
 import './InfoCompetition.scss';
 const InfoCompetition = () => {
+  const dispatch = useDispatch();
+  const obtenerConcurso = () => dispatch(obtenerConcursoAction());
+  const competition = useSelector(state => state.competition.data);
   const { TabPane } = Tabs;
+  useEffect(() => {
+    obtenerConcurso();
+  }, [dispatch])
   return (
     <>
       <Card>
@@ -24,16 +34,30 @@ const InfoCompetition = () => {
               cover={
                 <Image
                   width={200}
-                  src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+                  src={competition && (
+                    competition.image ? competition.image : NoAvatar
+                  )}
                   className="card__image"
                 />
               }
             >
-              <Card.Meta title="Concurso Prueba" description="Concurso Simple" className="card__description"/>
+              <Card.Meta title={competition && competition.name} description="Concurso Simple" className="card__description"/>
               <Descriptions bordered column={1} className="card__content">
-                <Descriptions.Item label="Fecha Inicio">24/09/2020</Descriptions.Item>
-                <Descriptions.Item label="Fecha Fin">24/09/2020</Descriptions.Item>
-                <Descriptions.Item label="Estado">Inactivo</Descriptions.Item>
+                <Descriptions.Item label="Fecha Inicio">
+                  {
+                    competition && moment.utc(competition.fechaInicio).format('L')
+                  }
+                </Descriptions.Item>
+                <Descriptions.Item label="Fecha Fin">
+                {
+                    competition && moment.utc(competition.fechaFin).format('L')
+                  }
+                </Descriptions.Item>
+                <Descriptions.Item label="Estado">
+                {
+                    competition && (competition.estado ? "Activo" : "Inactivo")
+                  }
+                </Descriptions.Item>
               </Descriptions>
               <Button type="primary" style={{width: '100%'}} className="btn-submit">Activar</Button>
             </Card>
@@ -43,7 +67,7 @@ const InfoCompetition = () => {
           >
             <Tabs className="card-container">
               <TabPane tab={<span className="tab_text"><InfoCircleOutlined />Información</span>} key="1" >
-                <Information/>
+                <Information competition={competition}/>
               </TabPane>
               <TabPane tab={<span className="tab_text"><CheckCircleOutlined />Acciones</span>} key="2" >
                 <Actions/>
