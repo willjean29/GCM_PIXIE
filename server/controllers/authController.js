@@ -41,7 +41,7 @@ const autenticarAdministrador = async (req, res) => {
   // verificar usuario y password en la DB
   let { email, password } = req.body;
   console.log(req.body)
-  const administrator = await Administrator.findOne({ email: email }).catch((err) => {
+  const administrator = await Administrator.findOne({ email: email }).populate("empresa").catch((err) => {
     return res.status(500).json({
       ok: false,
       err

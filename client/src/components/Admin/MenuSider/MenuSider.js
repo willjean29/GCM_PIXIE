@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {Link, useHistory} from 'react-router-dom';
 import {useSelector} from 'react-redux';
-import {Layout, Menu, Tooltip} from 'antd';
+import {Layout, Menu, Tooltip, Avatar} from 'antd';
 import { useMediaQuery } from 'react-responsive';
 import {
   HomeOutlined, 
@@ -11,7 +11,7 @@ import {
   AimOutlined, 
   CarryOutOutlined
 } from '@ant-design/icons';
-
+import NoAvatar from '../../../assets/img/png/no-avatar.png';
 import './MenuSider.scss';
 const MenuSider = (props) => {
   const {menuCollapsed, setMenuCollapsed} = props;
@@ -34,6 +34,15 @@ const MenuSider = (props) => {
       }}
     >
       <Menu theme="dark" mode="inline" defaultSelectedKeys={[pathname]}>
+        <Menu.Item key="/profile">
+          <Avatar
+              src={administrador ? (administrador.image ? administrador.image : NoAvatar) : (NoAvatar)}
+              style={{marginLeft: '-8px'}}
+            />
+          <span style={{paddingLeft: 28}}>
+            {administrador && administrador.names}
+          </span>
+        </Menu.Item>
         <Menu.Item key="/admin">
           <Link to="/admin">
             <HomeOutlined />

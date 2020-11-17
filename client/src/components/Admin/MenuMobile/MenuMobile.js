@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link, useHistory} from 'react-router-dom';
 import {useSelector} from 'react-redux';
-import {Drawer, Menu, Tooltip} from 'antd';
+import {Drawer, Menu, Tooltip, Avatar} from 'antd';
 import Icon from '../../../assets/img/png/icon.png';
 import {
   HomeOutlined, 
@@ -11,7 +11,7 @@ import {
   AimOutlined, 
   CarryOutOutlined
 } from '@ant-design/icons';
-
+import NoAvatar from '../../../assets/img/png/no-avatar.png';
 import './MenuMobile.scss';
 const MenuMobile = ({visible,setVisible}) => {
   const {location:{pathname}} = useHistory();
@@ -26,6 +26,15 @@ const MenuMobile = ({visible,setVisible}) => {
     visible={visible}
   >
       <Menu theme="dark" mode="inline" defaultSelectedKeys={[pathname]}>
+        <Menu.Item key="/profile">
+          <Avatar
+              src={administrador ? (administrador.image ? administrador.image : NoAvatar) : (NoAvatar)}
+              style={{marginLeft: '-8px'}}
+            />
+          <span style={{paddingLeft: 28}}>
+            {administrador && administrador.names}
+          </span>
+        </Menu.Item>
         <Menu.Item key="/admin">
           <Link to="/admin">
             <HomeOutlined />

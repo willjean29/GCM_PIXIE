@@ -1,10 +1,13 @@
-.profile-content {
+.home-content {
+	min-height: 100vh;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	.wrapper {
 		max-width: 500px;
+		// height: 500px;
+		// min-height: 100vh;
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -12,9 +15,5 @@
 			width: 100%;
 			min-height: 500px;
 		}
-	}
-	h2 {
-		color: #1890ff;
-		font-weight: bold;
 	}
 }
