@@ -48,7 +48,7 @@ const InfoBusiness = () => {
                 <Descriptions.Item label="Clientes">{business && business.clientes.length}</Descriptions.Item>
                 <Descriptions.Item label="Estado">{business && business.estado}</Descriptions.Item>
               </Descriptions>
-              <Button type="primary" style={{width: '100%'}} className="btn-submit">Vista Previa</Button>
+              <Button type="primary" style={{width: '100%'}} className="btn-submit" disabled>Vista Previa</Button>
             </Card>
           </Col>
           <Col span={24} md={16}

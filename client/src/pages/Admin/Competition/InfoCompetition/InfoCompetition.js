@@ -60,7 +60,7 @@ const InfoCompetition = () => {
                   }
                 </Descriptions.Item>
               </Descriptions>
-              <Button type="primary" style={{width: '100%'}} className="btn-submit">Activar</Button>
+              <Button type="primary" style={{width: '100%'}} className="btn-submit" disabled>Activar</Button>
             </Card>
           </Col>
           <Col span={24} md={16}

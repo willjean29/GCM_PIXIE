@@ -121,7 +121,7 @@ const Files = (props) => {
               </Button>
             </Tooltip>
             <Tooltip placement='top' title={text_download}>
-              <Button icon={<DownloadOutlined />} href='http://localhost:4000/uploads/Template.csv'>
+              <Button icon={<DownloadOutlined />} href={`${process.env.REACT_APP_API_URL}/uploads/Template.csv`}>
                 Descargar template
               </Button>
             </Tooltip>

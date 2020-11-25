@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {Switch, Route, Redirect} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
 import {GithubOutlined, FacebookOutlined, InstagramOutlined} from '@ant-design/icons';
-import {Layout} from 'antd';
+import {Layout, Button} from 'antd';
 import { useMediaQuery } from 'react-responsive';
 import {userLogAction} from '../redux/actions/authActions';
 import AdminSingIn from '../pages/Admin/SingIn';
@@ -59,9 +59,16 @@ const LayoutAdmin = (props) => {
             Copyright &copy; 2020 <b style={{color: '#1890ff'}}>PIXIE</b> 
           </strong>
           <div>
-            <GithubOutlined style={{padding: '0 5px'}}/>
-            <FacebookOutlined style={{padding: '0 5px'}}/>
-            <InstagramOutlined style={{padding: '0 5px'}}/>
+            <Button type="link" href=" https://github.com/willjean29/GCM_PIXIE" target="_blank">
+              <GithubOutlined/>
+            </Button>
+            <Button type="link" href=" https://www.facebook.com/pixiepoints" target="_blank">
+              <FacebookOutlined/>
+            </Button>
+            <Button type="link" href="https://www.instagram.com/pixiepoints_oficial" target="_blank">
+              <InstagramOutlined/>
+            </Button>
+
           </div>
           <div>
             <b style={{color: '#1890ff'}}>Version</b> 1.0.0

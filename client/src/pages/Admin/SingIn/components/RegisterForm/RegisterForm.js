@@ -189,7 +189,7 @@ const Step2 = ({next, prev}) => {
       <div>
         <h4>Importante</h4>
         <p>
-          Para comprobar la identidad del nuevo usuario, se validaran sus datos directamente con la RENIEC.
+          Para comprobar la identidad del nuevo usuario, se validarán sus datos directamente con la RENIEC.
         </p>
       </div>
     </>
