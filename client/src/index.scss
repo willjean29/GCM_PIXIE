@@ -8,6 +8,22 @@ body {
 	-moz-osx-font-smoothing: grayscale;
 }
 
+body::-webkit-scrollbar {
+	width: 0.5rem;
+}
+
+body::-webkit-scrollbar-track {
+	background: #f4f4f4;
+}
+
+body::-webkit-scrollbar-thumb {
+	background: #1890ff;
+	border-radius: 5px;
+	&:active {
+		background: #1439df;
+	}
+}
+
 code {
 	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }

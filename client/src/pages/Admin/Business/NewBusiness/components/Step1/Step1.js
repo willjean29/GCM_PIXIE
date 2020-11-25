@@ -1,10 +1,14 @@
 import React from 'react';
 import {BarcodeOutlined} from '@ant-design/icons';
 import {Form, Button, Input, Card, Divider, Row, Col} from 'antd';
+import {useDispatch} from 'react-redux';
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
+import {validarRucAction} from '../../../../../../redux/actions/newBusinessActions';
 import './Step1.scss';
 const Step1 = ({next}) => {
+  const dispatch = useDispatch();
+  const validarRuc = (ruc,next) => dispatch(validarRucAction(ruc,next));
   const formik = useFormik({
     initialValues: {
       ruc: ''
@@ -15,7 +19,9 @@ const Step1 = ({next}) => {
         min(11,"El RUC debe contener 11 caracteres").
         max(11,"El RUC debe contener 11 caracteres")
     }),
-    onSubmit: (formData) => next()
+    onSubmit: (formData) => {
+      validarRuc(formData,next);
+    }
   })
   return (  
     <>
@@ -35,7 +41,8 @@ const Step1 = ({next}) => {
                   addonBefore={<BarcodeOutlined />}
                   placeholder="Ingrese RUC"
                   name="ruc"
-                  type="text"
+                  min={1}
+                  type="number"
                   value={formik.values.ruc}
                 />
                 <span style={{color : '#b83a38'}} className="msg-error">{formik.errors.ruc}</span>

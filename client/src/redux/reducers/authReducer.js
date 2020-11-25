@@ -7,13 +7,13 @@ import {
   USER_LOG_ERROR,
   LOGOUT_USER
 } from '../types';
+
 const initialState = {
-  auth: localStorage.getItem('token') ? true : false,
+  auth: localStorage.getItem('access-token-admin') ? true : false,
   user : null,
   loading: null,
   error: null
 }
-
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case LOGIN_USER:
@@ -26,7 +26,7 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        user: action.payload.user,
+        user: action.payload,
         auth: true
       }
     case LOGIN_USER_ERROR:
@@ -35,13 +35,13 @@ const authReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         auth: false,
-        error: action.payload
+        error: true
       }
     case USER_LOG_OK:
       return {
         ...state,
         loading: false,
-        user: action.payload.user,
+        user: action.payload,
         auth: true
       }
     case USER_LOG_ERROR:
@@ -49,10 +49,11 @@ const authReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         auth: false,
-        error: action.payload
+        error: true
       }
     case LOGOUT_USER:
       return {
+        token: null,
         auth: false,
         user: null,
         loading: null,
