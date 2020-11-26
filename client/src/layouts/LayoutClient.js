@@ -7,17 +7,17 @@ const LayoutClient = (props) => {
   const {Header, Content, Footer} = Layout;
   return (  
     <Layout>
-      <h2>Menu Sidebar USER</h2>
+      {/* <h2>Menu Sidebar USER</h2> */}
       <Layout>
-        <Header>
+        {/* <Header>
           Header ...
-        </Header>
+        </Header> */}
         <Content>
           <LoadRouters routes={routes}/>
         </Content>
-        <Footer>  
+        {/* <Footer>  
           Footer ...
-        </Footer>
+        </Footer> */}
       </Layout>
     </Layout>
   );
