@@ -1,0 +1,16 @@
+.table-competition {
+	.ant-table-thead {
+		.ant-table-cell {
+			font-weight: bold;
+		}
+	}
+}
+
+.options-competition {
+	margin: 20px 0;
+	&__actions {
+		display: flex;
+		justify-content: space-between;
+		flex-wrap: wrap;
+	}
+}

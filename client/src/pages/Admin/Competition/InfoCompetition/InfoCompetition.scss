@@ -1,0 +1,34 @@
+@import '../../../../scss/index.scss';
+
+.info-competition {
+	&__card {
+		.card {
+			&__image {
+				border: 2px solid #f0f2f5;
+				width: 100% !important;
+				max-width: 200px;
+				min-height: 200px;
+				border-radius: 50%;
+				margin-top: 10px;
+				img {
+					min-width: 100%;
+					border-radius: 50%;
+					min-height: 200px;
+				}
+			}
+			&__content {
+				margin: 10px 0;
+				.ant-descriptions-row {
+					display: flex;
+					flex-direction: column;
+					@media (min-width: $media-breackpoint-up-lg) {
+						display: table-row;
+					}
+				}
+				.ant-descriptions-item-label {
+					font-weight: bold;
+				}
+			}
+		}
+	}
+}
