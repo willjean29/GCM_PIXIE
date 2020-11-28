@@ -8,6 +8,10 @@ export const USER_LOG = "USER_LOG";
 export const USER_LOG_OK = "USER_LOG_OK";
 export const USER_LOG_ERROR = "USER_LOG_ERROR";
 
+export const ADMIN_UPDATE = "ADMIN_UPDATE";
+export const ADMIN_UPDATE_OK = "ADMIN_UPDATE_OK";
+export const ADMIN_UPDATE_ERROR = "ADMIN_UPDATE_ERROR";
+
 export const DNI = "DNI"
 export const DNI_OK = "DNI_OK";
 export const DNI_ERROR = "DNI_ERROR";

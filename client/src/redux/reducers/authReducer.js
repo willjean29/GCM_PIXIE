@@ -5,7 +5,10 @@ import {
   USER_LOG,
   USER_LOG_OK,
   USER_LOG_ERROR,
-  LOGOUT_USER
+  LOGOUT_USER,
+  ADMIN_UPDATE,
+  ADMIN_UPDATE_OK,
+  ADMIN_UPDATE_ERROR
 } from '../types';
 
 const initialState = {
@@ -18,11 +21,13 @@ const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case LOGIN_USER:
     case USER_LOG:
+    case ADMIN_UPDATE:
       return {
         ...state,
         loading: true,
       }
     case LOGIN_USER_OK:
+    case ADMIN_UPDATE_OK:
       return {
         ...state,
         loading: false,
@@ -35,6 +40,12 @@ const authReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         auth: false,
+        error: true
+      }
+    case ADMIN_UPDATE_ERROR:
+      return {
+        ...state,
+        loading: false,
         error: true
       }
     case USER_LOG_OK:

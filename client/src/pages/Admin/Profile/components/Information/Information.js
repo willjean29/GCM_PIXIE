@@ -48,8 +48,8 @@ const Information = ({administrator}) => {
     {
       key: '6',
       dato: 'Telefono',
-      caracteristica:  administrator && (administrator.celular ? 
-        administrator.celular : "----------")
+      caracteristica:  administrator && (administrator.telefono ? 
+        administrator.telefono : "----------")
     },
     {
       key: '7',

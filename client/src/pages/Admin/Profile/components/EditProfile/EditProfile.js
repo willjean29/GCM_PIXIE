@@ -1,23 +1,27 @@
 import React from 'react';
 import {FacebookOutlined, GlobalOutlined, WifiOutlined} from '@ant-design/icons';
 import {Form, Col, Row, Button, Input, Card, Select, DatePicker} from 'antd';
+import {useDispatch} from 'react-redux';
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
 import moment from 'moment';
+import {actualizarAdminAction} from '../../../../../redux/actions/authActions';
 import './EditProfile.scss';
-const EditProfile = () => {
+const EditProfile = ({administrator}) => {
   const { Option } = Select;
+  const dispatch = useDispatch();
+  const actualizarAdmin = (dataAdmin) => dispatch(actualizarAdminAction(dataAdmin));
   const formik = useFormik({
     initialValues: {
       fechaNacimiento: moment(),
-      genero: '',
-      cargo: '',
-      direccion: '',
-      telefono: '',
-      celular: '',
-      departamento: '',
-      provincia: '',
-      distrito: ''
+      genero: administrator.genero ? administrator.genero : '',
+      cargo: administrator.cargo ? administrator.cargo : '',
+      direccion: administrator.direccion ? administrator.direccion : '',
+      telefono: administrator.telefono ? administrator.telefono : '',
+      celular: administrator.celular ? administrator.celular : '',
+      departamento: administrator.departamento ? administrator.departamento : '',
+      provincia: administrator.provincia ? administrator.provincia : '',
+      distrito: administrator.distrito ? administrator.distrito : ''
     },
     validationSchema: Yup.object({
       genero: Yup.string().required("El género es obligatorio"),
@@ -32,7 +36,7 @@ const EditProfile = () => {
         ...formData,
         fechaNacimiento: moment(formData.fechaNacimiento).format("YYYY-MM-DD")
       }
-      console.log(data)
+      actualizarAdmin(data)
     }
   })
   return (  
@@ -66,6 +70,7 @@ const EditProfile = () => {
                   showArrow
                   placeholder="Seleccionar Género"
                   onChange={(value) => formik.values.genero = value }
+                  defaultValue={formik.values.genero}
                 >
                   <Option value="Masculino">Masculino</Option>
                   <Option value="Femenino">Femenino</Option>
@@ -82,7 +87,8 @@ const EditProfile = () => {
               >
                 <Input
                   type="text"
-                  name="cargo"      
+                  name="cargo"  
+                  value={formik.values.cargo}
                 />
                  <span style={{color : '#ff4d4f'}}>{formik.errors.cargo}</span>
               </Form.Item>

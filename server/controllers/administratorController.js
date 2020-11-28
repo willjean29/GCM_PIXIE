@@ -107,7 +107,7 @@ const actualizarAdministrador = async (req,res) => {
   const data = req.body;
   let administrator;
   try {
-    administrator = await Administrator.findByIdAndUpdate(id,data,{new: true, runValidators: true});
+    administrator = await Administrator.findByIdAndUpdate(id,data,{new: true, runValidators: true}).populate('empresa');
   } catch (err) {
     return res.status(500).json({
       ok: false,
@@ -123,6 +123,7 @@ const actualizarAdministrador = async (req,res) => {
 
   res.json({
     ok: true,
+    msg: "Administrador Actualizado",
     administrator
   });
 }

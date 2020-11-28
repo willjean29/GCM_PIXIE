@@ -52,7 +52,7 @@ const Profile = () => {
               </TabPane>
               <TabPane tab={<span className="tab_text"><CheckCircleOutlined />Editar</span>} key="2" >
                 {/* <Maps/> */}
-                <EditProfile/>
+                <EditProfile administrator={administrator}/>
               </TabPane>
               <TabPane tab={<span className="tab_text"><RedditOutlined />Logo</span>} key="3" >
                 {/* <Logo business={business}/> */}

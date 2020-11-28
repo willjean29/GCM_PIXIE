@@ -5,7 +5,10 @@ import {
   USER_LOG,
   USER_LOG_OK,
   USER_LOG_ERROR,
-  LOGOUT_USER
+  LOGOUT_USER,
+  ADMIN_UPDATE,
+  ADMIN_UPDATE_OK,
+  ADMIN_UPDATE_ERROR
 } from '../types';
 import Notification from '../../components/UiElements/Notification';
 import clienteAxios from '../../config/clienteAxios';
@@ -77,3 +80,33 @@ export const logoutUserAction = () => {
 const logoutUser = () => ({
   type : LOGOUT_USER
 })
+
+export const actualizarAdminAction = (dataAdmin) => {
+  return async (dispatch) => {
+    dispatch(actualizarAdmin());
+    tokenAuthAdmin()
+    try {
+      const response = await clienteAxios.put('/admin',dataAdmin);
+      const data = response.data;
+      dispatch(actualizarAdminOk(data.administrator));
+      Notification(data.ok,data.msg);
+    } catch (error) {
+      console.log(error);
+      const msg = error.response.data ? error.response.data.err.msg : "Hubo un error";
+      Notification(error.response.data.ok,msg);
+      dispatch(actualizarAdminError());  
+    }
+  }
+}
+
+const actualizarAdmin = () => ({
+  type: ADMIN_UPDATE
+})
+const actualizarAdminOk = (user) => ({
+  type: ADMIN_UPDATE_OK,
+  payload: user
+})
+const actualizarAdminError = () => ({
+  type: ADMIN_UPDATE_ERROR
+})
+
