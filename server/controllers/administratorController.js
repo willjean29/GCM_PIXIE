@@ -102,8 +102,34 @@ const obtenerAdministradores = async(req,res) => {
     })
 }
 
+const actualizarAdministrador = async (req,res) => {
+  const id = req.administrator._id;
+  const data = req.body;
+  let administrator;
+  try {
+    administrator = await Administrator.findByIdAndUpdate(id,data,{new: true, runValidators: true});
+  } catch (err) {
+    return res.status(500).json({
+      ok: false,
+      err
+    })
+  }
+  if(!administrator) return res.status(400).json({
+    ok: false,
+    err: {
+      msg: "El administrador no existe"
+    }
+  });
+
+  res.json({
+    ok: true,
+    administrator
+  });
+}
+
 module.exports = {
   agregarAdministrador,
   obtenerAdministratorID,
-  obtenerAdministradores
+  obtenerAdministradores,
+  actualizarAdministrador
 }

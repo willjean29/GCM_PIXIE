@@ -36,4 +36,9 @@ router.get('/administrator/:id',administratorController.obtenerAdministratorID);
 // Para obtener todos los administradores
 router.get('/all',administratorController.obtenerAdministradores);
 
+router.put('/',
+  verifyTokenAdmin,
+  administratorController.actualizarAdministrador
+);
+
 module.exports = router;
