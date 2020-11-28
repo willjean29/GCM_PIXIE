@@ -4,6 +4,7 @@ import { Card, Row, Col, Descriptions, Tabs, Image, Button } from 'antd';
 import { RedditOutlined, InfoCircleOutlined, CheckCircleOutlined} from '@ant-design/icons';
 import NoAvatar from '../../../assets/img/png/no-avatar.png';
 import Information from './components/Information';
+import EditProfile from './components/EditProfile';
 import './Profile.scss';
 const Profile = () => {
   const administrator = useSelector(state => state.authentication.user);
@@ -13,7 +14,7 @@ const Profile = () => {
       <Card>
         <h1 className="title-card">Información Personal</h1>
       </Card>
-      <Card>
+      {/* <Card> */}
         <Row gutter={24} className="info-profile">
           <Col span={24} md={8}
             style={{textAlign: 'center' }}
@@ -44,21 +45,23 @@ const Profile = () => {
           <Col span={24} md={16}
             className="info-competition__tabs"
           >
-            <Tabs className="">
+          <Card hoverable>
+            <Tabs className="tab-content">
               <TabPane tab={<span className="tab_text"><InfoCircleOutlined />Información</span>} key="1" >
                 <Information administrator={administrator}/>
               </TabPane>
               <TabPane tab={<span className="tab_text"><CheckCircleOutlined />Editar</span>} key="2" >
                 {/* <Maps/> */}
-                {/* Acciones */}
+                <EditProfile/>
               </TabPane>
               <TabPane tab={<span className="tab_text"><RedditOutlined />Logo</span>} key="3" >
                 {/* <Logo business={business}/> */}
               </TabPane>
             </Tabs>
+            </Card>
           </Col>
         </Row>
-      </Card>
+      {/* </Card> */}
     </>
   );
 }
