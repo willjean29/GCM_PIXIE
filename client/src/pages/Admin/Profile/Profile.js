@@ -5,6 +5,7 @@ import { RedditOutlined, InfoCircleOutlined, CheckCircleOutlined} from '@ant-des
 import NoAvatar from '../../../assets/img/png/no-avatar.png';
 import Information from './components/Information';
 import EditProfile from './components/EditProfile';
+import Logo from './components/Logo';
 import './Profile.scss';
 const Profile = () => {
   const administrator = useSelector(state => state.authentication.user);
@@ -55,7 +56,7 @@ const Profile = () => {
                 <EditProfile administrator={administrator}/>
               </TabPane>
               <TabPane tab={<span className="tab_text"><RedditOutlined />Logo</span>} key="3" >
-                {/* <Logo business={business}/> */}
+                <Logo administrator={administrator}/>
               </TabPane>
             </Tabs>
             </Card>
