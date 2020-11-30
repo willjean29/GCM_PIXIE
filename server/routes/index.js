@@ -17,4 +17,7 @@ app.use('/business', require('./business'));
 // endpoints for files
 app.use('/file', require('./file'));
 
+// endpoints for competitionController
+app.use('/competition',require('./competition'));
+
 module.exports = app;

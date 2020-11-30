@@ -19,6 +19,11 @@ router.post('/upload',
   fileController.registrarArchivo
 );
 
+router.get('/all',
+  verifyTokenAdmin,
+  fileController.obtenerArchivos
+);
+
 // Para obtener datos del archivo
 router.get('/ventas/:id',
   verifyTokenAdmin,

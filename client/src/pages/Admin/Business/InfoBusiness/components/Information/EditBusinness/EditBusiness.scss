@@ -1,0 +1,22 @@
+.card-edit-business {
+	.ant-card-head {
+		background-color: #1890ff;
+		color: #fff;
+	}
+	.ant-card-head-title {
+		font-size: 16px !important;
+	}
+	.business-form-edit {
+		.ant-form-item-label {
+			label {
+				font-weight: bold;
+			}
+		}
+		.ant-input {
+			color: black;
+		}
+		&__submit {
+			text-align: right;
+		}
+	}
+}

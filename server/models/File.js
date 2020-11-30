@@ -19,6 +19,14 @@ const fileSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Business',
     required: true
+  },
+  link: {
+    type: String,
+    trim: true,
+  },
+  key: {
+    type: String,
+    trim: true,
   }
 })
 

@@ -20,6 +20,15 @@ const {
 } = require('../middlewares/exists');
 
 require('dotenv').config();
+const agregarAvatarEmpresa = async (req, res) => {
+  const id = req.administrator._id;
+  const administrator = await Administrator.findById(id).catch((err) => {
+    //Respuesta al servidor
+    return res.status(400).json({
+      ok: false,
+      err
+    });
+  })
 
 const agregarAvatarEmpresa = async(req, res) => {
   const id = req.administrator._id;
@@ -110,7 +119,7 @@ const registrarEmpresa = async(req, res) => {
   //console.log(req.user);
   const rucBusiness = req.body.ruc;
 
-  const administrator = await Administrator.findById(req.body.administrador).catch((err) => {
+  const administrator = await Administrator.findById(req.administrator._id).catch((err) => {
     return res.status(400).json({
       ok: false,
       err
@@ -169,6 +178,7 @@ const registrarEmpresa = async(req, res) => {
 
   // Actualizamos el estado del administrador
   administrator.estado = true;
+  administrator.empresa = business._id;
   try {
     await administrator.save();
   } catch (error) {

@@ -84,6 +84,10 @@ const administratorSchema = mongoose.Schema({
   fechaNacimiento: {
     type: Date
   },
+  empresa: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Business"
+  },
   expire: Date
 });
 

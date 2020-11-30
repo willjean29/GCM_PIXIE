@@ -16,6 +16,9 @@ const verifyTokenAdmin = (req, res, next) => {
           msg: "Token no valido"
         }
       })
+
+      // Redireccionar en el sistema
+      // return res.redirect('/admin/login'):
     }
 
     req.administrator = decoded.administrator;

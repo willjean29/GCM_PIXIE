@@ -3,51 +3,51 @@ const mongoose = require('mongoose');
 const businessSchema = mongoose.Schema({
   ruc: {
     type: String,
-    trim : true,
+    trim: true,
     required: true
   },
   nombreComercial: {
     type: String,
-    trim : true
+    trim: true
   },
   razonSocial: {
     type: String,
-    trim : true,
+    trim: true,
     required: true
   },
   tipo: {
     type: String,
-    trim : true,
+    trim: true,
     required: true
   },
   estado: {
     type: String,
-    trim : true,
+    trim: true,
     required: true
   },
   direccion: {
     type: String,
-    trim : true,
+    trim: true,
     required: true
   },
   departamento: {
     type: String,
-    trim : true,
+    trim: true,
     required: true
   },
   provincia: {
     type: String,
-    trim : true,
+    trim: true,
     required: true
   },
   distrito: {
     type: String,
-    trim : true,
+    trim: true,
     required: true
   },
   imagen: {
     type: String,
-    trim : true
+    trim: true
   },
   descripcion: {
     type: String,
@@ -59,10 +59,16 @@ const businessSchema = mongoose.Schema({
     ref: 'Administrator',
     required: [true, "El autor es obligatorio"]
   },
-  clientes:[{
+  clientes: [{
     idCliente: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Client'
+    }
+  }],
+  concursos : [{
+    idCompetition: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Competition'
     }
   }],
   redes: {
@@ -82,4 +88,4 @@ const businessSchema = mongoose.Schema({
 
 });
 
-module.exports = mongoose.model('Business',businessSchema);
+module.exports = mongoose.model('Business', businessSchema);

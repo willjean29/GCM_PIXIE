@@ -6,6 +6,7 @@
 
 const multer = require('multer'); // Da el filtro del tamaño para que después se pueda acceder desde otro lado
 const path = require('path');
+const shortId = require('shortid');
 
 let dir = "";
 
@@ -51,6 +52,16 @@ const uploadCSV = (req, res, next) => {
 // Configuración a tomar en cuenta cuando se suba el archivo
 const upload = multer({
   limits: { fieldSize: 500000 },
+
+  storage: fileStorage = multer.memoryStorage({
+    destination: (req,file,cb) => {
+      console.log("procesando csv");
+      cb(null,path.join(__dirname,`../public/uploads`))
+    },
+    filename: (req,file,cb) => {
+      cb(null,shortId.generate()+path.extname(file.originalname));
+    }
+  }),
 
   fileFilter: (req, file, cb) => {
     console.log(file)

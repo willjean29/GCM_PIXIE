@@ -40,7 +40,7 @@ const uploadImage = (req, res, next) => {
 }
 
 const upload = multer({
-  limits: {fieldSize: 500000},
+  limits: { fieldSize: 500000 },
   storage: fileStorage = multer.diskStorage({
     destination: (req, file, cb) => {
       cb(null, path.join(__dirname,'../uploads/img'));
