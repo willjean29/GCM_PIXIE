@@ -1,6 +1,7 @@
-/**
- * Conexión a la base de datos
- */
+/*
+  Configuración de conexión a la BD de MongoDB Atlas
+  para el almacenamiento de información.
+*/
 
 const mongoose = require('mongoose');
 

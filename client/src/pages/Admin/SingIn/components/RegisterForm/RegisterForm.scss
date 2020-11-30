@@ -1,0 +1,46 @@
+@import '../../../../../scss/index.scss';
+
+.title-card {
+	font-size: 1.5rem;
+}
+.new-admin-form {
+	width: 100%;
+	margin: 0 auto;
+	margin-bottom: 20px;
+	&__steps {
+		// width: 80%;
+		margin: 0 auto;
+		padding: 20px 0;
+	}
+	.steps-content {
+		border-radius: 2px;
+		min-height: 200px;
+		// text-align: left;
+		padding-top: 20px;
+	}
+	.ant-card-head {
+		background-color: #1890ff;
+		color: #fff;
+	}
+}
+.ant-card-head-title {
+	font-size: 16px !important;
+}
+.token-admin-form {
+	.ant-form-item-label {
+		label {
+			font-weight: bold;
+			&::after {
+				content: '';
+			}
+		}
+	}
+	.ant-input {
+		color: black;
+	}
+	&__submit {
+		.btn-submit {
+			width: 100%;
+		}
+	}
+}

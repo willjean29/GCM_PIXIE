@@ -1,6 +1,8 @@
-/**
- * Lee un archivos excel desde un link
- */
+/*
+  Funcionalidad de lectura de archivos
+  excel desde un url.
+*/
+
 const XLSX = require('xlsx');
 
 const leerCSV = (url) => {

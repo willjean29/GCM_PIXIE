@@ -22,6 +22,7 @@ ConectionDB.getInstance();
 
 // routes (endpoints globals)
 app.use(routes);
+
 // variables
 const PORT = process.env.PORT || 4000;
 

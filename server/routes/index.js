@@ -6,10 +6,19 @@ const app = express();
 
 // app.use(require)
 
+// endpoints for admin
+app.use('/admin', require('./admin'));
+
+// endpoints for businness
+app.use('/business', require('./business'));
+
 // endpoints for files
 app.use('/file', require('./file'));
 
-// endpoints for admin
-app.use('/admin', require('./admin'));
+// endpoints for competitionController
+app.use('/competition',require('./competition'));
+
+// // endpoints for admin
+// app.use('/admin', require('./admin'));
 
 module.exports = app;

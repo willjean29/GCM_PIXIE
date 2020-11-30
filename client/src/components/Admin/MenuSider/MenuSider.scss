@@ -6,3 +6,15 @@
 	position: fixed;
 	top: 60.5px;
 }
+.ant-tooltip {
+	width: 180px;
+	// left: 10px !important;
+	// &-content {
+	// 	// border: 3px solid red;
+	// }
+	&-inner {
+		border-radius: 5px;
+
+		text-align: center;
+	}
+}

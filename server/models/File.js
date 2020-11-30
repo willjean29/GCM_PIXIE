@@ -23,7 +23,11 @@ const fileSchema = new mongoose.Schema({
   link: {
     type: String,
     trim: true,
+  },
+  key: {
+    type: String,
+    trim: true,
   }
 })
 
-module.exports = mongoose.model('File', fileSchema);
+module.exports = mongoose.model('File',fileSchema);
