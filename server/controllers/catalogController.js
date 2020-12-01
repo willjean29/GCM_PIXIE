@@ -37,6 +37,14 @@ const mostrarListaCatalogo = async (req, res) => {
   // console.log(categories);
   // console.log(existeCatalogoBusiness);
   // console.log(prizes)
+  res.send({
+    title: "Adminstrador",
+    admin: administrator,
+    premios: prizes,
+    existeConcursoSimple,
+    existeCatalogoBusiness,
+    categories,
+  });
 };
 
 module.exports = {
