@@ -7,7 +7,7 @@ const router = express.Router();
 // Importando controladores
 const administratorController = require('../controllers/administratorController');
 const authController = require('../controllers/authController');
-
+const {uploadImage} = require('../middlewares/uploadImage');
 const {verifyTokenAdmin} = require('../middlewares/verifyToken');
 // iniciar sesión
 router.post('/login', authController.autenticarAdministrador);
@@ -39,6 +39,12 @@ router.get('/all',administratorController.obtenerAdministradores);
 router.put('/',
   verifyTokenAdmin,
   administratorController.actualizarAdministrador
+);
+
+router.put('/avatar',
+  verifyTokenAdmin,
+  uploadImage,
+  administratorController.agregarAvatar
 );
 
 module.exports = router;

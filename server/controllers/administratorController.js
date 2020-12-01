@@ -128,9 +128,54 @@ const actualizarAdministrador = async (req,res) => {
   });
 }
 
+const agregarAvatar = async(req,res) => {
+  const id = req.administrator._id;
+
+  let administrator;
+  try {
+    administrator = await Administrator.findById(id).populate('empresa');
+  } catch (err) {
+    return res.status(400).json({
+      ok: false,
+      err
+    })
+  }
+
+  if(!administrator) return res.status(400).json({
+    ok: false,
+    err: {
+      msg: "El administrator no existe o no tiene permisos"
+    }
+  });
+
+  if(req.file){
+    const result = await cloudinary.v2.uploader.upload(req.file.path);
+    administrator.image = result.secure_url;
+    await fs.unlink(req.file.path);
+  }
+
+  try {
+    await administrator.save();
+  } catch (err) {
+    return res.status(400).json({
+      ok: false,
+      err: {
+        msg: "No se pudo guardar la imagen"
+      }
+    }); 
+  }
+
+  res.json({
+    ok: true,
+    msg: "Avatar Actualizado",
+    administrator
+  });
+}
+
 module.exports = {
   agregarAdministrador,
   obtenerAdministratorID,
   obtenerAdministradores,
-  actualizarAdministrador
+  actualizarAdministrador,
+  agregarAvatar
 }
