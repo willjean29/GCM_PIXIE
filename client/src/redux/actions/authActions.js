@@ -8,11 +8,15 @@ import {
   LOGOUT_USER,
   ADMIN_UPDATE,
   ADMIN_UPDATE_OK,
-  ADMIN_UPDATE_ERROR
+  ADMIN_UPDATE_ERROR,
+  ADMIN_IMAGE,
+  ADMIN_IMAGE_OK,
+  ADMIN_IMAGE_ERROR
 } from '../types';
 import Notification from '../../components/UiElements/Notification';
 import clienteAxios from '../../config/clienteAxios';
 import {tokenAuthAdmin} from '../../config/token';
+
 export const loginUserAction = (userData) => {
   return async (dispatch) => {
     dispatch(loginUser());
@@ -109,4 +113,39 @@ const actualizarAdminOk = (user) => ({
 const actualizarAdminError = () => ({
   type: ADMIN_UPDATE_ERROR
 })
+
+export const avatarAdminAction = (dataImage) => {
+  return async (dispatch) => {
+    dispatch(avatarAdmin());
+    tokenAuthAdmin();
+    try {
+      const formData = new FormData();
+      formData.append('image',dataImage.file);
+      const response = await clienteAxios.put('/admin/avatar',formData,{
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+      const data = response.data;
+      Notification(data.ok,data.msg);
+      dispatch(avatarAdminOk(data.administrator));
+    } catch (error) {
+      const msg = error.response.data ? error.response.data.err.msg : "Hubo un error";
+      Notification(error.response.data.ok,msg);
+      dispatch(avatarAdminError());
+    }
+
+  }
+}
+
+const avatarAdmin = () => ({
+  type: ADMIN_IMAGE
+});
+const avatarAdminOk = (user) => ({
+  type: ADMIN_IMAGE_OK,
+  payload: user
+});
+const avatarAdminError = () => ({
+  type: ADMIN_IMAGE_ERROR
+});
 

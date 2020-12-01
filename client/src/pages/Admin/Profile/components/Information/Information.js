@@ -1,6 +1,7 @@
 import React from 'react';
 import {Card, Table} from 'antd';
 import { RedditOutlined, InfoCircleOutlined, CheckCircleOutlined} from '@ant-design/icons';
+import moment from 'moment';
 const Information = ({administrator}) => {
   const columns = [
     {
@@ -43,7 +44,7 @@ const Information = ({administrator}) => {
       key: '5',
       dato: 'Fecha de Nacimiento',
       caracteristica: administrator && (administrator.fechaNacimiento ? 
-        administrator.fechaNacimiento : "DD/MM/YYYY")
+        moment.utc(administrator.fechaNacimiento).format('L') : "DD/MM/YYYY")
     },
     {
       key: '6',

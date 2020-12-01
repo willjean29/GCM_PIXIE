@@ -27,7 +27,7 @@ const Profile = () => {
               cover={
                 <Image
                   width={200}
-                  src={NoAvatar}
+                  src={administrator ? (administrator.image ? administrator.image : NoAvatar) : (NoAvatar)}
                   className="card__image"
                 />
               }

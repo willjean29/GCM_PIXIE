@@ -1,9 +1,13 @@
 import React, {useState, useCallback} from 'react';
 import {Card, Avatar, notification, Button} from 'antd';
 import {useDropzone} from 'react-dropzone';
+import {useDispatch} from 'react-redux';
+import {avatarAdminAction} from '../../../../../redux/actions/authActions';
 import NoAvatar from '../../../../../assets/img/png/no-avatar.png';
 import './Logo.scss';
 const Logo = () => {
+  const dispatch = useDispatch();
+  const avatarAdmin = (dataImage) => dispatch(avatarAdminAction(dataImage));
   const [avatar, setAvatar] = useState(null);
   const onDropAccepted = useCallback(
     (acceptedFiles ) => {
@@ -35,7 +39,7 @@ const Logo = () => {
       })
       return;
     }
-    console.log(avatar);
+    avatarAdmin(avatar);
   }
 
   return (

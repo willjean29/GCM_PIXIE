@@ -12,6 +12,10 @@ export const ADMIN_UPDATE = "ADMIN_UPDATE";
 export const ADMIN_UPDATE_OK = "ADMIN_UPDATE_OK";
 export const ADMIN_UPDATE_ERROR = "ADMIN_UPDATE_ERROR";
 
+export const ADMIN_IMAGE = "ADMIN_IMAGE";
+export const ADMIN_IMAGE_OK = "ADMIN_IMAGE_OK";
+export const ADMIN_IMAGE_ERROR = "ADMIN_IMAGE_ERROR";
+
 export const DNI = "DNI"
 export const DNI_OK = "DNI_OK";
 export const DNI_ERROR = "DNI_ERROR";
