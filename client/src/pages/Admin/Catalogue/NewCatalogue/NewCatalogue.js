@@ -1,0 +1,103 @@
+import React, {useState, useEffect} from 'react';
+import {Upload, message, Card, Form, Row, Col, Button} from 'antd';
+import { InboxOutlined } from '@ant-design/icons';
+import ItemPrize from '../components/ItemPrize';
+import Modal from '../../../../components/Admin/Modal';
+import './NewCatalogue.scss';
+const NewCatalogue = () => {
+  const { Dragger } = Upload;
+  const [files, setFiles] = useState([]);
+  const [listFiles, setListFiles] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [modalTitle, setModalTitle] = useState('');
+  const [contentModal, setContentModal] = useState(null);
+  const [cargar, setCargar] = useState(false);
+  const props = {
+    name: 'file',
+    accept: '.jpg,.png,jpeg',
+    listType: 'picture-card',
+    multiple: true,
+    fileList: files,
+    action: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
+    onChange(info) {
+      const { status } = info.file;
+      if (status !== 'uploading') {
+        console.log(info.fileList);
+        setFiles(info.fileList);
+      }
+      if (status === 'done') {
+        message.success(`${info.file.name} file uploaded successfully.`);
+      } else if (status === 'error') {
+        message.error(`${info.file.name} file upload failed.`);
+      }
+    },
+    onPreview(file) {
+      setModalTitle(file.name);
+      setContentModal(
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+          <img src={file.thumbUrl} alt="Imagen de premio referencial"/>
+        </div>
+      )
+      setShowModal(true);
+    }
+  };
+
+  useEffect(() => {
+    if(listFiles.length > 0){
+      console.log(listFiles)
+    }
+  }, [listFiles])
+
+  const handleSubmit = () => {
+    if(files.length === 0){
+      message.error(`Cargue un premio primero`);
+    }else{ 
+      setCargar(true); 
+    }
+  }
+
+  return (  
+    <>
+      <Card>
+        <h1 className="title-card">Crear Catálogo de Premios</h1>
+      </Card>
+      <Card
+        className="card-upload"
+      >
+        <Form  layout="vertical"
+          onFinish={handleSubmit}
+        >
+          <Dragger {...props}>
+            <p className="ant-upload-drag-icon">
+              <InboxOutlined />
+            </p>
+            <p className="ant-upload-text">Haga click o arrastre el archivo a esta área para cargar</p>
+            <p className="ant-upload-hint">
+              Soporte para subida multiple de imagenes (.jpg, .jpeg, .png)
+            </p>
+          </Dragger>
+          {
+            files.map((file,index) => (
+              <ItemPrize file={file} key={index} setListFiles={setListFiles} setCargar={setCargar} cargar={cargar}/>
+            ))
+          }
+          <br/>
+          <Row justify="center"> 
+            <Col span={24} md={8}>
+              <Form.Item style={{textAlign: 'center' }}>          
+                <Button type="primary" htmlType="submit" className="btn-submit" size="large">
+                  Enviar archivo
+                </Button>
+              </Form.Item>
+            </Col>
+          </Row>
+        </Form>
+      </Card>
+      <Modal title={modalTitle} isVisible={showModal} setIsVisible={setShowModal}>
+        {contentModal}
+      </Modal>
+    </>
+  );
+}
+ 
+export default NewCatalogue;

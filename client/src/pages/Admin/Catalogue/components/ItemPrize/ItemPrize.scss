@@ -1,0 +1,17 @@
+.item-prize {
+	> label {
+		font-weight: bold;
+	}
+	&__contenedor {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	&__image {
+		width: 120px;
+		img {
+			width: 100%;
+			height: 100%;
+		}
+	}
+}

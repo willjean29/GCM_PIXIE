@@ -106,6 +106,20 @@ const MenuSider = (props) => {
             </Menu.Item>
           )
         }
+        <SubMenu icon={<AimOutlined />} title="Premios">
+          <Menu.Item key="/admin/catalogue/new">
+            <Link to="/admin/catalogue/new">
+              <CarryOutOutlined />
+              <span className="nav-text">Registrar</span>
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="/admin/catalogue/info">
+            <Link to="/admin/catalogue/info">
+              <CarryOutOutlined />
+              <span className="nav-text">Información</span>
+            </Link>
+          </Menu.Item>
+        </SubMenu>
         <Menu.Item key="/admin/files">
           {
             administrador && administrador.estado ? (
