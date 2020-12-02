@@ -18,7 +18,7 @@ app.use('/file', require('./file'));
 // endpoints for competitionController
 app.use('/competition',require('./competition'));
 
-// // endpoints for admin
-// app.use('/admin', require('./admin'));
+// endpoints for categories
+app.use('/categories',require('./category'));
 
 module.exports = app;
