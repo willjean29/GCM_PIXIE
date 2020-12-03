@@ -16,7 +16,7 @@ const NewCompetition = ({setReloadUser}) => {
     initialValues: {
       nombre: '',
       soles: '',
-      puntos: '',
+      puntos: '', 
       fechaInicio: moment().add(1,'days'),
       fechaFin: moment().add(30,'days')
     },

@@ -8,8 +8,8 @@ import {
   LOGOUT_USER
 } from '../types';
 import Notification from '../../components/UiElements/Notification';
-import clienteAxios from '../../config/clienteAxios';
-import {tokenAuthAdmin} from '../../config/token';
+import clienteAxios from '../../config/clienteAxios'
+import {tokenAuthAdmin} from '../../config/token'; 
 export const loginUserAction = (userData) => {
   return async (dispatch) => {
     dispatch(loginUser());

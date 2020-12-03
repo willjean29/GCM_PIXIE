@@ -58,7 +58,7 @@ const routes = [
         path: '/admin/competition/info',
         component: AdminCompetitionInfo,
         exact: true
-      },
+      }, 
       {
         path: '/admin/files',
         component: AdminFiles,
