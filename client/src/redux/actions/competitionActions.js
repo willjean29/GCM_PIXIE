@@ -7,7 +7,10 @@ import {
   GET_COMPETITION_ERROR,
   COMPETITION_IMAGE,
   COMPETITION_IMAGE_OK,
-  COMPETITION_IMAGE_ERROR
+  COMPETITION_IMAGE_ERROR,
+  COMPETITION_EDIT,
+  COMPETITION_EDIT_OK,
+  COMPETITION_EDIT_ERROR
 } from '../types';
 
 import Notification from '../../components/UiElements/Notification';
@@ -25,7 +28,7 @@ export const registrarConcursoAction = (dataCompetition,setReloadUser) => {
       dispatch(registrarConcursoOk());
       if(data.ok){
         setReloadUser(true);
-      }
+      } 
     } catch (error) {
       console.log(error)
       const msg = error.response.data ? error.response.data.err.msg : "Hubo un error";
@@ -108,4 +111,33 @@ const agregarImagenOk = (data) => ({
 })
 const agregarImagenError = () => ({
   type: COMPETITION_IMAGE_ERROR
+})
+
+export const actualizarConcursoAction =(dataCompetition) => {
+  return async (dispatch) => {
+    dispatch(actualizarConcurso());
+    tokenAuthAdmin();
+    try {
+      const response = await clienteAxios.put('/competition',dataCompetition);
+      const data = response.data;
+      Notification(data.ok,data.msg);
+      dispatch(actualizarConcursoOk(data.competition));
+    } catch (error) {
+      const msg = error.response.data ? error.response.data.err.msg : "Hubo un error";
+      Notification(error.response.data.ok,msg);
+      dispatch(actualizarConcursoError());
+    }
+  }
+}
+
+const actualizarConcurso = () =>({
+  type: COMPETITION_EDIT
+})
+
+const actualizarConcursoOk = () =>({
+  type: COMPETITION_EDIT_OK
+})
+
+const actualizarConcursoError = () =>({
+  type: COMPETITION_EDIT_ERROR
 })

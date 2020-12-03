@@ -1,9 +1,21 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Card, Button, Image} from 'antd';
 import {DeleteOutlined, EditOutlined} from '@ant-design/icons';
 import Competition from '../../../../../../assets/img/svg/undraw_winners_ao2o.svg'
+import Modal from '../../../../../../components/Admin/Modal';
 import './Actions.scss';
-const Actions = () => {
+import EditCompetition from '../../../EditCompetition';
+const Actions = ({competition}) => {
+  const [showModal, setShowModal] = useState(false);
+  const [modalTitle, setModalTitle] = useState('');
+  const [contentModal, setContentModal] = useState(null);
+  const handlerEditCompetition = () => {
+    setModalTitle("Editar Concurso"); 
+    setContentModal( 
+      <EditCompetition competition={competition}/> 
+    )
+    setShowModal(true);
+  }
   return ( 
     <Card
       className="card-competition"
@@ -15,6 +27,7 @@ const Actions = () => {
       >
         <Button
           type="primary"
+          onClick={handlerEditCompetition}//si esta activo
         >
           <EditOutlined />
           Editar
@@ -30,6 +43,9 @@ const Actions = () => {
       <Image
         src={Competition}
       />
+      <Modal title={modalTitle} isVisible={showModal} setIsVisible={setShowModal}>
+        {contentModal}
+      </Modal>
     </Card>
   );
 }

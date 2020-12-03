@@ -6,19 +6,19 @@ import {useHistory} from 'react-router-dom';
 import moment from 'moment';
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
-import {registrarConcursoAction} from '../../../../redux/actions/competitionActions';
-import './NewCompetition.scss';
-const NewCompetition = ({setReloadUser}) => {
+import {actualizarConcursoAction} from '../../../../redux/actions/competitionActions';
+import './EditCompetition.scss';
+const EditCompetition = ({competition}) => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const registrarConcurso = (data,setReloadUser) => dispatch(registrarConcursoAction(data,setReloadUser));
+  const actualizarConcurso = (data) => dispatch(actualizarConcursoAction(data));
   const formik = useFormik({
     initialValues: {
-      nombre: '',
-      soles: '',
-      puntos: '', 
-      fechaInicio: moment().add(1,'days'),
-      fechaFin: moment().add(30,'days')
+      nombre:  competition && competition.name,
+      soles:  "",
+      puntos: competition && competition.reglas.puntos, 
+      fechaInicio: moment(competition.fechaInicio),
+      fechaFin: moment(competition.fechaFin) 
     },
     validationSchema: Yup.object({
       nombre: Yup.string().required('El nombre es obligatorio'),
@@ -30,14 +30,18 @@ const NewCompetition = ({setReloadUser}) => {
       fechaFin: Yup.date().required("Las fechas son obligatorias"),
     }),
     onSubmit: (formData) => {
+      console.log("entra actualizar")
       const dataCompetition = {
         ...formData,
         name: formData.nombre,
+        /*puntos: formData.puntos,
+        soles: competition && competition.reglas.parametro, */
         fechaFin: formData.fechaFin.format("YYYY-MM-DD"),
         fechaInicio: formData.fechaInicio.format("YYYY-MM-DD"),
         tipo: 'simple'
       }
-      registrarConcurso(dataCompetition,setReloadUser);
+      console.log(dataCompetition)
+      actualizarConcurso(dataCompetition);
       history.replace('/admin/competition/info')
     }
   });
@@ -45,24 +49,20 @@ const NewCompetition = ({setReloadUser}) => {
     // Can not select days before today and today
     return current && current < moment().endOf('day');
   }
+
   return (  
     <>
-      <Card>
-        <h1 className="title-card">Crear Concurso</h1>
-      </Card>
-      <Card>
-        <div className="competition-new-form">
           <Card
             type="inner"
             title="Llenar Formulario"
+            className="card-edit-business"
           >
             <Form
               layout="vertical"
-              className="competition-new-form__register"
+              className="business-form-edit"
               onChange={formik.handleChange}
               onFinish={formik.handleSubmit}
             >
-              
               <Row gutter={24}>
                 <Col span={24}>
                   <Form.Item label="Nombre del Concurso"
@@ -76,7 +76,7 @@ const NewCompetition = ({setReloadUser}) => {
                     />
                      <span style={{color : '#b83a38'}}>{formik.errors.nombre}</span>
                   </Form.Item>
-                </Col>
+                </Col> 
               </Row>
 
               <Form.Item label="Reglas del Concurso" style={{margin: '0'}}>
@@ -84,7 +84,7 @@ const NewCompetition = ({setReloadUser}) => {
               </Form.Item>
 
               <Row gutter={24}>
-                <Col span={24} md={12}>
+              <Col span={24} md={12}>
                   <Form.Item label="Nuevos Soles"
                     validateStatus={formik.errors.soles ? 'error' : 'success'}
                   >
@@ -115,7 +115,7 @@ const NewCompetition = ({setReloadUser}) => {
                   </Form.Item>
                 </Col>
               </Row>
-
+              
               <Form.Item label="Duración" style={{margin: '0'}}>
                 <Divider style={{margin: '0'}}/>
               </Form.Item>
@@ -153,25 +153,21 @@ const NewCompetition = ({setReloadUser}) => {
                 </Col>
               </Row>
 
-
-              <Form.Item className="submit">
+              <Form.Item className="business-form__submit">
                 <Row justify="end" gutter={[24,12]}>
-                  <Col>
-                    <Button type="primary" htmlType="submit" className="btn-submit" size="large">
-                      Registrar
-                    </Button>
-                  </Col>
+                <Col>
+                  <Button type="primary" htmlType="submit" className="btn-submit">
+                    Actualizar
+                  </Button>
+                </Col>
                 </Row>
-
               </Form.Item>
               
             </Form>
           </Card>
-        </div>
-      </Card>
     </>
 
   );
 }
  
-export default NewCompetition;
+export default EditCompetition;

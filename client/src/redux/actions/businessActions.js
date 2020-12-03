@@ -7,7 +7,7 @@ import {
   BUSINESS_EDIT_ERROR,
   BUSINESS_IMAGE,
   BUSINESS_IMAGE_OK,
-  BUSINESS_IMAGE_ERROR
+  BUSINESS_IMAGE_ERROR 
 } from '../types';
 import Notification from '../../components/UiElements/Notification';
 import clienteAxios from '../../config/clienteAxios';
