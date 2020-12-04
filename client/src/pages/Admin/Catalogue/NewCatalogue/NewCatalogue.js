@@ -1,10 +1,15 @@
 import React, {useState, useEffect} from 'react';
 import {Upload, message, Card, Form, Row, Col, Button} from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
+import {useSelector, useDispatch} from 'react-redux';
 import ItemPrize from '../components/ItemPrize';
 import Modal from '../../../../components/Admin/Modal';
+import {getCategoriesAction} from '../../../../redux/actions/catalogActions';
 import './NewCatalogue.scss';
 const NewCatalogue = () => {
+  const dispatch = useDispatch();
+  const getCategories = () => dispatch(getCategoriesAction());
+  const categories = useSelector(state => state.catalog.categories);
   const { Dragger } = Upload;
   const [files, setFiles] = useState([]);
   const [listFiles, setListFiles] = useState([]);
@@ -14,11 +19,11 @@ const NewCatalogue = () => {
   const [cargar, setCargar] = useState(false);
   const props = {
     name: 'file',
-    accept: '.jpg,.png,jpeg',
+    accept: '.jpg,.png,.jpeg',
     listType: 'picture-card',
     multiple: true,
     fileList: files,
-    action: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
+    action: "https://www.mocky.io/v3/b26bdbdd-5368-4c55-a9ef-09f87858e6b4",
     onChange(info) {
       const { status } = info.file;
       if (status !== 'uploading') {
@@ -32,15 +37,31 @@ const NewCatalogue = () => {
       }
     },
     onPreview(file) {
-      setModalTitle(file.name);
+      setModalTitle("Item Premio");
       setContentModal(
-        <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-          <img src={file.thumbUrl} alt="Imagen de premio referencial"/>
+        <div 
+          style={{ 
+            display: "flex", 
+            justifyContent: "center", 
+            alignItems: "center"
+            }}
+        >
+          <img 
+            src={file.thumbUrl} 
+            alt="Imagen de premio referencial"
+            style={{
+              border: "2px solid black" 
+            }}
+          />
         </div>
       )
       setShowModal(true);
     }
   };
+
+  useEffect(() => {
+    getCategories();
+  }, [])
 
   useEffect(() => {
     if(listFiles.length > 0){
@@ -78,7 +99,14 @@ const NewCatalogue = () => {
           </Dragger>
           {
             files.map((file,index) => (
-              <ItemPrize file={file} key={index} setListFiles={setListFiles} setCargar={setCargar} cargar={cargar}/>
+              <ItemPrize 
+                file={file} 
+                key={index} 
+                setListFiles={setListFiles} 
+                setCargar={setCargar} 
+                cargar={cargar}
+                categories={categories}
+              />
             ))
           }
           <br/>

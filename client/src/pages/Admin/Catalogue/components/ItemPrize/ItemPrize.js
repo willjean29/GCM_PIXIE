@@ -1,9 +1,8 @@
 import React, {useState, useEffect} from 'react';
-import {Form, Row, Col, Input, Card} from 'antd';
-import {useFormik} from 'formik';
-import * as Yup from 'yup';
+import {Form, Row, Col, Input, Card, Select, Avatar} from 'antd';
 import './ItemPrize.scss';
-const ItemPrize = ({file, setListFiles, setCargar, cargar}) => {
+const ItemPrize = ({file, setListFiles, setCargar, cargar, categories}) => {
+  const {Option} = Select;
   const [preview, setPreview] = useState("");
   const [dataItem, setDataItem] = useState({
     nombre: '',
@@ -13,7 +12,7 @@ const ItemPrize = ({file, setListFiles, setCargar, cargar}) => {
     descripcion: '',
     image: file.originFileObj
   })
-  
+
   const getBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -48,15 +47,21 @@ const ItemPrize = ({file, setListFiles, setCargar, cargar}) => {
   return (  
     <Card
       hoverable
+      className="card-item"
     >
       <Row gutter={24} className="item-prize">
         <Col span={24}>
           <label>Premio</label>
         </Col>
         <Col span={24} md={4} className="item-prize__contenedor">
-          <div className="item-prize__image">
+          {/* <div className="item-prize__image">
             <img src={preview} alt=""/>
-          </div>
+          </div> */}
+          <Avatar
+            src={preview}
+            className="item-prize__image"
+            size={{ xs: 120, sm: 120, md: 120, lg: 120, xl: 120, xxl: 120 }}
+          />
         </Col>
         <Col span={24} md={20}>
           <Row gutter={24}>
@@ -75,9 +80,11 @@ const ItemPrize = ({file, setListFiles, setCargar, cargar}) => {
               <Form.Item label="Precio"
               >
                 <Input
-                  type="text"
+                  type="number"
                   name="precio"
+                  min={20}
                   onChange={handleChange}
+                  required
                 />
               </Form.Item>
             </Col>
@@ -86,20 +93,30 @@ const ItemPrize = ({file, setListFiles, setCargar, cargar}) => {
             <Col span={24} md={12}>
               <Form.Item label="Categoría"
               >
-                <Input
-                  type="text"
-                  name="categoria"
-                  onChange={handleChange}
-                />
+                <Select
+                  showArrow
+                  placeholder="Seleccionar Categoría"
+                  required
+                  // onChange={(value) => formik.values.genero = value }
+                  // defaultValue={formik.values.genero}
+                >
+                  {
+                    categories.map((category,index) => (
+                      <Option value={category.name} key={index}>{category.name}</Option>
+                    ))
+                  }
+                </Select>
               </Form.Item>
             </Col>
             <Col span={24} md={12}>
               <Form.Item label="Puntos"
               >
                 <Input
-                  type="text"
+                  type="number"
                   name="puntos"
+                  min={20}
                   onChange={handleChange}
+                  required
                 />
               </Form.Item>
             </Col>
@@ -111,6 +128,7 @@ const ItemPrize = ({file, setListFiles, setCargar, cargar}) => {
                   type="text"
                   name="descripcion"
                   onChange={handleChange}
+                  required
                 />
               </Form.Item>
             </Col>

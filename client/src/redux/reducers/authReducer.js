@@ -40,7 +40,7 @@ const authReducer = (state = initialState, action) => {
         auth: true
       }
     case LOGIN_USER_ERROR:
-      localStorage.removeItem('token');
+      localStorage.removeItem('access-token-admin');
       return {
         ...state,
         loading: false,
@@ -62,7 +62,7 @@ const authReducer = (state = initialState, action) => {
         auth: true
       }
     case USER_LOG_ERROR:
-      localStorage.removeItem('token');
+      localStorage.removeItem('access-token-admin');
       return {
         ...state,
         loading: false,

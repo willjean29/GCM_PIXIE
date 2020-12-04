@@ -1,5 +1,10 @@
+.card-item {
+	margin-top: 12px !important;
+	width: 90%;
+	margin: 0 auto;
+}
 .item-prize {
-	> label {
+	label {
 		font-weight: bold;
 	}
 	&__contenedor {
@@ -8,10 +13,13 @@
 		align-items: center;
 	}
 	&__image {
-		width: 120px;
+		// width: 120px;
 		img {
 			width: 100%;
 			height: 100%;
 		}
+	}
+	.ant-upload-list {
+		margin-top: 12px;
 	}
 }
