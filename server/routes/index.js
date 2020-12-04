@@ -21,6 +21,7 @@ app.use('/competition',require('./competition'));
 // endpoints for categories
 app.use('/categories',require('./category'));
 
-
+// endpoints for catalog
+app.use('/catalog',require('./catalog'));
 
 module.exports = app;
