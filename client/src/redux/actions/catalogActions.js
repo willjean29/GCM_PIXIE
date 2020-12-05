@@ -1,7 +1,10 @@
 import {
   GET_CATEGORIES,
   GET_CATEGORIES_OK,
-  GET_CATEGORIES_ERROR
+  GET_CATEGORIES_ERROR,
+  REGISTER_CATALOG,
+  REGISTER_CATALOG_OK,
+  REGISTER_CATALOG_ERROR
 } from '../types';
 import Notification from '../../components/UiElements/Notification';
 import clienteAxios from '../../config/clienteAxios';
@@ -29,4 +32,46 @@ const getCategoriesOk = (categories) => ({
 })
 const getCategoriesError = () => ({
   type: GET_CATEGORIES_ERROR
+})
+
+export const registerCatalogAction = (dataCatalog) => {
+  return async (dispatch) => {
+    dispatch(registerCatalog())
+    tokenAuthAdmin();
+    try {
+      const dataform = new FormData();
+      for (const itemCatalog of dataCatalog) {
+        dataform.append('image',itemCatalog.image);
+        dataform.append('nombre',itemCatalog.nombre);
+        dataform.append('precio',itemCatalog.precio);
+        dataform.append('puntos',itemCatalog.puntos);
+        dataform.append('categoria',itemCatalog.categoria);
+        dataform.append('descripcion',itemCatalog.descripcion);
+      }
+      const response = await clienteAxios.post('/catalog/register',dataform,{
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+      console.log(response);
+      const data = response.data;
+      Notification(data.ok,data.msg);
+      dispatch(registerCatalogOk());
+    } catch (error) {
+      const msg = error.response.data ? error.response.data.err.msg : "Hubo un error";
+      Notification(error.response.data.ok,msg);
+      dispatch(registerCatalogError());
+    }
+
+  }
+}
+
+const registerCatalog = () => ({
+  type: REGISTER_CATALOG
+})
+const registerCatalogOk = () => ({
+  type: REGISTER_CATALOG_OK
+})
+const registerCatalogError = () => ({
+  type: REGISTER_CATALOG_ERROR
 })

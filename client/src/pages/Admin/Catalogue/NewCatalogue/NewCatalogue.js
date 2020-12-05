@@ -4,12 +4,13 @@ import { InboxOutlined } from '@ant-design/icons';
 import {useSelector, useDispatch} from 'react-redux';
 import ItemPrize from '../components/ItemPrize';
 import Modal from '../../../../components/Admin/Modal';
-import {getCategoriesAction} from '../../../../redux/actions/catalogActions';
+import {getCategoriesAction, registerCatalogAction} from '../../../../redux/actions/catalogActions';
 import './NewCatalogue.scss';
 const NewCatalogue = () => {
   const dispatch = useDispatch();
   const getCategories = () => dispatch(getCategoriesAction());
   const categories = useSelector(state => state.catalog.categories);
+  const registerCatalog = (dataCatalog) => dispatch(registerCatalogAction(dataCatalog));
   const { Dragger } = Upload;
   const [files, setFiles] = useState([]);
   const [listFiles, setListFiles] = useState([]);
@@ -66,6 +67,7 @@ const NewCatalogue = () => {
   useEffect(() => {
     if(listFiles.length > 0){
       console.log(listFiles)
+      registerCatalog(listFiles)
     }
   }, [listFiles])
 

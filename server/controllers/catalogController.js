@@ -1,11 +1,11 @@
+const Business = require('../models/Business');
 const Catalog = require('../models/Catalog');
 const Prize = require('../models/Prize');
+const Category = require('../models/Category');
 const cloudinary = require('../config/cloudinary');
 const fs = require('fs-extra');
 
 const registrarCatalogoPremios = async(req,res) => {
-  console.log(req.body)
-  console.log(req.files)
   const id = req.administrator._id;
   // return;
   const business = await Business.findOne({administrador: id}).catch((err) => {
@@ -87,6 +87,5 @@ const registrarPremio = async(dataPremio) => {
   await prize.save();
 }
 module.exports = {
-  registrarCatalogoPremios,
-  registrarPremio
+  registrarCatalogoPremios
 }

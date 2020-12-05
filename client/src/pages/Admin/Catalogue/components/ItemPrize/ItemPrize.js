@@ -61,6 +61,7 @@ const ItemPrize = ({file, setListFiles, setCargar, cargar, categories}) => {
             src={preview}
             className="item-prize__image"
             size={{ xs: 120, sm: 120, md: 120, lg: 120, xl: 120, xxl: 120 }}
+            shape="square"
           />
         </Col>
         <Col span={24} md={20}>
@@ -95,9 +96,13 @@ const ItemPrize = ({file, setListFiles, setCargar, cargar, categories}) => {
               >
                 <Select
                   showArrow
+                  name="categoria"
                   placeholder="Seleccionar Categoría"
                   required
-                  // onChange={(value) => formik.values.genero = value }
+                  onChange={(value) => setDataItem(data => ({
+                    ...data,
+                    categoria: value
+                  })) }
                   // defaultValue={formik.values.genero}
                 >
                   {
