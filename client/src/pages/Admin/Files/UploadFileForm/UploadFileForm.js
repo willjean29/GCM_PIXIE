@@ -1,4 +1,4 @@
-// Componente para Modal de Carga de Archivos
+// Content : Componente para Modal de Carga de Archivos
 import React, {useState} from 'react';
 import { Form, Col, Row, Button,Upload, Layout, Card, message  } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
