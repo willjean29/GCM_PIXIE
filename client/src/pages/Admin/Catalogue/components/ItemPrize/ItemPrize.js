@@ -53,7 +53,7 @@ const ItemPrize = ({file, setListFiles, setCargar, cargar, categories}) => {
         <Col span={24}>
           <label>Premio</label>
         </Col>
-        <Col span={24} md={4} className="item-prize__contenedor">
+        <Col span={24} md={6} className="item-prize__contenedor">
           {/* <div className="item-prize__image">
             <img src={preview} alt=""/>
           </div> */}
@@ -64,7 +64,7 @@ const ItemPrize = ({file, setListFiles, setCargar, cargar, categories}) => {
             shape="square"
           />
         </Col>
-        <Col span={24} md={20}>
+        <Col span={24} md={18}>
           <Row gutter={24}>
             <Col span={24} md={12}>
               <Form.Item label="Nombre"

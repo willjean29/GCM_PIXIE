@@ -38,7 +38,7 @@ const catalogReducer = (state = initialState, action) => {
         error: false
       }
     case REGISTER_CATALOG_OK:
-    case DELETE_PRIZE_ERROR:
+    case DELETE_PRIZE_OK:
       return {
         ...state,
         loading: false,

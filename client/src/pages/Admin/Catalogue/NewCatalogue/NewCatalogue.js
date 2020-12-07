@@ -4,12 +4,12 @@ import { InboxOutlined } from '@ant-design/icons';
 import {useSelector, useDispatch} from 'react-redux';
 import ItemPrize from '../components/ItemPrize';
 import Modal from '../../../../components/Admin/Modal';
-import {getCategoriesAction, registerCatalogAction} from '../../../../redux/actions/catalogActions';
+import {registerCatalogAction} from '../../../../redux/actions/catalogActions';
 import './NewCatalogue.scss';
-const NewCatalogue = () => {
+const NewCatalogue = (props) => {
+  const {categories} = props;
+  console.log(categories);
   const dispatch = useDispatch();
-  const getCategories = () => dispatch(getCategoriesAction());
-  const categories = useSelector(state => state.catalog.categories);
   const registerCatalog = (dataCatalog) => dispatch(registerCatalogAction(dataCatalog));
   const { Dragger } = Upload;
   const [files, setFiles] = useState([]);
@@ -18,7 +18,7 @@ const NewCatalogue = () => {
   const [modalTitle, setModalTitle] = useState('');
   const [contentModal, setContentModal] = useState(null);
   const [cargar, setCargar] = useState(false);
-  const props = {
+  const propsUpload = {
     name: 'file',
     accept: '.jpg,.png,.jpeg',
     listType: 'picture-card',
@@ -61,13 +61,10 @@ const NewCatalogue = () => {
   };
 
   useEffect(() => {
-    getCategories();
-  }, [])
-
-  useEffect(() => {
     if(listFiles.length > 0){
-      console.log(listFiles)
-      registerCatalog(listFiles)
+      console.log(listFiles);
+      registerCatalog(listFiles);
+      props.setShowModal(false);
     }
   }, [listFiles])
 
@@ -81,16 +78,16 @@ const NewCatalogue = () => {
 
   return (  
     <>
-      <Card>
+      {/* <Card>
         <h1 className="title-card">Crear Catálogo de Premios</h1>
-      </Card>
+      </Card> */}
       <Card
         className="card-upload"
       >
         <Form  layout="vertical"
           onFinish={handleSubmit}
         >
-          <Dragger {...props}>
+          <Dragger {...propsUpload}>
             <p className="ant-upload-drag-icon">
               <InboxOutlined />
             </p>
