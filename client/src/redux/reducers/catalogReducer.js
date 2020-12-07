@@ -17,7 +17,7 @@ const initialState = {
   loading: null,
   error: null,
   categories: [],
-  prizes: []
+  prizes: null
 }
 
 const catalogReducer = (state = initialState, action) => {

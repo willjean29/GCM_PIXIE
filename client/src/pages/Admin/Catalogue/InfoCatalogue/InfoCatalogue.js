@@ -1,17 +1,19 @@
-import React, {useEffect} from 'react';
-import {Card, Table, Space, Tooltip, Button, Avatar, Modal as ModalAnt} from 'antd';
+import React, {useState,useEffect} from 'react';
+import {Card, Table, Space, Tooltip, Button, Avatar, Modal as ModalAnt, Spin} from 'antd';
 import { DeleteOutlined, EditOutlined} from '@ant-design/icons';
 import {useSelector,useDispatch} from 'react-redux';
 import {obtenerPremiosAction, eliminarPremioAction} from '../../../../redux/actions/catalogActions';
 const InfoCatalogue = () => {
   const {confirm} = ModalAnt;
+  const [reloadPrizes, setReloadPrizes] = useState(false);
   const dispatch = useDispatch();
   const obtenerPremios = () => dispatch(obtenerPremiosAction());
   const eliminarPremioID = (premio) => dispatch(eliminarPremioAction(premio));
   const premios = useSelector(state => state.catalog.prizes);
   useEffect(() => {
     obtenerPremios();
-  }, [])
+    setReloadPrizes(false);
+  }, [dispatch,reloadPrizes])
   const eliminarPremio = (prize) => {
     confirm({
       title: "Eliminar premio",
@@ -21,7 +23,8 @@ const InfoCatalogue = () => {
       cancelText: 'Cancelar',
       onOk: () => {
         console.log("Eliminar ", prize._id);
-        eliminarPremioID(prize)
+        eliminarPremioID(prize);
+        setReloadPrizes(true);
       }
     })
   }
@@ -81,10 +84,12 @@ const InfoCatalogue = () => {
           <h1 className="title-card">Lista de premios en el catalogo</h1>
       </Card>
       <Card>
-        <Table
-          columns={columns}
-          dataSource={data}
-        />
+        <Spin size="large" spinning={premios ? false : true}>
+          <Table
+            columns={columns}
+            dataSource={data}
+          />
+        </Spin>
       </Card>
     </>
   );
