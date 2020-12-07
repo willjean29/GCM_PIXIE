@@ -13,4 +13,9 @@ router.delete('/:id',
   prizeController.eliminarPremio
 );
 
+router.put('/:id',
+  verifyTokenAdmin,
+  prizeController.actualizarPremio
+);
+
 module.exports = router;
