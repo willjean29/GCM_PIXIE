@@ -4,6 +4,8 @@ const Prize = require('../models/Prize');
 const Category = require('../models/Category');
 const cloudinary = require('../config/cloudinary');
 const fs = require('fs-extra');
+const shortId = require('shortid');
+
 
 const registrarCatalogoPremios = async(req,res) => {
   const id = req.administrator._id;
@@ -47,7 +49,8 @@ const registrarCatalogoPremios = async(req,res) => {
           price: req.body.precio[index],
           category: req.body.categoria[index],
           catalog: catalog._id,
-          url: result.secure_url
+          url: result.secure_url,
+          key: shortId.generate()
         }
         registrarPremio(dataPremio);
         await fs.unlink(file.path);
@@ -64,7 +67,8 @@ const registrarCatalogoPremios = async(req,res) => {
         price: req.body.precio,
         category: req.body.categoria,
         catalog: catalog._id,
-        url: result.secure_url
+        url: result.secure_url,
+        key: shortId.generate()
       }
       registrarPremio(dataPremio);
       await fs.unlink(req.files[0].path);

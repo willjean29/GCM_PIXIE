@@ -24,4 +24,7 @@ app.use('/categories',require('./category'));
 // endpoints for catalog
 app.use('/catalog',require('./catalog'));
 
+// endpoints for prizes
+app.use('/prize',require('./prize'));
+
 module.exports = app;
