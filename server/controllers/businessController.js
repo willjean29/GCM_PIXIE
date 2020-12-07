@@ -20,15 +20,6 @@ const {
 } = require('../middlewares/exists');
 
 require('dotenv').config();
-const agregarAvatarEmpresa = async (req, res) => {
-  const id = req.administrator._id;
-  const administrator = await Administrator.findById(id).catch((err) => {
-    //Respuesta al servidor
-    return res.status(400).json({
-      ok: false,
-      err
-    });
-  })
 
 const agregarAvatarEmpresa = async(req, res) => {
   const id = req.administrator._id;
