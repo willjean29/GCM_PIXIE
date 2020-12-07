@@ -8,4 +8,9 @@ router.get('/',
   prizeController.obtenerPremios
 );
 
+router.delete('/:id',
+  verifyTokenAdmin,
+  prizeController.eliminarPremio
+);
+
 module.exports = router;
