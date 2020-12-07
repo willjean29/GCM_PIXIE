@@ -7,7 +7,10 @@ import {
   REGISTER_CATALOG_ERROR,
   GET_PRIZES,
   GET_PRIZES_OK,
-  GET_PRIZES_ERROR
+  GET_PRIZES_ERROR,
+  DELETE_PRIZE,
+  DELETE_PRIZE_OK,
+  DELETE_PRIZE_ERROR
 } from '../types';
 
 const initialState = {
@@ -22,6 +25,7 @@ const catalogReducer = (state = initialState, action) => {
     case GET_CATEGORIES: 
     case REGISTER_CATALOG:
     case GET_PRIZES:
+    case DELETE_PRIZE:
       return {
         ...state,
         loading: true
@@ -34,6 +38,7 @@ const catalogReducer = (state = initialState, action) => {
         error: false
       }
     case REGISTER_CATALOG_OK:
+    case DELETE_PRIZE_ERROR:
       return {
         ...state,
         loading: false,
@@ -49,6 +54,7 @@ const catalogReducer = (state = initialState, action) => {
     case GET_CATEGORIES_ERROR:
     case REGISTER_CATALOG_ERROR:
     case GET_PRIZES_ERROR:
+    case DELETE_PRIZE_ERROR:
       return {
         ...state,
         loading: false,

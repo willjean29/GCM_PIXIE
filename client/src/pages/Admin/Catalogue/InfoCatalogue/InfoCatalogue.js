@@ -1,17 +1,29 @@
 import React, {useEffect} from 'react';
-import {Card, Table, Space, Tooltip, Button, Avatar} from 'antd';
+import {Card, Table, Space, Tooltip, Button, Avatar, Modal as ModalAnt} from 'antd';
 import { DeleteOutlined, EditOutlined} from '@ant-design/icons';
 import {useSelector,useDispatch} from 'react-redux';
-import {obtenerPremiosAction} from '../../../../redux/actions/catalogActions';
+import {obtenerPremiosAction, eliminarPremioAction} from '../../../../redux/actions/catalogActions';
 const InfoCatalogue = () => {
+  const {confirm} = ModalAnt;
   const dispatch = useDispatch();
   const obtenerPremios = () => dispatch(obtenerPremiosAction());
+  const eliminarPremioID = (premio) => dispatch(eliminarPremioAction(premio));
   const premios = useSelector(state => state.catalog.prizes);
   useEffect(() => {
     obtenerPremios();
   }, [])
-  const eliminarPremio = (id) => {
-    console.log("eliminar premio ", id);
+  const eliminarPremio = (prize) => {
+    confirm({
+      title: "Eliminar premio",
+      content: "Un premio eliminado no se puede recuperar",
+      okText: 'Eliminar',
+      okType: "danger",
+      cancelText: 'Cancelar',
+      onOk: () => {
+        console.log("Eliminar ", prize._id);
+        eliminarPremioID(prize)
+      }
+    })
   }
   const columns = [
     {
@@ -48,14 +60,14 @@ const InfoCatalogue = () => {
     {
       title: 'Acciones',
       key: '_id',
-      render: (id) => (
+      render: (prize) => (
         <Space size='middle'>
           <Tooltip title="Editar Premio">
             <Button type='primary' icon={<EditOutlined />} >
             </Button>
           </Tooltip>
           <Tooltip title="Eliminar Premio">
-            <Button type='primary' danger icon={<DeleteOutlined />} onClick={() => eliminarPremio(id)}>
+            <Button type='primary' danger icon={<DeleteOutlined />} onClick={() => eliminarPremio(prize)}>
             </Button>
           </Tooltip>
         </Space>

@@ -7,7 +7,10 @@ import {
   REGISTER_CATALOG_ERROR,
   GET_PRIZES,
   GET_PRIZES_OK,
-  GET_PRIZES_ERROR
+  GET_PRIZES_ERROR,
+  DELETE_PRIZE,
+  DELETE_PRIZE_OK,
+  DELETE_PRIZE_ERROR
 } from '../types';
 import Notification from '../../components/UiElements/Notification';
 import clienteAxios from '../../config/clienteAxios';
@@ -103,4 +106,32 @@ const obtenerPremiosOk = (premios) => ({
 })
 const obtenerPremiosError = () => ({
   type: GET_PRIZES_ERROR
+})
+
+export const eliminarPremioAction = (premio) => {
+  return async (dispatch) => {
+    dispatch(eliminarPremio());
+    tokenAuthAdmin();
+    try {
+      const response = await clienteAxios.delete(`/prize/${premio._id}`);
+      const data = response.data;
+      Notification(data.ok,data.msg);
+      dispatch(eliminarPremioOk());
+    } catch (error) {
+      console.log(error.response);
+      const msg = error.response.data ? error.response.data.err.msg : "Hubo un error";
+      Notification(error.response.data.ok,msg);
+      dispatch(eliminarPremioError());
+    }
+  }
+}
+
+const eliminarPremio = () => ({
+  type: DELETE_PRIZE
+})
+const eliminarPremioOk = () => ({
+  type: DELETE_PRIZE_OK
+})
+const eliminarPremioError = () => ({
+  type: DELETE_PRIZE_ERROR
 })

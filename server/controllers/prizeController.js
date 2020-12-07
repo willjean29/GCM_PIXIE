@@ -58,7 +58,8 @@ const eliminarPremio = async(req,res) => {
 
   res.json({
     ok: true,
-    prize
+    prize,
+    msg: "Premio eliminado"
   });
 }
 
