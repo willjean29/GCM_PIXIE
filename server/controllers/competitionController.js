@@ -1,10 +1,21 @@
-const Competition = require('../models/Competition');
-const Business = require('../models/Business');
+/*
+  COMPETITIONCONTROLLER:
+  Controlador de concursos, gestiona las
+  operaciones de creación y activación
+  de concursos.
+*/
+
 const cloudinary = require('../config/cloudinary');
 const fs = require('fs-extra');
-const registrarConcurso = async(req,res) => {
+
+// Importando modelos
+const Competition = require('../models/Competition');
+const Business = require('../models/Business');
+
+const registrarConcurso = async(req, res) => {
   const id = req.administrator._id;
-  // conmprobar que el administrador cuente con una empresa asociada
+
+  // Comprobamos que el administrador cuente con una empresa asociada
   const business = await Business.findOne({administrador: id}).catch((err) => {
     return res.status(400).json({
       ok: false,
@@ -20,8 +31,9 @@ const registrarConcurso = async(req,res) => {
   });
 
   const {name,fechaInicio,fechaFin,soles,puntos,tipo} = req.body;
-
-  const reglas = {parametro : soles,puntos}
+  const reglas = {
+    parametro : soles,puntos
+  };
   const competition = new Competition({
     name,
     fechaInicio,
@@ -30,10 +42,9 @@ const registrarConcurso = async(req,res) => {
     tipo,
     reglas
   });
-
   const competitions = [{
     idCompetition: competition._id
-  }]
+  }];
 
   await competition.save().catch((err) => {
     return res.status(400).json({
@@ -57,9 +68,10 @@ const registrarConcurso = async(req,res) => {
   });
 }
 
-const obtenerConcurso = async (req, res) => {
+const obtenerConcurso = async(req, res) => {
   const id = req.administrator._id;
-  // conmprobar que el administrador cuente con una empresa asociada
+
+  // Comprobamos que el administrador cuente con una empresa asociada
   const business = await Business.findOne({administrador: id}).catch((err) => {
     return res.status(400).json({
       ok: false,
@@ -81,7 +93,6 @@ const obtenerConcurso = async (req, res) => {
     });
   })
 
-  
   if(!competition) return res.status(400).json({
     ok: false,
     err: {
@@ -96,7 +107,7 @@ const obtenerConcurso = async (req, res) => {
   })
 }
 
-const agregarImagenConcurso = async (req,res) => {
+const agregarImagenConcurso = async(req, res) => {
   const id = req.administrator._id;
 
   const business = await Business.findOne({administrador: id}).catch((err) => {

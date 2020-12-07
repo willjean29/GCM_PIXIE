@@ -4,26 +4,29 @@
   del manejo de archivos.
 */
 
+const shortId = require('shortid');
+
 // Importando modelos
 const File = require('../models/File');
 const Business = require('../models/Business');
 const Administrator = require('../models/Administrator');
 const Competition = require('../models/Competition');
 const Client = require('../models/Client');
-const shortId = require('shortid');
+
 // Importando utilidades
 const { leerCSV } = require('../utils/leerCSV');
 const { puntosSoles } = require('../utils/points');
 const { uploadToS3 } = require("../utils/aws");
+
 // Importando middlewares
 const { existsCompetitionSimple, existsCatalogoBusiness } = require('../middlewares/exists');
 
-const registrarArchivo = async(req,res) => {
-
+const registrarArchivo = async(req, res) => {
   let file;
   const id = req.administrator._id;
+
   const business = await Business.findOne({ administrador: id }).catch((err) => {
-    logger.error('Error en database', err)
+    logger.error('Error en database', err);
     return res.status(400).json({
       ok: false,
       err
@@ -51,12 +54,10 @@ const registrarArchivo = async(req,res) => {
     const { originalname, buffer } = req.file;
     const fileName = originalname.split(".");
     const ext = fileName[fileName.length - 1];
-
     const fileInfo = {
       name: `${file._id}.${ext}`,
       path: `empresas/${business.id}`,
     };
-
     const fileSent = await uploadToS3(fileInfo, buffer);
 
     if (!fileSent.ok) {
@@ -67,8 +68,10 @@ const registrarArchivo = async(req,res) => {
         }
       });
     }
+
     console.log(fileSent);
-    file.link = fileSent.data.Location; //es el link que te bota el aws cuando se sube al s3
+    // Link que genera el AWS cuando se sube al S3
+    file.link = fileSent.data.Location;
     await file.save()
 
     res.json({
@@ -79,8 +82,9 @@ const registrarArchivo = async(req,res) => {
   }
 }
 
-const obtenerArchivos = async (req,res) => {
+const obtenerArchivos = async(req, res) => {
   let business;
+
   try {
     business = await Business.findOne({administrador: req.administrator._id});
   } catch (error) {
@@ -131,14 +135,14 @@ const obtenerDatosArchivo = async(req, res) => {
       ok: false,
       err
     })
-  })
+  });
 
   if(!file) return res.status(400).json({
     ok: false,
     err: {
       msg: "Archivo no registrado"
     }
-  })
+  });
 
   const datos = leerCSV(file.name);
 
@@ -148,10 +152,10 @@ const obtenerDatosArchivo = async(req, res) => {
     existeConcursoSimple,
     existeCatalogoBusiness,
     datos
-  })
+  });
 }
 
-const cargarDataCliente = async (req, res) => {
+const cargarDataCliente = async(req, res) => {
   const id = req.params.id;
 
   const file = await File.findById(id).catch((err) => {
@@ -166,12 +170,10 @@ const cargarDataCliente = async (req, res) => {
     err: {
       msg: "Archivo no registrado"
     }
-  })
+  });
 
   const datos = leerCSV(file.name);
-
   const business = await Business.findById(file.business);
-
   const competition = await Competition.findOne({business: business._id});
   
   if(!competition){
@@ -181,7 +183,8 @@ const cargarDataCliente = async (req, res) => {
         msg: "No hay concursos activos"
       }
     })
-  }
+  };
+
   const { parametro, puntos } = competition.reglas;
 
   datos.forEach(async(data, index) => {
@@ -203,7 +206,6 @@ const cargarDataCliente = async (req, res) => {
         idBusiness: business._id,
         puntos: puntosGanados
       }
-
       client.puntuacion.push(puntuacion);
       await client.save();
 
@@ -234,6 +236,7 @@ const cargarDataCliente = async (req, res) => {
   file.estado = true;
   await file.save();
   await actualizarClientes(business._id);
+
   res.json({
     ok: true,
     msg: "Puntajes Cargados"
@@ -260,8 +263,9 @@ const actualizarClientes = async(id) => {
   await business.save();
 }
 
-const eliminarArchivo = async (req,res) => {
+const eliminarArchivo = async(req, res) => {
   const {id} = req.params;
+  
   const file = await File.findByIdAndDelete(id).catch((err) => {
     return res.status(400).json({
       ok: false,

@@ -1,6 +1,6 @@
 /*
   BUSINESSCONTROLLER:
-  Controlador de empresa, controlas las
+  Controlador de empresa, gestiona las
   operaciones de registro y modificación
   de información de la empresa.
 */
