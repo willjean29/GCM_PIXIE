@@ -4,19 +4,24 @@ import {
   GET_CATEGORIES_ERROR,
   REGISTER_CATALOG,
   REGISTER_CATALOG_OK,
-  REGISTER_CATALOG_ERROR
+  REGISTER_CATALOG_ERROR,
+  GET_PRIZES,
+  GET_PRIZES_OK,
+  GET_PRIZES_ERROR
 } from '../types';
 
 const initialState = {
   loading: null,
   error: null,
-  categories: []
+  categories: [],
+  prizes: []
 }
 
 const catalogReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_CATEGORIES: 
     case REGISTER_CATALOG:
+    case GET_PRIZES:
       return {
         ...state,
         loading: true
@@ -34,8 +39,16 @@ const catalogReducer = (state = initialState, action) => {
         loading: false,
         error: false
       }
+    case GET_PRIZES_OK:
+      return {
+        ...state,
+        loading: false,
+        error: false,
+        prizes: action.payload
+      }
     case GET_CATEGORIES_ERROR:
     case REGISTER_CATALOG_ERROR:
+    case GET_PRIZES_ERROR:
       return {
         ...state,
         loading: false,

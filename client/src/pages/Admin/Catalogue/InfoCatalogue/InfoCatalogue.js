@@ -1,12 +1,28 @@
-import React from 'react';
-import {Card, Table, Space, Tooltip, Button} from 'antd';
-import { DeleteOutlined, EyeOutlined, CheckCircleOutlined } from '@ant-design/icons';
+import React, {useEffect} from 'react';
+import {Card, Table, Space, Tooltip, Button, Avatar} from 'antd';
+import { DeleteOutlined, EditOutlined} from '@ant-design/icons';
+import {useSelector,useDispatch} from 'react-redux';
+import {obtenerPremiosAction} from '../../../../redux/actions/catalogActions';
 const InfoCatalogue = () => {
+  const dispatch = useDispatch();
+  const obtenerPremios = () => dispatch(obtenerPremiosAction());
+  const premios = useSelector(state => state.catalog.prizes);
+  useEffect(() => {
+    obtenerPremios();
+  }, [])
+  const eliminarPremio = (id) => {
+    console.log("eliminar premio ", id);
+  }
   const columns = [
     {
       title: 'IMG',
-      dataIndex: 'image',
-      key: 'image'
+      dataIndex: 'url',
+      key: 'url',
+      render: (url) => (
+        <Avatar
+          src={url}
+        />
+      )
     },
     {
       title: 'Nombre',
@@ -26,29 +42,27 @@ const InfoCatalogue = () => {
     {
       title: 'Categoria',
       dataIndex: 'category',
-      key: 'category'
+      key: 'category',
+      render: (categoria) => (categoria.name)
     },
     {
       title: 'Acciones',
-      key: 'actions',
-      render: (namecsv) => (
+      key: '_id',
+      render: (id) => (
         <Space size='middle'>
-          <Tooltip title="Procesar Archivos">
-            <Button type='primary' icon={<CheckCircleOutlined />} >
+          <Tooltip title="Editar Premio">
+            <Button type='primary' icon={<EditOutlined />} >
             </Button>
           </Tooltip>
-          <Tooltip title="Ver detalle de archivo">
-            <Button type='primary' icon={<EyeOutlined />} >
-            </Button>
-          </Tooltip>
-          <Tooltip title="Eliminar Archivo">
-            <Button type='primary' danger icon={<DeleteOutlined />} >
+          <Tooltip title="Eliminar Premio">
+            <Button type='primary' danger icon={<DeleteOutlined />} onClick={() => eliminarPremio(id)}>
             </Button>
           </Tooltip>
         </Space>
       )
     }
   ]
+  const data = premios;
   return (  
     <>
       <Card>
@@ -57,6 +71,7 @@ const InfoCatalogue = () => {
       <Card>
         <Table
           columns={columns}
+          dataSource={data}
         />
       </Card>
     </>
