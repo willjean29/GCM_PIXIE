@@ -1,10 +1,10 @@
 /**
  * CATALOGCONTROLLER
  * Controlador de catálogo, controla las operaciones
- * de crear y mostrar catálogos y premios 
+ * de crear y mostrar catálogos y premios
  */
 
- // Importando librerias
+// Importando librerias
 const fs = require("fs-extra");
 
 // Importando modelos
@@ -25,9 +25,9 @@ const {
 
 // Función para mostrar la vista de crear catálogo
 const mostrarCrearCatalogo = async (req, res) => {
-  const administrator = await Administrator.findById(req.user._id).lean();
-  const existeConcursoSimple = await existsCompetitionSimple(req.user._id);
-  const existeCatalogoBusiness = await existsCatalogoBusiness(req.user._id);
+  const administrator = await Administrator.findById(req.administrator._id).lean();
+  const existeConcursoSimple = await existsCompetitionSimple(req.administrator._id);
+  const existeCatalogoBusiness = await existsCatalogoBusiness(req.administrator._id);
   res.send({
     title: "Adminstrador",
     admin: administrator,
@@ -38,7 +38,7 @@ const mostrarCrearCatalogo = async (req, res) => {
 
 // Función para mostrar la lista de premios
 const mostrarListaCatalogo = async (req, res) => {
-  const administrator = await Administrator.findById(req.user._id).lean();
+  const administrator = await Administrator.findById(req.administrator._id).lean();
   const business = await Business.findOne({
     administrador: administrator._id,
   }).lean();
@@ -46,8 +46,8 @@ const mostrarListaCatalogo = async (req, res) => {
   const prizes = await Prize.find({ catalog: catalog._id })
     .populate("category", "name")
     .lean();
-  const existeConcursoSimple = await existsCompetitionSimple(req.user._id);
-  const existeCatalogoBusiness = await existsCatalogoBusiness(req.user._id);
+  const existeConcursoSimple = await existsCompetitionSimple(req.administrator._id);
+  const existeCatalogoBusiness = await existsCatalogoBusiness(req.administrator._id);
   const categories = await Category.find().sort("name").lean();
 
   res.send({
@@ -64,7 +64,7 @@ const mostrarListaCatalogo = async (req, res) => {
 const registrarCatalogoPremios = async (req, res) => {
   console.log(req.body);
   console.log(req.files);
-  const id = req.user._id;
+  const id = req.administrator._id;
   // return;
   const business = await Business.findOne({ administrador: id }).catch(
     (err) => {
