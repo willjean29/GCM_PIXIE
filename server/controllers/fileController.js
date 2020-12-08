@@ -121,9 +121,9 @@ const obtenerArchivos = async (req,res) => {
 }
 
 const obtenerDatosArchivo = async(req,res) => {
-  const administrator = await Administrator.findById(req.user._id).lean();
-  const existeConcursoSimple = await existsCompetitionSimple(req.user._id);
-  const existeCatalogoBusiness = await existsCatalogoBusiness(req.user._id);
+  const administrator = await Administrator.findById(req.administrator._id).lean();
+  const existeConcursoSimple = await existsCompetitionSimple(req.administrator._id);
+  const existeCatalogoBusiness = await existsCatalogoBusiness(req.administrator._id);
   const id = req.params.id;
 
   const file = await File.findById(id).catch((err) => {
