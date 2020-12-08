@@ -57,7 +57,11 @@ const InfoCatalogue = () => {
   const handleEditPrize = (prize) => {
     setModalTitle('Editar Premio');
     setContentModal(
-      <ItemEdit prize={prize} categories={categories}/>
+      <ItemEdit prize={prize} 
+        categories={categories} 
+        setReloadPrizes={setReloadPrizes} 
+        setShowModal={setShowModal}
+      />
     )
     setShowModal(true);
   }

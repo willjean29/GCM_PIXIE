@@ -1,15 +1,31 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Form, Row, Col, Input, Card, Select, Avatar, Button} from 'antd';
+import {useDispatch} from 'react-redux';
+import {actualizarPremioAction} from '../../../../../redux/actions/catalogActions';
 import './ItemEdit.scss';
-const ItemEdit = ({prize, categories}) => {
+const ItemEdit = ({prize, categories, setReloadPrizes, setShowModal}) => {
   const {Option} = Select;
+  const dispatch = useDispatch();
+  const actualizarPremio = (premio) => dispatch(actualizarPremioAction(premio)); 
   const [dataItem, setDataItem] = useState({
-    nombre: prize.name,
-    precio: prize.price,
-    categoria: prize.category.name,
-    puntos: prize.points,
-    descripcion: prize.description
+    ...prize,
+    name: prize.name,
+    price: prize.price,
+    category: prize.category.name,
+    points: prize.points,
+    description: ""
   })
+
+  useEffect(() => {
+    setDataItem({
+      ...prize,
+      name: prize.name,
+      price: prize.price,
+      category: prize.category.name,
+      points: prize.points,
+      description: prize.description
+    })
+  }, [prize])
 
   const handleChange = (event) => {
     setDataItem({
@@ -19,6 +35,9 @@ const ItemEdit = ({prize, categories}) => {
   }
   const handleSubmit = () => {
     console.log(dataItem);
+    actualizarPremio(dataItem);
+    setShowModal(false);
+    setReloadPrizes(true);
   }
   return ( 
     <Card
@@ -51,8 +70,8 @@ const ItemEdit = ({prize, categories}) => {
                 >
                   <Input
                     type="text"
-                    name="nombre"
-                    defaultValue={prize.name}
+                    name="name"
+                    value={dataItem.name}
                     onChange={handleChange}
                     required
                   />
@@ -63,10 +82,10 @@ const ItemEdit = ({prize, categories}) => {
                 >
                   <Input
                     type="number"
-                    name="precio"
+                    name="price"
                     min={20}
                     onChange={handleChange}
-                    defaultValue={prize.price}
+                    value={dataItem.price}
                     required
                   />
                 </Form.Item>
@@ -78,14 +97,14 @@ const ItemEdit = ({prize, categories}) => {
                 >
                   <Select
                     showArrow
-                    name="categoria"
+                    name="category"
                     placeholder="Seleccionar Categoría"
                     required
                     onChange={(value) => setDataItem(data => ({
                       ...data,
                       categoria: value
                     })) }
-                    defaultValue={prize.category.name}
+                    value={dataItem.category}
                   >
                     {
                       categories.map((category,index) => (
@@ -100,10 +119,10 @@ const ItemEdit = ({prize, categories}) => {
                 >
                   <Input
                     type="number"
-                    name="puntos"
+                    name="points"
                     min={20}
                     onChange={handleChange}
-                    defaultValue={prize.points}
+                    value={dataItem.points}
                     required
                   />
                 </Form.Item>
@@ -114,9 +133,9 @@ const ItemEdit = ({prize, categories}) => {
                 <Form.Item label="Descripción">
                   <Input.TextArea
                     type="text"
-                    name="descripcion"
+                    name="description"
                     onChange={handleChange}
-                    defaultValue={prize.description}
+                    value={dataItem.description}
                     required
                   />
                 </Form.Item>

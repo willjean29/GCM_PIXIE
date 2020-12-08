@@ -1,7 +1,7 @@
 const Prize = require('../models/Prize');
 const Business = require('../models/Business');
 const Catalog = require('../models/Catalog');
-
+const Category = require('../models/Category');
 
 const obtenerPremios = async(req,res) => {
   const id = req.administrator._id;
@@ -66,7 +66,7 @@ const eliminarPremio = async(req,res) => {
 const actualizarPremio = async(req,res) => {
   const {id} = req.params;
   const data = req.body;
-  
+  console.log(data);
   if(data.category){
     const category = await Category.findOne({name: data.category});
     data.category = category._id;

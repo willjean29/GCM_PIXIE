@@ -10,7 +10,10 @@ import {
   GET_PRIZES_ERROR,
   DELETE_PRIZE,
   DELETE_PRIZE_OK,
-  DELETE_PRIZE_ERROR
+  DELETE_PRIZE_ERROR,
+  UPDATE_PRIZE,
+  UPDATE_PRIZE_OK,
+  UPDATE_PRIZE_ERROR
 } from '../types';
 import Notification from '../../components/UiElements/Notification';
 import clienteAxios from '../../config/clienteAxios';
@@ -134,4 +137,34 @@ const eliminarPremioOk = () => ({
 })
 const eliminarPremioError = () => ({
   type: DELETE_PRIZE_ERROR
+})
+
+export const actualizarPremioAction = (premio) => {
+  return async (dispatch) => {
+    dispatch(actualizarPremio());
+    tokenAuthAdmin();
+    try {
+      const response = await clienteAxios.put(`/prize/${premio._id}`,premio);
+      const data = response.data;
+      console.log(data);
+      Notification(data.ok,data.msg);
+      dispatch(actualizarPremioOk());
+    } catch (error) {
+      console.log(error.response);
+      const msg = error.response.data ? error.response.data.err.msg : "Hubo un error";
+      Notification(error.response.data.ok,msg);
+      dispatch(actualizarPremioError());
+    }
+
+  }
+}
+
+const actualizarPremio = () => ({
+  type: UPDATE_PRIZE
+})
+const actualizarPremioOk = () => ({
+  type: UPDATE_PRIZE_OK
+})
+const actualizarPremioError = () => ({
+  type: UPDATE_PRIZE_ERROR
 })
