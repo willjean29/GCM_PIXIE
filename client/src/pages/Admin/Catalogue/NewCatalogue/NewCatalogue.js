@@ -10,7 +10,7 @@ const NewCatalogue = (props) => {
   const {categories} = props;
   console.log(categories);
   const dispatch = useDispatch();
-  const registerCatalog = (dataCatalog) => dispatch(registerCatalogAction(dataCatalog));
+  const registerCatalog = (dataCatalog,setReloadPrizes) => dispatch(registerCatalogAction(dataCatalog,setReloadPrizes));
   const { Dragger } = Upload;
   const [files, setFiles] = useState([]);
   const [listFiles, setListFiles] = useState([]);
@@ -63,8 +63,11 @@ const NewCatalogue = (props) => {
   useEffect(() => {
     if(listFiles.length > 0){
       console.log(listFiles);
-      registerCatalog(listFiles);
+      registerCatalog(listFiles,props.setReloadPrizes);
       props.setShowModal(false);
+      setListFiles([]);
+      props.setContentModal(null);
+      setCargar(false);
     }
   }, [listFiles])
 

@@ -50,7 +50,12 @@ const InfoCatalogue = () => {
   const handleAddPrize = () => {
     setModalTitle('Agregar Premio');
     setContentModal(
-      <NewCatalogue setShowModal={setShowModal} categories={categories}/>
+      <NewCatalogue 
+        setShowModal={setShowModal} 
+        categories={categories} 
+        setContentModal={setContentModal}
+        setReloadPrizes={setReloadPrizes}
+      />
     )
     setShowModal(true);
   }

@@ -15,12 +15,12 @@ const obtenerPremios = async(req,res) => {
     })
   }
   const catalogo = await Catalog.findOne({business: business._id});
+  
   if(!catalogo) {
-    return res.status(400).json({
-      ok: false,
-      err: {
-        msg: "El administrador no tiene premios registrados"
-      }
+    return res.json({
+      ok: true,
+      msg: "El administrador no tiene premios registrados",
+      premios: [],
     })
   }
 

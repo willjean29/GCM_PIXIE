@@ -11,7 +11,6 @@ import AdminCompetitionNew from '../pages/Admin/Competition/NewCompetition';
 import AdminCompetitionInfo from '../pages/Admin/Competition/InfoCompetition';
 import AdminBusinessNew from '../pages/Admin/Business/NewBusiness';
 import AdminBusinessInfo from '../pages/Admin/Business/InfoBusiness';
-import AdminCatalogueNew from '../pages/Admin/Catalogue/NewCatalogue';
 import AdminCatalogueInfo from '../pages/Admin/Catalogue/InfoCatalogue';
 
 // import pages client
@@ -59,11 +58,6 @@ const routes = [
       {
         path: '/admin/competition/info',
         component: AdminCompetitionInfo,
-        exact: true
-      },
-      {
-        path: '/admin/catalogue/new',
-        component: AdminCatalogueNew,
         exact: true
       },
       {

@@ -55,7 +55,7 @@ export const obtenerArchivosAction = () => {
       const response = await clienteAxios.get('/file/all')
       const data = response.data;
       dispatch(obtenerArchivosOk(data.files));
-      // console.log(data);
+      console.log(data);
     } catch (error) {
       console.log(error.response);
       dispatch(obtenerArchivosError());

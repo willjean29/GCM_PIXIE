@@ -43,7 +43,7 @@ const getCategoriesError = () => ({
   type: GET_CATEGORIES_ERROR
 })
 
-export const registerCatalogAction = (dataCatalog) => {
+export const registerCatalogAction = (dataCatalog,setReloadPrizes) => {
   return async (dispatch) => {
     dispatch(registerCatalog())
     tokenAuthAdmin();
@@ -66,6 +66,7 @@ export const registerCatalogAction = (dataCatalog) => {
       const data = response.data;
       Notification(data.ok,data.msg);
       dispatch(registerCatalogOk());
+      setReloadPrizes(true);
     } catch (error) {
       const msg = error.response.data ? error.response.data.err.msg : "Hubo un error";
       Notification(error.response.data.ok,msg);
@@ -93,6 +94,7 @@ export const obtenerPremiosAction = () => {
       const response = await clienteAxios.get('/prize');
       const data = response.data;
       dispatch(obtenerPremiosOk(data.premios));
+      console.log(data);
     } catch (error) {
       console.log(error.response);
       dispatch(obtenerPremiosError());
