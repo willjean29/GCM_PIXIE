@@ -5,13 +5,14 @@ import { DeleteOutlined,DownloadOutlined, UploadOutlined, FileExcelOutlined, Saf
 import {useSelector,useDispatch} from 'react-redux';
 import Modal from '../../../components/Admin/Modal';
 import UploadFileForm from './UploadFileForm';
-import {registrarArchivoAction,obtenerArchivosAction} from '../../../redux/actions/fileActions';
+import {registrarArchivoAction,obtenerArchivosAction,detalleArchivoAction} from '../../../redux/actions/fileActions';
 import './Files.scss' // importa el css
 
 const Files = (props) => {
   const dispatch = useDispatch();
   const registrarArchivo = (file) => dispatch(registrarArchivoAction(file));
   const obtenerArchivos = () => dispatch(obtenerArchivosAction());
+  const detalleArchivo = (file) => dispatch(detalleArchivoAction(file));
   const listaArchivos = useSelector(state => state.files.data);
   const {Content} = Layout
   // const {TableLayout} = Card
@@ -41,6 +42,11 @@ const Files = (props) => {
     )
 
     setShowModal(true)
+  }
+
+  const handleGetFile = (file) => {
+    console.log(file);
+    detalleArchivo(file);
   }
 
   const columns = [
@@ -87,14 +93,14 @@ const Files = (props) => {
     {
       title: 'Acciones',
       key: 'actions',
-      render: (namecsv) => (
+      render: (file) => (
         <Space size='middle'>
           <Tooltip title="Procesar Archivos">
             <Button type='primary' icon={<CheckCircleOutlined />} >
             </Button>
           </Tooltip>
           <Tooltip title="Ver detalle de archivo">
-            <Button type='primary' icon={<EyeOutlined />} >
+            <Button type='primary' icon={<EyeOutlined />} onClick={() => handleGetFile(file)}>
             </Button>
           </Tooltip>
           <Tooltip title="Eliminar Archivo">

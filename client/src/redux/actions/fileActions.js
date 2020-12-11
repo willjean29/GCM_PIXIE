@@ -4,7 +4,10 @@ import {
   FILE_SALE_ERROR,
   GET_FILES,
   GET_FILES_OK,
-  GET_FILES_ERROR
+  GET_FILES_ERROR,
+  FILE_DETAIL,
+  FILE_DETAIL_OK,
+  FILE_DETAIL_ERROR
 } from '../types';
 
 import Notification from '../../components/UiElements/Notification';
@@ -72,4 +75,33 @@ const obtenerArchivosOk = (data) => ({
 })
 const obtenerArchivosError = () => ({
   type: GET_FILES_ERROR
+})
+
+export const detalleArchivoAction = (file) => {
+  return async (dispatch) => {
+    dispatch(detalleArchivo());
+    tokenAuthAdmin();
+    try {
+      const response = await clienteAxios.get(`/file/ventas/${file._id}`,{
+        params: file
+      });
+      const data = response.data;
+      console.log(data);
+      dispatch(detalleArchivoOk(data.file));
+    } catch (error) {
+      console.log(error.response);
+      dispatch(detalleArchivoError())
+    }
+  }
+}
+
+const detalleArchivo = () => ({
+  type: FILE_DETAIL
+})
+const detalleArchivoOk = (file) => ({
+  type: FILE_DETAIL_OK,
+  payload: file
+})
+const detalleArchivoError = () => ({
+  type: FILE_DETAIL_ERROR
 })
