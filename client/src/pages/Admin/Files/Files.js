@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 //import { green } from '@ant-design/colors'
+import { useHistory } from 'react-router-dom';
 import { Layout, Card, Table, Tooltip, Space, Button, Spin} from 'antd' // Esto sirve para importar los componentes
 import { DeleteOutlined,DownloadOutlined, UploadOutlined, FileExcelOutlined, SafetyOutlined, EyeOutlined, CheckCircleOutlined } from '@ant-design/icons';
 import {useSelector,useDispatch} from 'react-redux';
@@ -10,6 +11,7 @@ import './Files.scss' // importa el css
 
 const Files = (props) => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const registrarArchivo = (file) => dispatch(registrarArchivoAction(file));
   const obtenerArchivos = () => dispatch(obtenerArchivosAction());
   const detalleArchivo = (file) => dispatch(detalleArchivoAction(file));
@@ -47,6 +49,7 @@ const Files = (props) => {
   const handleGetFile = (file) => {
     console.log(file);
     detalleArchivo(file);
+    history.push(`/admin/files/${file._id}`)
   }
 
   const columns = [

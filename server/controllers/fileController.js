@@ -126,6 +126,7 @@ const obtenerDatosArchivo = async(req,res) => {
   const pathFile = `empresas${path[path.length - 1]}`;
   const streamJson = await getFileToS3(pathFile);
   const dataFile = formatJSON(streamJson);
+  console.log(dataFile);
   res.json({
     ok: false,
     msg: "Detalle de Archivo",

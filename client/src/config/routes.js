@@ -7,6 +7,7 @@ import AdminHome from '../pages/Admin';
 import AdminSingIn from '../pages/Admin/SingIn';
 import AdminProfile from '../pages/Admin/Profile';
 import AdminFiles from '../pages/Admin/Files';
+import AdminFilesDetail from '../pages/Admin/Files/ViewFile';
 import AdminCompetitionNew from '../pages/Admin/Competition/NewCompetition';
 import AdminCompetitionInfo from '../pages/Admin/Competition/InfoCompetition';
 import AdminBusinessNew from '../pages/Admin/Business/NewBusiness';
@@ -68,6 +69,11 @@ const routes = [
       {
         path: '/admin/files',
         component: AdminFiles,
+        exact: true
+      },
+      {
+        path: '/admin/files/:id',
+        component: AdminFilesDetail,
         exact: true
       },
       {

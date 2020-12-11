@@ -1,69 +1,58 @@
-import React from 'react'
-
+import React from 'react';
 import { Layout, Card, Table} from 'antd' // Esto sirve para importar los componentes
-// import { DeleteOutlined, DownloadOutlined, UploadOutlined, FileExcelOutlined, SafetyOutlined, EyeOutlined, CheckCircleOutlined } from '@ant-design/icons'
-
+import {useSelector} from 'react-redux';
 import './ViewFile.scss' // importa el css
 
 const ViewFile = (props) => {
   const {Content} = Layout
-  // const {TableLayout} = Card
-
+  const dataFiles = useSelector(state => state.files.fileCurret);
 
   const columns = [
     {
       title: 'ID',
-
-      key: 'id'
-    // render: () => <FileExcelOutlined/>
+      key: 'ID',
+      dataIndex: 'ID'
     },
     {
       title: 'DNI',
-
-      key: 'dni'
+      key: 'DNI',
+      dataIndex: 'DNI'
     },
     {
-      title: 'Apellido',
-      key: 'lastname'
-    //    render: () => <SafetyOutlined/> // Acá podria enviarse el color del icono unu
+      title: 'Nombres',
+      key: 'Nombres',
+      dataIndex: 'Nombres'
     },
     {
-      title: 'Tipo de pago',
-
-      key: 'type'
-    // render: () => 'Registro de Ventas'
+      title: 'Apellidos',
+      key: 'Apellidos',
+      dataIndex: 'Apellidos'
     },
     {
-      title: 'Monto Total',
-      key: 'amount'
-
+      title: 'Método de Pago',
+      key: 'Metodo_Pago',
+      dataIndex: 'Metodo_Pago'
     },
     {
-      title: 'Fecha',
-      key: 'date'
-
+      title: 'Total Venta',
+      key: 'Total_Venta',
+      dataIndex: 'Total_Venta'
+    },
+    {
+      title: 'Fecha Venta',
+      key: 'Fecha_Venta',
+      dataIndex: 'Fecha_Venta'
     }
   ]
 
-  const data = [
-    {
-      key: '1',
-      id: "01",
-      dni: "73008470",
-      name: 'Name',
-      lastname: 'Lastname',
-      type: 'Efectivo',
-      amount: 158.9,
-      date: '2020-10-10'
-    }
-  ]
+  const data = dataFiles;
   return (
-    <Layout className='vfiles'>
-      <Content className='vfiles__content'>
-        <h1 className='vfiles__content-title'>Registros de Ventas</h1>
+    <Layout className='files'>
+      <Content className='files__content'>
+        <h1 className='files__content-title'>Registros de Ventas</h1>
         <br/>
-        <Card className='vfiles__content-body'>
-          <Table className='vfiles__content-body-table' columns={columns} dataSource={data} />
+        <Card className='files__content-body'>
+          <Table className='files__content-body-table' columns={columns} dataSource={data} />
         </Card>
       </Content>
     </Layout>
