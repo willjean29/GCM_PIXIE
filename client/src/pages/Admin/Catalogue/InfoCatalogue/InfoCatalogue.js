@@ -139,6 +139,7 @@ const InfoCatalogue = () => {
           <Table
             columns={columns}
             dataSource={data}
+            scroll={{x: 380}}
           />
         </Spin>
       </Card>

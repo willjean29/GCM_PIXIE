@@ -9,7 +9,8 @@ import {
   FileExcelOutlined, 
   BankOutlined, 
   AimOutlined, 
-  CarryOutOutlined
+  CarryOutOutlined,
+  DropboxOutlined
 } from '@ant-design/icons';
 import NoAvatar from '../../../assets/img/png/no-avatar.png';
 import './MenuSider.scss';
@@ -108,7 +109,7 @@ const MenuSider = (props) => {
         }
         {
           administrador && administrador.estado ? (
-            <SubMenu icon={<AimOutlined />} title="Premios">
+            <SubMenu icon={<DropboxOutlined />} title="Premios">
             {
               administrador.empresa.concursos.length > 0 ? (
                 <Menu.Item key="/admin/catalogue/info">
@@ -133,7 +134,7 @@ const MenuSider = (props) => {
             <Menu.Item key="/admin/catalogue/info">
               <Tooltip title="Registre una empresa para habilitar esta opción" placement="top" arrowPointAtCenter color={'#108ee9'}>
                 <div>
-                  <AimOutlined />
+                  <DropboxOutlined />
                   <span className="nav-text">Premios</span>
                 </div>
               </Tooltip>

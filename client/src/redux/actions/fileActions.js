@@ -7,7 +7,10 @@ import {
   GET_FILES_ERROR,
   FILE_DETAIL,
   FILE_DETAIL_OK,
-  FILE_DETAIL_ERROR
+  FILE_DETAIL_ERROR,
+  DELETE_FILE,
+  DELETE_FILE_OK,
+  DELETE_FILE_ERROR
 } from '../types';
 
 import Notification from '../../components/UiElements/Notification';
@@ -102,4 +105,33 @@ const detalleArchivoOk = (file) => ({
 })
 const detalleArchivoError = () => ({
   type: FILE_DETAIL_ERROR
+})
+
+export const eliminarArchivoAction = (file) => {
+  return async (dispatch) => {
+    dispatch(eliminarArchivo());
+    tokenAuthAdmin();
+    try {
+      const response = await clienteAxios.delete(`/file/${file._id}`);
+      const data = response.data;
+      console.log(data);
+      Notification(data.ok,data.msg);
+      dispatch(eliminarArchivoOk());
+    } catch (error) {
+      console.log(error.response);
+      const msg = error.response.data ? error.response.data.err.msg : "Hubo un error";
+      Notification(error.response.data.ok,msg);
+      dispatch(eliminarArchivoError());
+    }
+  }
+}
+
+const eliminarArchivo = () => ({
+  type: DELETE_FILE
+})
+const eliminarArchivoOk = () => ({
+  type: DELETE_FILE_OK
+})
+const eliminarArchivoError = () => ({
+  type: DELETE_FILE_ERROR
 })

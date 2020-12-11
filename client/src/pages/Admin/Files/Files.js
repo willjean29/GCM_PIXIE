@@ -1,20 +1,27 @@
 import React, { useState, useEffect } from 'react'
 //import { green } from '@ant-design/colors'
 import { useHistory } from 'react-router-dom';
-import { Layout, Card, Table, Tooltip, Space, Button, Spin} from 'antd' // Esto sirve para importar los componentes
+import { Layout, Card, Table, Tooltip, Space, Button, Spin, Modal as ModalAnt} from 'antd' // Esto sirve para importar los componentes
 import { DeleteOutlined,DownloadOutlined, UploadOutlined, FileExcelOutlined, SafetyOutlined, EyeOutlined, CheckCircleOutlined } from '@ant-design/icons';
 import {useSelector,useDispatch} from 'react-redux';
 import Modal from '../../../components/Admin/Modal';
 import UploadFileForm from './UploadFileForm';
-import {registrarArchivoAction,obtenerArchivosAction,detalleArchivoAction} from '../../../redux/actions/fileActions';
+import {
+  registrarArchivoAction,
+  obtenerArchivosAction,
+  detalleArchivoAction,
+  eliminarArchivoAction
+} from '../../../redux/actions/fileActions';
 import './Files.scss' // importa el css
 
 const Files = (props) => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const {confirm} = ModalAnt;
   const registrarArchivo = (file) => dispatch(registrarArchivoAction(file));
   const obtenerArchivos = () => dispatch(obtenerArchivosAction());
   const detalleArchivo = (file) => dispatch(detalleArchivoAction(file));
+  const eliminarArchivo = (file) => dispatch(eliminarArchivoAction(file));
   const listaArchivos = useSelector(state => state.files.data);
   const {Content} = Layout
   // const {TableLayout} = Card
@@ -47,9 +54,23 @@ const Files = (props) => {
   }
 
   const handleGetFile = (file) => {
-    console.log(file);
     detalleArchivo(file);
     history.push(`/admin/files/${file._id}`)
+  }
+
+  const handleDeleteFile = (file) => {
+    confirm({
+      title: "Eliminar Archivo",
+      content: "Un archivo eliminado no se puede recuperar",
+      okText: 'Eliminar',
+      okType: "danger",
+      cancelText: 'Cancelar',
+      onOk: () => {
+        console.log("Eliminar ", file._id);
+        eliminarArchivo(file);
+        setReloadFiles(true);
+      }
+    })
   }
 
   const columns = [
@@ -107,7 +128,7 @@ const Files = (props) => {
             </Button>
           </Tooltip>
           <Tooltip title="Eliminar Archivo">
-            <Button type='primary' danger icon={<DeleteOutlined />} >
+            <Button type='primary' danger icon={<DeleteOutlined />} onClick={() => handleDeleteFile(file)}>
             </Button>
           </Tooltip>
         </Space>

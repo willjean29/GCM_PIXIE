@@ -1,12 +1,12 @@
 import React from 'react';
-import { Layout, Card, Table} from 'antd' // Esto sirve para importar los componentes
+import { Layout, Card, Table, Spin} from 'antd' // Esto sirve para importar los componentes
 import {useSelector} from 'react-redux';
 import './ViewFile.scss' // importa el css
 
 const ViewFile = (props) => {
   const {Content} = Layout
   const dataFiles = useSelector(state => state.files.fileCurret);
-
+  const loading = useSelector(state => state.files.loading);
   const columns = [
     {
       title: 'ID',
@@ -52,7 +52,13 @@ const ViewFile = (props) => {
         <h1 className='files__content-title'>Registros de Ventas</h1>
         <br/>
         <Card className='files__content-body'>
-          <Table className='files__content-body-table' columns={columns} dataSource={data} />
+          <Spin size="large" spinning={loading}>
+            <Table className='files__content-body-table' 
+              columns={columns} 
+              dataSource={data} 
+              scroll={{x: 380}}
+            />
+          </Spin>
         </Card>
       </Content>
     </Layout>

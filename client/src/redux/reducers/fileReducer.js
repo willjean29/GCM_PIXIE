@@ -7,7 +7,10 @@ import {
   GET_FILES_ERROR,
   FILE_DETAIL,
   FILE_DETAIL_OK,
-  FILE_DETAIL_ERROR
+  FILE_DETAIL_ERROR,
+  DELETE_FILE,
+  DELETE_FILE_OK,
+  DELETE_FILE_ERROR
 } from '../types';
 
 const initialState = {
@@ -22,9 +25,10 @@ const fileReducer = (state = initialState, action) => {
     case FILE_SALE:
     case GET_FILES:
     case FILE_DETAIL:
+    case DELETE_FILE:
       return {
         ...state,
-        loading: false,
+        loading: true,
         error: false
       }
     case GET_FILES_OK:
@@ -35,6 +39,7 @@ const fileReducer = (state = initialState, action) => {
         data: action.payload
       }
     case FILE_SALE_OK:
+    case DELETE_FILE_OK:
       return {
         ...state,
         loading: false,
@@ -50,6 +55,7 @@ const fileReducer = (state = initialState, action) => {
     case FILE_SALE_ERROR:
     case GET_FILES_ERROR:
     case FILE_DETAIL_ERROR:
+    case DELETE_FILE_ERROR:
       return {
         ...state,
         loading: false,
