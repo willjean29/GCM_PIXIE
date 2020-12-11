@@ -121,14 +121,22 @@ const obtenerArchivos = async (req,res) => {
 }
 
 const obtenerDatosArchivo = async(req,res) => {
-  const file = req.query;
+  const {id} = req.params;
+  const file = await File.findById(id);
+  if(!file){
+    return res.status(400).json({
+      ok: false,
+      err: {
+        mag: "El archivo no existe"
+      }
+    })
+  }
   const path = file.link.split('/empresas');
   const pathFile = `empresas${path[path.length - 1]}`;
   const streamJson = await getFileToS3(pathFile);
   const dataFile = formatJSON(streamJson);
-  console.log(dataFile);
   res.json({
-    ok: false,
+    ok: true,
     msg: "Detalle de Archivo",
     file: dataFile
   })
@@ -261,7 +269,8 @@ const eliminarArchivo = async (req,res) => {
 
   res.json({
     ok: true,
-    file
+    file,
+    msg: "Archivo Eliminado"
   });
 }
 

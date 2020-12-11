@@ -82,9 +82,7 @@ export const detalleArchivoAction = (file) => {
     dispatch(detalleArchivo());
     tokenAuthAdmin();
     try {
-      const response = await clienteAxios.get(`/file/ventas/${file._id}`,{
-        params: file
-      });
+      const response = await clienteAxios.get(`/file/ventas/${file._id}`);
       const data = response.data;
       console.log(data);
       dispatch(detalleArchivoOk(data.file));
