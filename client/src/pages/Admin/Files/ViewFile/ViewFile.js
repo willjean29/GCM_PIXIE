@@ -1,22 +1,17 @@
+//Content: Compnente de la tabla donde se observan los archivos del registro de ventas
 import React from 'react'
 
-import { Layout, Card, Table} from 'antd' // Esto sirve para importar los componentes
-// import { DeleteOutlined, DownloadOutlined, UploadOutlined, FileExcelOutlined, SafetyOutlined, EyeOutlined, CheckCircleOutlined } from '@ant-design/icons'
-
-import './ViewFile.scss' // importa el css
+import { Layout, Card, Table} from 'antd' 
+import './ViewFile.scss'
 
 const ViewFile = (props) => {
   const {Content} = Layout
-  // const {TableLayout} = Card
-
 
   const columns = [
     {
       title: 'ID',
-
       key: 'id'
-    // render: () => <FileExcelOutlined/>
-    },
+      },
     {
       title: 'DNI',
 
@@ -25,13 +20,11 @@ const ViewFile = (props) => {
     {
       title: 'Apellido',
       key: 'lastname'
-    //    render: () => <SafetyOutlined/> // Acá podria enviarse el color del icono unu
-    },
+       },
     {
       title: 'Tipo de pago',
-
       key: 'type'
-    // render: () => 'Registro de Ventas'
+   
     },
     {
       title: 'Monto Total',

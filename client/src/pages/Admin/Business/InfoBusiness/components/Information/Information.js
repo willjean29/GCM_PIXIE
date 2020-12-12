@@ -4,14 +4,14 @@ import {Card, Table, Button} from 'antd';
 import EditBusiness from './EditBusinness';
 import Modal from '../../../../../../components/Admin/Modal';
 import './Information.scss';
-const Information = () => {
+const Information = ({business}) => {
   const [showModal, setShowModal] = useState(false);
   const [modalTitle, setModalTitle] = useState('');
   const [contentModal, setContentModal] = useState(null);
   const handlerEditBusiness = () => {
     setModalTitle("Editar Empresa");
     setContentModal(
-      <EditBusiness/>
+      <EditBusiness business={business}/>
     )
     setShowModal(true);
   }
@@ -35,32 +35,32 @@ const Information = () => {
     {
       key: '1',
       dato: 'Nombre Comercial',
-      caracteristica: '----------'
+      caracteristica: business && business.nombreComercial
     },
     {
       key: '2',
       dato: 'Razón Social',
-      caracteristica: '----------'
+      caracteristica: business && business.razonSocial
     },
     {
       key: '3',
       dato: 'Provincia',
-      caracteristica: '----------'
+      caracteristica: business && business.provincia
     },
     {
       key: '4',
       dato: 'Departamento',
-      caracteristica: '----------'
+      caracteristica: business && business.departamento
     },
     {
       key: '5',
       dato: 'Distrito',
-      caracteristica: '----------'
+      caracteristica: business && business.distrito
     },
     {
       key: '6',
       dato: 'Dirección',
-      caracteristica: '----------'
+      caracteristica: business && business.direccion
     },
   ]
   return (  

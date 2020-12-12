@@ -1,9 +1,13 @@
 import React, {useState, useCallback} from 'react';
-import {Card, Avatar} from 'antd';
+import {Card, Avatar, notification, Button} from 'antd';
 import {useDropzone} from 'react-dropzone';
+import {useDispatch} from 'react-redux';
+import {agregarImagenAction} from '../../../../../../redux/actions/competitionActions';
 import NoAvatar from '../../../../../../assets/img/png/no-avatar.png';
 import './Logo.scss';
 const Logo = () => {
+  const dispatch = useDispatch();
+  const agregarImagen = (image) => dispatch(agregarImagenAction(image));
   const [avatar, setAvatar] = useState(null);
   const onDropAccepted = useCallback(
     (acceptedFiles ) => {
@@ -14,18 +18,30 @@ const Logo = () => {
     [setAvatar],
   )
 
-  // const onDropRejected = () => {
-  //   notification.open({
-  //     type : "error",
-  //     message: "Ingrese una imagen valida"
-  //   })
-  // }
+  const onDropRejected = () => {
+    notification.open({
+      type : "error",
+      message: "Ingrese una imagen valida"
+    })
+  }
 
   const {getRootProps, getInputProps, isDragActive} = useDropzone({
     accept: 'image/jpg, image/png, image/jpeg',
     noKeyboard: true,
-    onDropAccepted
+    onDropAccepted,
+    onDropRejected
   });
+  const handlerImageSubmit = (avatar) => {
+    if(!avatar){
+      notification.open({
+        type : "error",
+        message: "Ingrese una imagen"
+      })
+      return;
+    }
+    agregarImagen(avatar);
+    console.log(avatar);
+  }
 
   return (
     <Card type="inner" title="Agregar Logo" className="logo-competition">
@@ -42,6 +58,11 @@ const Logo = () => {
             src={avatar ? avatar.preview : NoAvatar}
           />
         )}
+      </div>
+      <div style={{textAlign: 'center'}}>
+        <Button type="primary" onClick={() => handlerImageSubmit(avatar)}>
+          Subir Imagen
+        </Button> 
       </div>
       <div className="logo-competition__message">
         <h3>Importante</h3>

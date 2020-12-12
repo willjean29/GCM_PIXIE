@@ -1,8 +1,14 @@
 import React, {useState} from 'react';
+import {useSelector, useDispatch} from 'react-redux';
 import {UserOutlined, IdcardOutlined, MailOutlined, LockOutlined} from '@ant-design/icons';
 import {Steps,Card,Form,Input,Button,Row,Col,Divider} from 'antd';
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
+import {
+  tokenMasterAction,
+  validarDniAction,
+  registrarAdminAction
+} from '../../../../../redux/actions/newAdminActions';
 import './RegisterForm.scss';
 
 const RegisterForm = () => {
@@ -52,6 +58,9 @@ const RegisterForm = () => {
 }
 
 const Step1 = ({next}) => {
+  const dispatch = useDispatch();
+  const tokenMaster = (token,next) => dispatch(tokenMasterAction(token,next));
+
   const formik = useFormik({
     initialValues: {
       token: ''
@@ -59,7 +68,9 @@ const Step1 = ({next}) => {
     validationSchema: Yup.object({
       token: Yup.string().required("El token es obligatorio")
     }),
-    onSubmit: (formData) => next()
+    onSubmit: (formData) => {
+      tokenMaster(formData,next);
+    }
   })
   return (
     <>
@@ -75,7 +86,7 @@ const Step1 = ({next}) => {
                 size="large"
                 validateStatus={formik.errors.token ? "error" : "success"}
               >
-                <Input
+                <Input.Password
                   addonBefore={<UserOutlined />}
                   placeholder="Token WebMaster"
                   size="large"
@@ -113,6 +124,8 @@ const Step1 = ({next}) => {
 }
 
 const Step2 = ({next, prev}) => {
+  const dispatch = useDispatch();
+  const validarDni = (dni,next) => dispatch(validarDniAction(dni,next));
   const formik = useFormik({
     initialValues: {
       dni: ''
@@ -122,7 +135,9 @@ const Step2 = ({next, prev}) => {
           .min(8,"El DNI debe contener 8 caracteres")
           .max(8,"El DNI debe contener 8 caracteres")
     }),
-    onSubmit: (formData) => next()
+    onSubmit: (formData) => {
+      validarDni(formData,next);
+    }
   })
   return (
     <>
@@ -174,7 +189,7 @@ const Step2 = ({next, prev}) => {
       <div>
         <h4>Importante</h4>
         <p>
-          Para comprobar la identidad del nuevo usuario, se validaran sus datos directamente con la RENIEC.
+          Para comprobar la identidad del nuevo usuario, se validarán sus datos directamente con la RENIEC.
         </p>
       </div>
     </>
@@ -182,27 +197,43 @@ const Step2 = ({next, prev}) => {
 }
 
 const Step3 = ({next, prev}) => {
+  const dispatch = useDispatch();
+  const registrarAdmin = (formData,next) => dispatch(registrarAdminAction(formData,next))
+  const dataAdmin = useSelector(state => state.newAdmin.dataAdmin);
   const formik = useFormik({
     initialValues: {
+      dni: '',
+      names: '',
+      lastNameP: '',
+      lastNameA: '',
       email: '',
       password: '',
       repeatPassword: ''
     },
     validationSchema: Yup.object({
-      name: Yup.string().required("El nombre es obligatorio"),
+      // names: Yup.string().required("El nombre es obligatorio"),
       email: Yup.string()
         .email("Ingrese un email valido")
         .required("El email es obligatorio"),
       password: Yup.string()
         .required("La contraseña es obligatoria")
         .oneOf([Yup.ref("repeatPassword")],'Las contraseñas no son iguales')
-        .min(8,"La contraseña debe tener minimo 6 caracteres"),
+        .min(6,"La contraseña debe tener minimo 6 caracteres"),
       repeatPassword: Yup.string()
         .required("La contraseña es obligatoria")
         .oneOf([Yup.ref("password")],"Las contraseñas no son iguales")
-        .min(8,"La contraseña debe tener minimo 6 caracteres"),
+        .min(6,"La contraseña debe tener minimo 6 caracteres"),
     }),
-    onSubmit: (formData) => next(false)
+    onSubmit: (formData) => {
+      const formDataAdmin = {
+        ...formData,
+        dni: dataAdmin && dataAdmin.dni,
+        names: dataAdmin && dataAdmin.nombres,
+        lastNameP: dataAdmin && dataAdmin.apellidoPaterno,
+        lastNameA: dataAdmin && dataAdmin.apellidoMaterno,
+      }
+      registrarAdmin(formDataAdmin,next);
+    }
   })
   return (
     <>
@@ -224,6 +255,8 @@ const Step3 = ({next, prev}) => {
                   placeholder="Nombres"
                   type="text"
                   name="names"
+                  value={dataAdmin && dataAdmin.nombres}
+                  disabled
                 />
               </Form.Item>
             </Col>
@@ -234,6 +267,8 @@ const Step3 = ({next, prev}) => {
                   placeholder="A. Paterno"
                   type="text"
                   name="lastNameP"
+                  value={dataAdmin && dataAdmin.apellidoPaterno}
+                  disabled
                 />
               </Form.Item>
             </Col>
@@ -246,7 +281,9 @@ const Step3 = ({next, prev}) => {
                   addonBefore={<UserOutlined />}
                   placeholder="A. Materno"
                   type="text"
-                  name="lastNameM"
+                  name="lastNameA"
+                  value={dataAdmin && dataAdmin.apellidoMaterno}
+                  disabled
                 />
               </Form.Item>
             </Col>

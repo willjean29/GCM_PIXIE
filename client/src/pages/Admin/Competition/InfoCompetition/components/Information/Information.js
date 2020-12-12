@@ -1,7 +1,8 @@
 import React from 'react';
 import {Card, Table} from 'antd';
+import moment from 'moment';
 import './Information.scss';
-const Information = () => {
+const Information = ({competition}) => {
   const columns = [
     {
       title: 'Dato',
@@ -22,32 +23,33 @@ const Information = () => {
     {
       key: '1',
       dato: 'Fecha Inicio',
-      caracteristica: '----------'
+      caracteristica: competition && moment.utc(competition.fechaInicio).format('L')
     },
     {
       key: '2',
       dato: 'Fecha Fin',
-      caracteristica: '----------'
+      caracteristica: competition && moment.utc(competition.fechaFin).format('L')
     },
     {
       key: '3',
       dato: 'Empresa',
-      caracteristica: '----------'
+      caracteristica: competition && (competition.business.nombreComercial !== '-' ? 
+        competition.business.nombreComercial : competition.business.razonSocial)
     },
     {
       key: '4',
       dato: 'Participantes',
-      caracteristica: '----------'
+      caracteristica: competition && competition.business.clientes.length
     },
     {
       key: '5',
       dato: 'Parámetro',
-      caracteristica: '----------'
+      caracteristica: `S/. ${competition && competition.reglas.parametro}`
     },
     {
       key: '6',
       dato: 'Puntos',
-      caracteristica: '----------'
+      caracteristica: competition && competition.reglas.puntos
     },
   ]
   return (  

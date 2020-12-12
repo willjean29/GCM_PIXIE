@@ -1,31 +1,46 @@
 import React, {useState, useCallback} from 'react';
-import {Card, Avatar} from 'antd';
+import {Card, Avatar, notification, Button} from 'antd';
 import {useDropzone} from 'react-dropzone';
+import {useDispatch} from 'react-redux';
+import {imagenEmpresaAction} from '../../../../../../redux/actions/businessActions';
 import NoAvatar from '../../../../../../assets/img/png/no-avatar.png';
 import './Logo.scss';
-const Logo = () => {
+const Logo = ({business}) => {
+  const dispatch = useDispatch();
+  const imagenEmpresa = (image) => dispatch(imagenEmpresaAction(image));
   const [avatar, setAvatar] = useState(null);
   const onDropAccepted = useCallback(
     (acceptedFiles ) => {
       const file = acceptedFiles[0];
       setAvatar({file, preview: URL.createObjectURL(file)});
-      console.log(file);
     },
     [setAvatar],
   )
 
-  // const onDropRejected = () => {
-  //   notification.open({
-  //     type : "error",
-  //     message: "Ingrese una imagen valida"
-  //   })
-  // }
+  const onDropRejected = () => {
+    notification.open({
+      type : "error",
+      message: "Ingrese una imagen valida"
+    })
+  }
 
   const {getRootProps, getInputProps, isDragActive} = useDropzone({
     accept: 'image/jpg, image/png, image/jpeg',
     noKeyboard: true,
-    onDropAccepted
+    onDropAccepted,
+    onDropRejected
   });
+
+  const handlerImageSubmit = (avatar) => {
+    if(!avatar){
+      notification.open({
+        type : "error",
+        message: "Ingrese una imagen"
+      })
+      return;
+    }
+    imagenEmpresa(avatar);
+  }
 
   return (
     <Card type="inner" title="Agregar Logo" className="logo-business" hoverable>
@@ -39,9 +54,14 @@ const Logo = () => {
         ): (
           <Avatar
             size={150}
-            src={avatar ? avatar.preview : NoAvatar}
+            src={avatar ? avatar.preview : (business.imagen ? business.imagen : NoAvatar)}
           />
         )}
+      </div>
+      <div style={{textAlign: 'center'}}>
+        <Button type="primary" onClick={() => handlerImageSubmit(avatar)}>
+          Subir Imagen
+        </Button> 
       </div>
       <div className="logo-business__message">
         <h3>Importante</h3>

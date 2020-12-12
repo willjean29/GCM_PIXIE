@@ -23,7 +23,7 @@ const LoginForm = () => {
       email: Yup.string().email('Ingrese un email válido').required("El email es obligatorio"),
       password: Yup.string().required('El password es obligatorio')
     }),
-    onSubmit: (formData) => loginUser(formData),
+    onSubmit: (formData) => loginUser(formData)
   });
 
   useEffect(() => {
