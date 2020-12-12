@@ -13,7 +13,7 @@ const InfoCompetition = () => {
   const dispatch = useDispatch();
   const obtenerConcurso = () => dispatch(obtenerConcursoAction());
   const competition = useSelector(state => state.competition.data);
-  const { TabPane } = Tabs;
+  const { TabPane } = Tabs; 
   useEffect(() => {
     obtenerConcurso();
     // eslint-disable-next-line
@@ -71,7 +71,7 @@ const InfoCompetition = () => {
                 <Information competition={competition}/>
               </TabPane>
               <TabPane tab={<span className="tab_text"><CheckCircleOutlined />Acciones</span>} key="2" >
-                <Actions/>
+                <Actions competition={competition}/>
               </TabPane>
               <TabPane tab={<span className="tab_text"><RedditOutlined />Logo</span>} key="3" >
                 <Logo/>
