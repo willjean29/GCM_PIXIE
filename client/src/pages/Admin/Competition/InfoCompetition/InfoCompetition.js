@@ -71,7 +71,7 @@ const InfoCompetition = () => {
                 <Information competition={competition}/>
               </TabPane>
               <TabPane tab={<span className="tab_text"><CheckCircleOutlined />Acciones</span>} key="2" >
-                <Actions/>
+                <Actions competition={competition}/>
               </TabPane>
               <TabPane tab={<span className="tab_text"><RedditOutlined />Logo</span>} key="3" >
                 <Logo/>
