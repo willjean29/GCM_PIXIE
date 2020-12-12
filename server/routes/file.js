@@ -4,26 +4,32 @@
 const express = require('express');
 const fileController = require('../controllers/fileController');
 const { uploadCSV } = require('../middlewares/uploadFileCSV');
+const { verifyTokenAdmin } = require('../middlewares/verifyToken');
 const authController = require('../controllers/authController');
 const router = express.Router();
 
 router.post('/upload',
-    authController.adminsitradorAutenticado,
-    uploadCSV,
-    fileController.registrarArchivo
+  verifyTokenAdmin,
+  uploadCSV,
+  fileController.registrarArchivo
+);
+
+router.get('/all',
+  verifyTokenAdmin,
+  fileController.obtenerArchivos
 );
 
 router.get('/ventas/:id',
-    authController.adminsitradorAutenticado,
-    fileController.obtenerDatosArchivo
+  verifyTokenAdmin,
+  fileController.obtenerDatosArchivo
 );
 router.get('/clientes/:id',
-    authController.adminsitradorAutenticado,
-    fileController.cargarDataCliente
+  verifyTokenAdmin,
+  fileController.cargarDataCliente
 );
 router.delete('/:id',
-    authController.adminsitradorAutenticado,
-    fileController.eliminarArchivo
+  verifyTokenAdmin,
+  fileController.eliminarArchivo
 );
 
 module.exports = router;

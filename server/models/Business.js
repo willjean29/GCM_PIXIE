@@ -1,54 +1,53 @@
-    red: {
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const businessSchema = mongoose.Schema({
   ruc: {
     type: String,
     trim: true,
-    required: true
+    required: true,
   },
   nombreComercial: {
     type: String,
-    trim: true
+    trim: true,
   },
   razonSocial: {
     type: String,
     trim: true,
-    required: true
+    required: true,
   },
   tipo: {
     type: String,
     trim: true,
-    required: true
+    required: true,
   },
   estado: {
     type: String,
     trim: true,
-    required: true
+    required: true,
   },
   direccion: {
     type: String,
     trim: true,
-    required: true
+    required: true,
   },
   departamento: {
     type: String,
     trim: true,
-    required: true
+    required: true,
   },
   provincia: {
     type: String,
     trim: true,
-    required: true
+    required: true,
   },
   distrito: {
     type: String,
     trim: true,
-    required: true
+    required: true,
   },
   imagen: {
     type: String,
-    trim: true
+    trim: true,
   },
   descripcion: {
     type: String,
@@ -57,30 +56,44 @@ const businessSchema = mongoose.Schema({
   },
   administrador: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Administrator',
-    required: [true, "El autor es obligatorio"]
+    ref: "Administrator",
+    required: [true, "El autor es obligatorio"],
   },
-  clientes: [{
-    idCliente: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Client'
-    }
-  }],
+  clientes: [
+    {
+      idCliente: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Client",
+      },
+    },
+  ],
+  concursos: [
+    {
+      idCompetition: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Competition",
+      },
+    },
+  ],
   redes: {
     facebook: {
       type: String,
-      trim: true
+      trim: true,
     },
     web: {
       type: String,
-      trim: true
+      trim: true,
     },
     red: {
       type: String,
-      trim: true
-    }
-  }
+      trim: true,
+    },
+  },
 
+  ubicacion: {
+    type: { type: String, default: "Point" },
+    coordinates: { type: [Number], index: "2dsphere" },
+  },
 });
 
-module.exports = mongoose.model('Business', businessSchema);
+module.exports = mongoose.model("Business", businessSchema);

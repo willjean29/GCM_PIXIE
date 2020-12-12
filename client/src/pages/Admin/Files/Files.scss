@@ -1,0 +1,49 @@
+@import '../../../scss/index.scss'; //Idk why im importing this unu
+
+.files {
+	&__content {
+		&-title {
+			font-size: 0em + 30px / $defaultFontSize; //
+		}
+
+		&-functions {
+			&-buttons {
+				margin-top: 20px;
+				.ant-space {
+					display: flex;
+					flex-direction: column;
+					align-items: flex-end;
+					@media (min-width: $media-breackpoint-up-sm) {
+						flex-direction: row;
+						justify-content: flex-end;
+					}
+					&-item {
+						margin: 5px 0 !important;
+						@media (min-width: $media-breackpoint-up-sm) {
+							margin: 0 5px !important;
+						}
+					}
+				}
+			}
+		}
+		&-body-table {
+			.table-layout {
+				max-width: 100%;
+			}
+			.ant-space {
+				display: flex;
+				flex-direction: column;
+				@media (min-width: $media-breackpoint-up-md) {
+					display: flex;
+					flex-direction: row;
+				}
+				&-item {
+					margin: 5px 0 !important;
+					@media (min-width: $media-breackpoint-up-md) {
+						margin: 0 5px !important;
+					}
+				}
+			}
+		}
+	}
+}

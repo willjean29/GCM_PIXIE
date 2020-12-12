@@ -1,33 +1,50 @@
 /**
  * Rutas de la empresa
  */
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
 // Importando controladores
-const businessController = require('../controllers/businessController');
-const authController = require('../controllers/authController');
+const businessController = require("../controllers/businessController");
+const authController = require("../controllers/authController");
 
-const { verificarToken } = require('../middlewares/verifyToken');
-const { uploadImage } = require('../middlewares/uploadImage');
+const { verifyTokenAdmin } = require("../middlewares/verifyToken");
+const { uploadImage } = require("../middlewares/uploadImage");
+
+// Para obtener información de la empresa
+router.get("/", verifyTokenAdmin, businessController.obtenerEmpresa);
 
 // Para validar RUC
-router.post('/verificar-ruc',
+router.post(
+  "/verificar-ruc",
   // authController.adminsitradorAutenticado,
+  verifyTokenAdmin,
   businessController.validarRUC
 );
 
 // Para registar empresa
-router.post('/registrar',
-  authController.adminsitradorAutenticado,
+router.post(
+  "/registrar",
+  verifyTokenAdmin,
   businessController.registrarEmpresa
 );
 
+// actualizar empresa
+router.put("/", verifyTokenAdmin, businessController.actualizarEmpresa);
+
 // agregar/actualizar avatar de la empresa
-router.post('/avatar',
-    authController.adminsitradorAutenticado,
-    uploadImage,
-    businessController.agregarAvatarEmpresa
+router.put(
+  "/avatar",
+  verifyTokenAdmin,
+  uploadImage,
+  businessController.agregarAvatarEmpresa
+);
+
+// actualizar ubicación de empresa
+router.put(
+  "/ubicacion",
+  verifyTokenAdmin,
+  businessController.actualizarUbicacionEmpresa
 );
 
 module.exports = router;

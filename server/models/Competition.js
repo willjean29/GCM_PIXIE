@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+const moment = require('moment');
 const competitionSchema = mongoose.Schema({
   name: {
     type: String,
