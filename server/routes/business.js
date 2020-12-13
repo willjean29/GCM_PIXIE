@@ -1,23 +1,27 @@
-/**
- * Rutas de la empresa
- */
-const express = require("express");
+/*
+  Rutas de la empresa.
+*/
+
+// Importando librerías
+const express = require('express');
 const router = express.Router();
 
 // Importando controladores
 const businessController = require("../controllers/businessController");
 const authController = require("../controllers/authController");
 
-const { verifyTokenAdmin } = require("../middlewares/verifyToken");
-const { uploadImage } = require("../middlewares/uploadImage");
+// Importando middlewares
+const { verifyTokenAdmin } = require('../middlewares/verifyToken');
+const { uploadImage } = require('../middlewares/uploadImage');
 
-// Para obtener información de la empresa
-router.get("/", verifyTokenAdmin, businessController.obtenerEmpresa);
+// Para obtener empresa actual
+router.get('/',
+  verifyTokenAdmin,
+  businessController.obtenerEmpresa
+);
 
 // Para validar RUC
-router.post(
-  "/verificar-ruc",
-  // authController.adminsitradorAutenticado,
+router.post('/verificar-ruc',
   verifyTokenAdmin,
   businessController.validarRUC
 );
@@ -29,12 +33,14 @@ router.post(
   businessController.registrarEmpresa
 );
 
-// actualizar empresa
-router.put("/", verifyTokenAdmin, businessController.actualizarEmpresa);
+// Para actualizar empresa
+router.put('/',
+  verifyTokenAdmin,
+  businessController.actualizarEmpresa
+);
 
-// agregar/actualizar avatar de la empresa
-router.put(
-  "/avatar",
+// Para agregar/actualizar avatar de la empresa
+router.put('/avatar',
   verifyTokenAdmin,
   uploadImage,
   businessController.agregarAvatarEmpresa

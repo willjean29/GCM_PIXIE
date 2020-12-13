@@ -5,29 +5,20 @@
   de concursos.
 */
 
-//Importando librerías
-const cloudinary = require("../config/cloudinary");
-const fs = require("fs-extra");
+// Importando librerías
+const cloudinary = require('../config/cloudinary');
+const fs = require('fs-extra');
 
 // Importando modelos
-const Competition = require("../models/Competition");
-const Business = require("../models/Business");
 const Administrator = require("../models/Administrator");
+const Competition = require('../models/Competition');
+const Business = require('../models/Business');
 
-const registrarConcurso = async (req, res) => {
+const registrarConcurso = async(req, res) => {
   const id = req.administrator._id;
-  
-  // Comprobamos que el administrador cuente con una empresa asociada
-  const business = await Business.findOne({ administrador: id }).catch(
-    (err) => {
-      return res.status(400).json({
-        ok: false,
-        err,
-      });
-    }
-  );
 
-  if (!business)
+  // Comprobamos que el administrador cuente con una empresa asociada
+  const business = await Business.findOne({administrador: id}).catch((err) => {
     return res.status(400).json({
       ok: false,
       err: {
@@ -35,10 +26,16 @@ const registrarConcurso = async (req, res) => {
       },
     });
 
-  const { name, fechaInicio, fechaFin, soles, puntos, tipo } = req.body;
+  if(!business) return res.status(400).json({
+    ok: false,
+    err: {
+      msg: "El Administrador no cuenta con una empresa asociada"
+    }
+  });
+
+  const { name,fechaInicio,fechaFin,soles,puntos,tipo } = req.body;
   const reglas = {
-    parametro: soles,
-    puntos,
+    parametro : soles,puntos
   };
   const competition = new Competition({
     name,
@@ -48,11 +45,9 @@ const registrarConcurso = async (req, res) => {
     tipo,
     reglas,
   });
-  const competitions = [
-    {
-      idCompetition: competition._id,
-    },
-  ];
+  const competitions = [{
+    idCompetition: competition._id
+  }];
 
   await competition.save().catch((err) => {
     return res.status(400).json({
@@ -76,20 +71,11 @@ const registrarConcurso = async (req, res) => {
   });
 };
 
-const obtenerConcurso = async (req, res) => {
+const obtenerConcurso = async(req, res) => {
   const id = req.administrator._id;
 
   // Comprobamos que el administrador cuente con una empresa asociada
-  const business = await Business.findOne({ administrador: id }).catch(
-    (err) => {
-      return res.status(400).json({
-        ok: false,
-        err,
-      });
-    }
-  );
-
-  if (!business)
+  const business = await Business.findOne({administrador: id}).catch((err) => {
     return res.status(400).json({
       ok: false,
       err: {
@@ -114,6 +100,13 @@ const obtenerConcurso = async (req, res) => {
       },
     });
 
+  if(!competition) return res.status(400).json({
+    ok: false,
+    err: {
+      msg: "El Administrador no cuenta con una empresa asociada"
+    }
+  });
+
   res.json({
     ok: true,
     competition,
@@ -121,7 +114,7 @@ const obtenerConcurso = async (req, res) => {
   });
 };
 
-const agregarImagenConcurso = async (req, res) => {
+const agregarImagenConcurso = async(req, res) => {
   const id = req.administrator._id;
 
   const business = await Business.findOne({ administrador: id }).catch(
@@ -182,7 +175,7 @@ const agregarImagenConcurso = async (req, res) => {
   });
 };
 
-const modificarCompetition = async (req, res) => {
+const modificarCompetition = async(req, res) => {
   const id = req.administrator._id;
   const { soles, puntos } = req.body;
   const reglas = { parametro: soles, puntos };
@@ -190,6 +183,7 @@ const modificarCompetition = async (req, res) => {
     ...req.body,
     reglas,
   };
+
   const administrator = await Administrator.findById(id).catch((err) => {
     return res.status(400).json({
       ok: false,
@@ -201,7 +195,7 @@ const modificarCompetition = async (req, res) => {
     return res.status(400).json({
       ok: false,
       err: {
-        msg: "El administrator no existe o no tiene permisos",
+        msg: "El administrador no existe o no tiene permisos",
       },
     });
 
@@ -218,7 +212,7 @@ const modificarCompetition = async (req, res) => {
     return res.status(400).json({
       ok: false,
       err: {
-        msg: "El administrator no tiene relación con la empresa",
+        msg: "El administrador no tiene relación con la empresa",
       },
     });
 
@@ -245,11 +239,11 @@ const modificarCompetition = async (req, res) => {
     ok: true,
     competition,
   });
-};
+}
 
 module.exports = {
   registrarConcurso,
   obtenerConcurso,
   agregarImagenConcurso,
-  modificarCompetition,
-};
+  modificarCompetition
+}

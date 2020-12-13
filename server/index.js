@@ -1,3 +1,4 @@
+// Importando librerías
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -9,7 +10,7 @@ const path = require('path');
 // Environment Variables
 require('dotenv').config();
 
-// config & middlewares 
+// Config & middlewares 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -17,16 +18,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Configure Header HTTP
 app.use(cors());
 
-// connected database
+// Connected database
 ConectionDB.getInstance();
 
-// routes (endpoints globals)
+// Routes (endpoints globals)
 app.use(routes);
 
-// variables
+// Variables
 const PORT = process.env.PORT || 4000;
 
-//  server config
-app.listen(PORT, () => {
-    console.log("Server running on port ", PORT);
+// Server config
+app.listen(PORT,() => {
+  console.log("Server running on port ", PORT);
 })
