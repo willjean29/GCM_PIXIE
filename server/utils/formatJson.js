@@ -1,5 +1,6 @@
 /*
-  Para formatear los archivos json.
+  Para formatear los archivos json
+  y poder ver el detalle de cada uno.
 */
 
 // Importando librerías
