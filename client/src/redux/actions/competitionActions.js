@@ -113,7 +113,7 @@ const agregarImagenError = () => ({
   type: COMPETITION_IMAGE_ERROR
 })
 
-export const modificarConcursoAction = (dataConcurso,reloadCompetition) => {
+export const modificarConcursoAction = (dataConcurso) => {
   return async (dispatch) => {
     dispatch(modificarConcurso());
     tokenAuthAdmin();

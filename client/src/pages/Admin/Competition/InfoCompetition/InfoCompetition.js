@@ -62,7 +62,16 @@ const InfoCompetition = () => {
                   }
                 </Descriptions.Item>
               </Descriptions>
-              <Button type="primary" style={{width: '100%'}} className="btn-submit" disabled>Activar</Button>
+              <Button 
+              type="primary" 
+              style={{width: '100%'}} 
+              className="btn-submit" 
+              disabled={competition && (
+                competition.estado ? true : (
+                  competition.active ? false : true
+                )
+              )}
+              >Activar</Button>
             </Card>
           </Col>
           <Col span={24} md={16}
@@ -73,7 +82,7 @@ const InfoCompetition = () => {
                 <Information competition={competition}/>
               </TabPane>
               <TabPane tab={<span className="tab_text"><CheckCircleOutlined />Acciones</span>} key="2" >
-                <Actions competition={competition} reloadCompetition={reloadCompetition}/>
+                <Actions competition={competition} />
               </TabPane>
               <TabPane tab={<span className="tab_text"><RedditOutlined />Logo</span>} key="3" >
                 <Logo/>

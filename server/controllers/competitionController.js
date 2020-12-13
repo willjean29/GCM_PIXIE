@@ -1,6 +1,7 @@
 const Competition = require('../models/Competition');
 const Business = require('../models/Business');
 const cloudinary = require('../config/cloudinary');
+const {existsCatalogoBusiness} = require('../middlewares/exists');
 const fs = require('fs-extra');
 const registrarConcurso = async(req,res) => {
   const id = req.administrator._id;
@@ -88,6 +89,11 @@ const obtenerConcurso = async (req, res) => {
       msg: "El Administrador no cuenta con una empresa asociada"
     }
   });
+
+  if(existsCatalogoBusiness){
+    competition.active = true;
+    await competition.save();
+  }
 
   res.json({
     ok: true,
@@ -195,9 +201,36 @@ const modificarConcurso = async(req,res) => {
   });
 }
 
+const activarConcurso = async (req,res) => {
+  const id = req.params.id;
+  const competition = await Competition.findById(id).populate("business").catch((err) => {
+    return res.status(400).json({
+      ok: false,
+      err
+    });
+  })
+
+  if(!competition) return res.status(400).json({
+    ok: false,
+    err: {
+      msg: "Concurso no se encuentra registrado"
+    }
+  })
+
+  competition.estado = true;
+  await competition.save();
+
+  res.json({
+    ok: true,
+    competition,
+    msg: "Concurso Activado"
+  })
+}
+
 module.exports = {
   registrarConcurso,
   obtenerConcurso,
   agregarImagenConcurso,
-  modificarConcurso
+  modificarConcurso,
+  activarConcurso
 }

@@ -5,7 +5,7 @@ import Modal from '../../../../../../components/Admin/Modal';
 import EditCompetiton from '../../../EditCompetition';
 import Competition from '../../../../../../assets/img/svg/undraw_winners_ao2o.svg';
 import './Actions.scss';
-const Actions = ({competition, reloadCompetition}) => {
+const Actions = ({competition}) => {
   const [showModal, setShowModal] = useState(false);
   const [modalTitle, setModalTitle] = useState('');
   const [contentModal, setContentModal] = useState(null);
@@ -16,7 +16,6 @@ const Actions = ({competition, reloadCompetition}) => {
       <EditCompetiton 
         competition={competition} 
         setShowModal={setShowModal} 
-        reloadCompetition={reloadCompetition}
       />
     )
     setShowModal(true);

@@ -8,9 +8,9 @@ import {useFormik} from 'formik';
 import * as Yup from 'yup';
 import {modificarConcursoAction} from '../../../../redux/actions/competitionActions';
 import './EditCompetition.scss';
-const EditCompetiton = ({competition,setShowModal,reloadCompetition}) => {
+const EditCompetiton = ({competition,setShowModal}) => {
   const dispatch = useDispatch();
-  const modificarConcurso = (data,reloadCompetition) => dispatch(modificarConcursoAction(data,reloadCompetition));
+  const modificarConcurso = (data) => dispatch(modificarConcursoAction(data));
   const formik = useFormik({
     initialValues: {
       nombre: competition.name ? competition.name : '',
@@ -37,7 +37,7 @@ const EditCompetiton = ({competition,setShowModal,reloadCompetition}) => {
         tipo: 'simple'
       }
       console.log(dataCompetition);
-      modificarConcurso(dataCompetition,reloadCompetition);
+      modificarConcurso(dataCompetition);
       setShowModal(false);
     }
   });

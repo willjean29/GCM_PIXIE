@@ -24,4 +24,8 @@ router.put('/',
   competitionController.modificarConcurso
 );
 
+router.post('/active/:id',
+  verifyTokenAdmin,
+  competitionController.activarConcurso
+);
 module.exports = router;
