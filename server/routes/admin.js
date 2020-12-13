@@ -10,6 +10,7 @@ const router = express.Router();
 const administratorController = require('../controllers/administratorController');
 const authController = require('../controllers/authController');
 
+// Importando middlewares
 const { uploadImage } = require('../middlewares/uploadImage');
 const { verifyTokenAdmin } = require('../middlewares/verifyToken');
 
