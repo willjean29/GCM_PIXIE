@@ -2,6 +2,7 @@
   Rutas de la subida de archivos.
 */
 
+// Importando librerías
 const express = require('express');
 const router = express.Router();
 
@@ -9,6 +10,7 @@ const router = express.Router();
 const fileController = require('../controllers/fileController');
 const authController = require('../controllers/authController');
 
+// Importando middlewares
 const { uploadCSV } = require('../middlewares/uploadFileCSV');
 const { verifyTokenAdmin } = require('../middlewares/verifyToken');
 
