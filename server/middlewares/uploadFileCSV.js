@@ -4,6 +4,7 @@
   Guia: Documentación de multer.
 */
 
+// Importando librerías
 const multer = require('multer'); // Da el filtro del tamaño para que después se pueda acceder desde otro lado
 const path = require('path');
 const shortId = require('shortid');

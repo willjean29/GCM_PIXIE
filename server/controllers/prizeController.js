@@ -8,6 +8,7 @@
 const Prize = require('../models/Prize');
 const Business = require('../models/Business');
 const Catalog = require('../models/Catalog');
+const Category = require('../models/Category');
 
 const obtenerPremios = async(req, res) => {
   const id = req.administrator._id;
@@ -24,11 +25,10 @@ const obtenerPremios = async(req, res) => {
 
   const catalogo = await Catalog.findOne({business: business._id});
   if(!catalogo) {
-    return res.status(400).json({
-      ok: false,
-      err: {
-        msg: "El administrador no tiene catalogo registrado"
-      }
+    return res.json({
+      ok: true,
+      msg: "El administrador no tiene premios registrados",
+      premios: [],
     })
   }
 
@@ -49,7 +49,7 @@ const obtenerPremios = async(req, res) => {
 }
 
 const eliminarPremio = async(req, res) => {
-  const {id} = req.params;
+  const { id } = req.params;
   
   const prize = await Prize.findByIdAndDelete(id).catch((err) => {
     return res.status(400).json({
@@ -72,7 +72,39 @@ const eliminarPremio = async(req, res) => {
   });
 }
 
+const actualizarPremio = async(req, res) => {
+  const { id } = req.params;
+  const data = req.body;
+  console.log(data);
+
+  if(data.category) {
+    const category = await Category.findOne({name: data.category});
+    data.category = category._id;
+  }
+
+  const prize = await Prize.findByIdAndUpdate(id,data,{new: true, runValidators: true}).catch((err) => {
+    return res.status(400).json({
+      ok: false,
+      err
+    });
+  })
+
+  if(!prize) return res.status(400).json({
+    ok: false,
+    err: {
+      msg: "Premio no registrado"
+    }
+  });
+
+  res.json({
+    ok: true,
+    prize,
+    msg: "Premio actualizado"
+  });
+}
+
 module.exports = {
   obtenerPremios,
-  eliminarPremio
+  eliminarPremio,
+  actualizarPremio
 }

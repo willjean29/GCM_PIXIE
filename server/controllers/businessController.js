@@ -5,9 +5,11 @@
   de información de la empresa.
 */
 
+// Importando librerías
 const axios = require('axios');
 const cloudinary = require('../config/cloudinary');
 const fs = require('fs-extra');
+require('dotenv').config();
 
 // Importando modelos
 const Business = require('../models/Business');
@@ -18,8 +20,6 @@ const {
   existsCompetitionSimple, 
   existsCatalogoBusiness 
 } = require('../middlewares/exists');
-
-require('dotenv').config();
 
 const agregarAvatarEmpresa = async(req, res) => {
   const id = req.administrator._id;
@@ -246,10 +246,44 @@ const actualizarEmpresa = async(req, res) => {
   });
 }
 
+const actualizarUbicacionEmpresa = async(req, res) => {
+  const id = req.administrator._id;
+  const { lat, lng } = req.body;
+  const data = {
+    ubicacion: {coordinates: [lng, lat]},
+  };
+
+  const business = await Business.findOneAndUpdate(
+    { administrador: id },
+    data,
+    { new: true, runValidators: true }
+  ).catch((err) => {
+    return res.status(400).json({
+      ok: false,
+      err,
+    });
+  });
+
+  if (!business)
+    return res.status(400).json({
+      ok: false,
+      err: {
+        msg: "La empresa no se encuentra registrada",
+      },
+    });
+
+  res.json({
+    ok: true,
+    business,
+    msg: "Ubicación de Empresa Actualizada",
+  });
+}
+
 module.exports = {
   agregarAvatarEmpresa,
   validarRUC,
   registrarEmpresa,
   obtenerEmpresa,
-  actualizarEmpresa
+  actualizarEmpresa,
+  actualizarUbicacionEmpresa
 }

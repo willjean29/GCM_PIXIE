@@ -2,6 +2,7 @@
   Rutas de la empresa.
 */
 
+// Importando librerías
 const express = require('express');
 const router = express.Router();
 

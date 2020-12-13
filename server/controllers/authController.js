@@ -4,14 +4,14 @@
   inicio de sesión y validación de datos.
 */
 
+// Importando librerías
 const axios = require('axios');
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 // Importando modelos
 const Administrator = require('../models/Administrator');
 const WebMaster = require('../models/WebMaster');
-
-require('dotenv').config();
 
 const verificarDNI = async(req, res) => {
   const { dni } = req.body;

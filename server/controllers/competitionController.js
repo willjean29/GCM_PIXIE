@@ -5,10 +5,12 @@
   de concursos.
 */
 
+// Importando librerías
 const cloudinary = require('../config/cloudinary');
 const fs = require('fs-extra');
 
 // Importando modelos
+const Administrator = require("../models/Administrator");
 const Competition = require('../models/Competition');
 const Business = require('../models/Business');
 
@@ -30,7 +32,7 @@ const registrarConcurso = async(req, res) => {
     }
   });
 
-  const {name,fechaInicio,fechaFin,soles,puntos,tipo} = req.body;
+  const { name,fechaInicio,fechaFin,soles,puntos,tipo } = req.body;
   const reglas = {
     parametro : soles,puntos
   };
@@ -162,8 +164,75 @@ const agregarImagenConcurso = async(req, res) => {
   });
 }
 
+const modificarCompetition = async(req, res) => {
+  const id = req.administrator._id;
+  const { soles, puntos } = req.body;
+  const reglas = { parametro: soles, puntos };
+  const data = {
+    ...req.body,
+    reglas,
+  };
+
+  const administrator = await Administrator.findById(id).catch((err) => {
+    return res.status(400).json({
+      ok: false,
+      err,
+    });
+  });
+
+  if (!administrator)
+    return res.status(400).json({
+      ok: false,
+      err: {
+        msg: "El administrador no existe o no tiene permisos",
+      },
+    });
+
+  const business = await Business.findOne({
+    administrador: administrator._id,
+  }).catch((err) => {
+    return res.status(400).json({
+      ok: false,
+      err,
+    });
+  });
+
+  if (!business)
+    return res.status(400).json({
+      ok: false,
+      err: {
+        msg: "El administrador no tiene relación con la empresa",
+      },
+    });
+
+  const competition = await Competition.findOneAndUpdate(
+    { business: business._id },
+    data,
+    { new: true, runValidators: true }
+  ).catch((err) => {
+    return res.status(400).json({
+      ok: false,
+      err,
+    });
+  });
+
+  if (!competition)
+    return res.status(400).json({
+      ok: false,
+      err: {
+        msg: "El concurso no se encuntra registrado",
+      },
+    });
+
+  res.json({
+    ok: true,
+    competition,
+  });
+}
+
 module.exports = {
   registrarConcurso,
   obtenerConcurso,
-  agregarImagenConcurso
+  agregarImagenConcurso,
+  modificarCompetition
 }

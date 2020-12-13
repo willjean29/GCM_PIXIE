@@ -5,6 +5,7 @@
   de datos del administrador.
 */
 
+// Importando librerías
 const jwt = require('jsonwebtoken');
 const cloudinary = require('../config/cloudinary');
 const fs = require('fs-extra');

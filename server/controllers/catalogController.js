@@ -5,16 +5,25 @@
   de catálogo de productos.
 */
 
+// Importando librerías
 const cloudinary = require('../config/cloudinary');
 const shortId = require('shortid');
 const fs = require('fs-extra');
 
 // Importando modelos
+const Administrator = require("../models/Administrator");
 const Business = require('../models/Business');
 const Catalog = require('../models/Catalog');
 const Prize = require('../models/Prize');
 const Category = require('../models/Category');
 
+// Importando middlewares
+const {
+  existsCompetitionSimple,
+  existsCatalogoBusiness,
+} = require("../middlewares/exists");
+
+// Función para registrar catálogo de premios
 const registrarCatalogoPremios = async(req, res) => {
   const id = req.administrator._id;
 
@@ -90,6 +99,46 @@ const registrarCatalogoPremios = async(req, res) => {
   })
 }
 
+// Función para mostrar la vista de creación de catálogo
+const mostrarCrearCatalogo = async(req, res) => {
+  const administrator = await Administrator.findById(req.administrator._id).lean();
+  const existeConcursoSimple = await existsCompetitionSimple(req.administrator._id);
+  const existeCatalogoBusiness = await existsCatalogoBusiness(req.administrator._id);
+  
+  res.send({
+    title: "Adminstrador",
+    admin: administrator,
+    existeConcursoSimple,
+    existeCatalogoBusiness,
+  });
+};
+
+// Función para mostrar la lista de premios
+const mostrarListaCatalogo = async(req, res) => {
+  const administrator = await Administrator.findById(req.administrator._id).lean();
+  const business = await Business.findOne({
+    administrador: administrator._id,
+  }).lean();
+  const catalog = await Catalog.findOne({ business: business._id }).lean();
+  const prizes = await Prize.find({ catalog: catalog._id })
+    .populate("category", "name")
+    .lean();
+  const existeConcursoSimple = await existsCompetitionSimple(req.administrator._id);
+  const existeCatalogoBusiness = await existsCatalogoBusiness(req.administrator._id);
+  const categories = await Category.find().sort("name").lean();
+
+  res.send({
+    title: "Adminstrador",
+    admin: administrator,
+    premios: prizes,
+    existeConcursoSimple,
+    existeCatalogoBusiness,
+    categories,
+  });
+};
+
 module.exports = {
-  registrarCatalogoPremios
+  registrarCatalogoPremios,
+  mostrarCrearCatalogo,
+  mostrarListaCatalogo
 }

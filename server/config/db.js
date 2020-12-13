@@ -3,6 +3,7 @@
   para el almacenamiento de información.
 */
 
+// Importando librerías
 const mongoose = require('mongoose');
 
 class ConectionDB {
