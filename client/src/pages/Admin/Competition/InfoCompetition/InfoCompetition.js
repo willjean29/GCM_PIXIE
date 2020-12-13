@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useState,useEffect} from 'react';
 import { RedditOutlined, InfoCircleOutlined, CheckCircleOutlined} from '@ant-design/icons';
 import { Card, Row, Col, Descriptions, Tabs, Image, Button } from 'antd';
 import {useSelector, useDispatch} from 'react-redux';
@@ -13,11 +13,13 @@ const InfoCompetition = () => {
   const dispatch = useDispatch();
   const obtenerConcurso = () => dispatch(obtenerConcursoAction());
   const competition = useSelector(state => state.competition.data);
+  const [reloadCompetition, setReloadCompetition] = useState(false);
   const { TabPane } = Tabs;
   useEffect(() => {
     obtenerConcurso();
+    setReloadCompetition(false);
     // eslint-disable-next-line
-  }, [dispatch])
+  }, [dispatch,reloadCompetition])
   return (
     <>
       <Card>
@@ -71,7 +73,7 @@ const InfoCompetition = () => {
                 <Information competition={competition}/>
               </TabPane>
               <TabPane tab={<span className="tab_text"><CheckCircleOutlined />Acciones</span>} key="2" >
-                <Actions competition={competition}/>
+                <Actions competition={competition} reloadCompetition={reloadCompetition}/>
               </TabPane>
               <TabPane tab={<span className="tab_text"><RedditOutlined />Logo</span>} key="3" >
                 <Logo/>

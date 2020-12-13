@@ -174,7 +174,7 @@ const modificarConcurso = async(req,res) => {
     }
   });
 
-  const competition = await Competition.findOneAndUpdate({business: business._id},data,{new: true, runValidators: true}).catch((err) => {
+  const competition = await Competition.findOneAndUpdate({business: business._id},data,{new: true, runValidators: true}).populate('business').catch((err) => {
     return res.status(400).json({
       ok: false,
       err
