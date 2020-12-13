@@ -19,4 +19,9 @@ router.put('/image',
   competitionController.agregarImagenConcurso
 );
 
+router.put('/',
+  verifyTokenAdmin,
+  competitionController.modificarConcurso
+);
+
 module.exports = router;

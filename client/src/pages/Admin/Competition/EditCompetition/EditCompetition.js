@@ -8,14 +8,13 @@ import {useFormik} from 'formik';
 import * as Yup from 'yup';
 import './EditCompetition.scss';
 const EditCompetiton = ({competition}) => {
-  console.log(competition);
   const formik = useFormik({
     initialValues: {
-      nombre: '',
-      soles: '',
-      puntos: '',
-      fechaInicio: moment().add(1,'days'),
-      fechaFin: moment().add(30,'days')
+      nombre: competition.name ? competition.name : '',
+      soles: competition.reglas ? competition.reglas.parametro : '',
+      puntos: competition.reglas ? competition.reglas.puntos : '',
+      fechaInicio: moment.utc(competition.fechaInicio),
+      fechaFin: moment.utc(competition.fechaFin)
     },
     validationSchema: Yup.object({
       nombre: Yup.string().required('El nombre es obligatorio'),
@@ -123,7 +122,7 @@ const EditCompetiton = ({competition}) => {
                     name="fechaInicio"
                     format="DD/MM/YYYY"
                     defaultValue={formik.values.fechaInicio}
-                    // onChange={(e,value) => {formik.values.fechaInicio=value}}
+                    onChange={(e,value) => {formik.values.fechaInicio = e}}
                   />
                   <span style={{color : '#b83a38'}}>{formik.errors.fechaInicio}</span>
                 </Form.Item>
@@ -138,7 +137,7 @@ const EditCompetiton = ({competition}) => {
                     name="fechaFin"
                     format="DD/MM/YYYY"
                     defaultValue={formik.values.fechaFin}
-                    // onChange={(e,value) => {formik.values.fechaFin=value}}
+                    onChange={(e,value) => {formik.values.fechaFin = e}}
                   />
                   <span style={{color : '#b83a38'}}>{formik.errors.fechaFin}</span>
                 </Form.Item>

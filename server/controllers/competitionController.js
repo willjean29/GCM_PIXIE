@@ -151,8 +151,53 @@ const agregarImagenConcurso = async (req,res) => {
   });
 }
 
+const modificarConcurso = async(req,res) => {
+  const id = req.administrator._id;
+  const {soles,puntos} = req.body;
+  const reglas = {parametro : soles,puntos};
+  const data = {
+    ...req.body,
+    reglas
+  };
+
+  const business = await Business.findOne({administrador: id}).catch((err) => {
+    return res.status(400).json({
+      ok: false,
+      err
+    });
+  });
+
+  if(!business) return res.status(400).json({
+    ok: false,
+    err: {
+      msg: "El administrator no tiene relación con la empresa"
+    }
+  });
+
+  const competition = await Competition.findOneAndUpdate({business: business._id},data,{new: true, runValidators: true}).catch((err) => {
+    return res.status(400).json({
+      ok: false,
+      err
+    });
+  })
+
+  if(!competition) return res.status(400).json({
+    ok: false,
+    err: {
+      msg: "El concurso no se encuntra registrado"
+    }
+  });
+
+  res.json({
+    ok: true,
+    competition,
+    msg: "Concurso actualizado"
+  });
+}
+
 module.exports = {
   registrarConcurso,
   obtenerConcurso,
-  agregarImagenConcurso
+  agregarImagenConcurso,
+  modificarConcurso
 }
