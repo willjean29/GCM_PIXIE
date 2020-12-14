@@ -37,6 +37,10 @@ const prizeSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Category',
     // required: true
+  },
+  key: {
+    type: String,
+    trim: true,
   }
 });
 

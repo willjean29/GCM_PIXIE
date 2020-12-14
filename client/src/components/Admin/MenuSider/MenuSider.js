@@ -9,7 +9,8 @@ import {
   FileExcelOutlined, 
   BankOutlined, 
   AimOutlined, 
-  CarryOutOutlined
+  CarryOutOutlined,
+  DropboxOutlined
 } from '@ant-design/icons';
 import NoAvatar from '../../../assets/img/png/no-avatar.png';
 import './MenuSider.scss';
@@ -106,6 +107,49 @@ const MenuSider = (props) => {
             </Menu.Item>
           )
         }
+        {
+          administrador && administrador.estado ? (
+            <SubMenu icon={<DropboxOutlined />} title="Premios">
+            {
+              administrador.empresa.concursos.length > 0 ? (
+                <Menu.Item key="/admin/catalogue/info">
+                <Link to="/admin/catalogue/info">
+                  <CarryOutOutlined />
+                  <span className="nav-text">Información</span>
+                </Link>
+              </Menu.Item>
+              ) : (
+                <Menu.Item key="/admin/catalogue/info">
+                  <Tooltip title="Registre un concurso para habilitar esta opción" placement="top" arrowPointAtCenter color={'#108ee9'}>
+                    <div>
+                      <AimOutlined />
+                      <span className="nav-text">Información</span>
+                    </div>
+                  </Tooltip>
+                </Menu.Item>
+              )
+            }
+            </SubMenu>
+          ) : (
+            <Menu.Item key="/admin/catalogue/info">
+              <Tooltip title="Registre una empresa para habilitar esta opción" placement="top" arrowPointAtCenter color={'#108ee9'}>
+                <div>
+                  <DropboxOutlined />
+                  <span className="nav-text">Premios</span>
+                </div>
+              </Tooltip>
+            </Menu.Item>
+          )
+        }
+        {/* <SubMenu icon={<AimOutlined />} title="Premios">
+          <Menu.Item key="/admin/catalogue/info">
+            <Link to="/admin/catalogue/info">
+              <CarryOutOutlined />
+              <span className="nav-text">Información</span>
+            </Link>
+          </Menu.Item>
+        </SubMenu> */}
+
         <Menu.Item key="/admin/files">
           {
             administrador && administrador.estado ? (

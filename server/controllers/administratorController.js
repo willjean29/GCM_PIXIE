@@ -102,8 +102,80 @@ const obtenerAdministradores = async(req,res) => {
     })
 }
 
+const actualizarAdministrador = async (req,res) => {
+  const id = req.administrator._id;
+  const data = req.body;
+  let administrator;
+  try {
+    administrator = await Administrator.findByIdAndUpdate(id,data,{new: true, runValidators: true}).populate('empresa');
+  } catch (err) {
+    return res.status(500).json({
+      ok: false,
+      err
+    })
+  }
+  if(!administrator) return res.status(400).json({
+    ok: false,
+    err: {
+      msg: "El administrador no existe"
+    }
+  });
+
+  res.json({
+    ok: true,
+    msg: "Administrador Actualizado",
+    administrator
+  });
+}
+
+const agregarAvatar = async(req,res) => {
+  const id = req.administrator._id;
+
+  let administrator;
+  try {
+    administrator = await Administrator.findById(id).populate('empresa');
+  } catch (err) {
+    return res.status(400).json({
+      ok: false,
+      err
+    })
+  }
+
+  if(!administrator) return res.status(400).json({
+    ok: false,
+    err: {
+      msg: "El administrator no existe o no tiene permisos"
+    }
+  });
+
+  if(req.file){
+    const result = await cloudinary.v2.uploader.upload(req.file.path);
+    administrator.image = result.secure_url;
+    await fs.unlink(req.file.path);
+  }
+
+  try {
+    await administrator.save();
+  } catch (err) {
+    return res.status(400).json({
+      ok: false,
+      err: {
+        msg: "No se pudo guardar la imagen"
+      }
+    }); 
+  }
+
+  res.json({
+    ok: true,
+    msg: "Avatar Actualizado",
+    administrator
+  });
+}
+
 module.exports = {
   agregarAdministrador,
   obtenerAdministratorID,
-  obtenerAdministradores
+  obtenerAdministradores,
+  actualizarAdministrador,
+  agregarAvatar
 }
