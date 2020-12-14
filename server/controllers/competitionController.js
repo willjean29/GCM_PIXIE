@@ -89,8 +89,9 @@ const obtenerConcurso = async (req, res) => {
       msg: "El Administrador no cuenta con una empresa asociada"
     }
   });
-
-  if(existsCatalogoBusiness){
+  const existeCatalogo = await existsCatalogoBusiness(id);
+  console.log(existeCatalogo)
+  if(existeCatalogo){
     competition.active = true;
     await competition.save();
   }

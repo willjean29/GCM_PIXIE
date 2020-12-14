@@ -5,12 +5,14 @@ import {useSelector, useDispatch} from 'react-redux';
 import ItemPrize from '../components/ItemPrize';
 import Modal from '../../../../components/Admin/Modal';
 import {registerCatalogAction} from '../../../../redux/actions/catalogActions';
+import {obtenerConcursoAction} from '../../../../redux/actions/competitionActions';
 import './NewCatalogue.scss';
 const NewCatalogue = (props) => {
   const {categories} = props;
   console.log(categories);
   const dispatch = useDispatch();
   const registerCatalog = (dataCatalog,setReloadPrizes) => dispatch(registerCatalogAction(dataCatalog,setReloadPrizes));
+  const obtenerConcurso = () => dispatch(obtenerConcursoAction());
   const { Dragger } = Upload;
   const [files, setFiles] = useState([]);
   const [listFiles, setListFiles] = useState([]);
@@ -68,6 +70,7 @@ const NewCatalogue = (props) => {
       setListFiles([]);
       props.setContentModal(null);
       setCargar(false);
+      obtenerConcurso();
     }
   }, [listFiles])
 
