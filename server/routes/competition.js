@@ -32,10 +32,13 @@ router.put('/image',
   competitionController.agregarImagenConcurso
 );
 
-// Para modificar parámetros de concurso
-router.put('/modify',
+router.put('/',
   verifyTokenAdmin,
-  competitionController.modificarCompetition
+  competitionController.modificarConcurso
 );
 
+router.post('/active/:id',
+  verifyTokenAdmin,
+  competitionController.activarConcurso
+);
 module.exports = router;

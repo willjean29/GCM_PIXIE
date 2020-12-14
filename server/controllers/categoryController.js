@@ -1,18 +1,9 @@
-/*
-  CATEGORYCONTROLLER:
-  Controlador de categoría, gestiona las
-  operaciones de registro y modificación
-  de categoría de productos.
-*/
-
-// Importando modelos
 const Category = require('../models/Category');
 
-const registrarCategoria = async(req, res) => {
+const registrarCategoria = async(req,res) => {
   const data = req.body;
   console.log(data);
   const category = new Category(data);
-
   await category.save().catch((err) => {
     return res.status(400).json({
       ok: false,
@@ -26,8 +17,9 @@ const registrarCategoria = async(req, res) => {
   });
 }
 
-const obtenerCategorias = async(req, res) =>{
-  const categories = await Category.find().sort('name');
+const obtenerCategorias = async(req,res) =>{
+  const categories = await Category.find()
+    .sort('name');
 
   if(!categories) return res.status(400).json({
     ok: false,
@@ -41,7 +33,6 @@ const obtenerCategorias = async(req, res) =>{
     categories
   });
 }
-
 module.exports = {
   registrarCategoria,
   obtenerCategorias

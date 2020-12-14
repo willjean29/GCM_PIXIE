@@ -10,7 +10,7 @@ const Information = ({business}) => {
   const [contentModal, setContentModal] = useState(null);
   const handlerEditBusiness = () => {
     setModalTitle("Editar Empresa");
-    setContentModal(
+    setContentModal( 
       <EditBusiness business={business}/>
     )
     setShowModal(true);

@@ -1,32 +1,15 @@
-/*
-  CATALOGCONTROLLER:
-  Controlador de catálogo, gestiona las
-  operaciones de registro y modificación
-  de catálogo de productos.
-*/
-
-// Importando librerías
-const cloudinary = require('../config/cloudinary');
-const shortId = require('shortid');
-const fs = require('fs-extra');
-
-// Importando modelos
-const Administrator = require("../models/Administrator");
 const Business = require('../models/Business');
 const Catalog = require('../models/Catalog');
 const Prize = require('../models/Prize');
 const Category = require('../models/Category');
+const cloudinary = require('../config/cloudinary');
+const fs = require('fs-extra');
+const shortId = require('shortid');
 
-// Importando middlewares
-const {
-  existsCompetitionSimple,
-  existsCatalogoBusiness,
-} = require("../middlewares/exists");
 
-// Función para registrar catálogo de premios
-const registrarCatalogoPremios = async(req, res) => {
+const registrarCatalogoPremios = async(req,res) => {
   const id = req.administrator._id;
-
+  // return;
   const business = await Business.findOne({administrador: id}).catch((err) => {
     return res.status(500).json({
       ok: false,
@@ -41,21 +24,21 @@ const registrarCatalogoPremios = async(req, res) => {
     }
   });
 
-  // Revisamos si ya existe un catálogo de la empresa
+  // revisar si ya existe un catalog de la empresa
   let catalog = await Catalog.findOne({business: business._id});
   if(!catalog){
-    // Creamos el catálogo de premios
+    // crear catalogo de premios
     catalog = new Catalog({
-      name: "Catálogo de Premios",
+      name: "Cátalogo de Premios",
       description: "Lista de premios a canjear",
       business: business._id
     });
     await catalog.save();
   }
 
-  if(req.files) {
-    if(req.files.length > 1) {
-      console.log(req.files);
+  if(req.files){
+    if(req.files.length > 1){
+      console.log(req.files)
       req.files.forEach(async(file,index) => {   
         const result = await cloudinary.v2.uploader.upload(file.path);
         const dataPremio = {
@@ -72,8 +55,8 @@ const registrarCatalogoPremios = async(req, res) => {
         registrarPremio(dataPremio);
         await fs.unlink(file.path);
       })
-    } else {
-      console.log(req.files);
+    }else{
+      console.log(req.files)
       const result = await cloudinary.v2.uploader.upload(req.files[0].path);
       console.log(result);
       const dataPremio = {
@@ -91,7 +74,7 @@ const registrarCatalogoPremios = async(req, res) => {
       await fs.unlink(req.files[0].path);
     }
   }
-  
+  // console.log(req.files);
   console.log("registrar");
   res.json({
     ok: true,
@@ -99,46 +82,14 @@ const registrarCatalogoPremios = async(req, res) => {
   })
 }
 
-// Función para mostrar la vista de creación de catálogo
-const mostrarCrearCatalogo = async(req, res) => {
-  const administrator = await Administrator.findById(req.administrator._id).lean();
-  const existeConcursoSimple = await existsCompetitionSimple(req.administrator._id);
-  const existeCatalogoBusiness = await existsCatalogoBusiness(req.administrator._id);
-  
-  res.send({
-    title: "Adminstrador",
-    admin: administrator,
-    existeConcursoSimple,
-    existeCatalogoBusiness,
-  });
-};
-
-// Función para mostrar la lista de premios
-const mostrarListaCatalogo = async(req, res) => {
-  const administrator = await Administrator.findById(req.administrator._id).lean();
-  const business = await Business.findOne({
-    administrador: administrator._id,
-  }).lean();
-  const catalog = await Catalog.findOne({ business: business._id }).lean();
-  const prizes = await Prize.find({ catalog: catalog._id })
-    .populate("category", "name")
-    .lean();
-  const existeConcursoSimple = await existsCompetitionSimple(req.administrator._id);
-  const existeCatalogoBusiness = await existsCatalogoBusiness(req.administrator._id);
-  const categories = await Category.find().sort("name").lean();
-
-  res.send({
-    title: "Adminstrador",
-    admin: administrator,
-    premios: prizes,
-    existeConcursoSimple,
-    existeCatalogoBusiness,
-    categories,
-  });
-};
-
+const registrarPremio = async(dataPremio) => {
+  console.log(dataPremio);
+  const categoryName = dataPremio.category;
+  const category = await Category.findOne({name: categoryName});
+  dataPremio.category = category._id;
+  const prize = new Prize(dataPremio);
+  await prize.save();
+}
 module.exports = {
-  registrarCatalogoPremios,
-  mostrarCrearCatalogo,
-  mostrarListaCatalogo
+  registrarCatalogoPremios
 }

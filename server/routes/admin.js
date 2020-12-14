@@ -9,10 +9,10 @@ const router = express.Router();
 // Importando controladores
 const administratorController = require('../controllers/administratorController');
 const authController = require('../controllers/authController');
-
-// Importando middlewares
-const { uploadImage } = require('../middlewares/uploadImage');
-const { verifyTokenAdmin } = require('../middlewares/verifyToken');
+const {uploadImage} = require('../middlewares/uploadImage');
+const {verifyTokenAdmin} = require('../middlewares/verifyToken');
+// iniciar sesión
+router.post('/login', authController.autenticarAdministrador);
 
 // Para iniciar sesión
 router.post('/login', 
@@ -55,13 +55,11 @@ router.get('/all',
   administratorController.obtenerAdministradores
 );
 
-// Para actualizar datos de administrador
 router.put('/',
   verifyTokenAdmin,
   administratorController.actualizarAdministrador
 );
 
-// Para agregar imagen de administrador
 router.put('/avatar',
   verifyTokenAdmin,
   uploadImage,

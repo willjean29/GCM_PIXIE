@@ -19,7 +19,6 @@ const { leerCSV } = require('../utils/leerCSV');
 const { puntosSoles } = require('../utils/points');
 const { uploadToS3, getFileToS3 } = require("../utils/aws");
 const { formatJSON } = require('../utils/formatJson');
-
 // Importando middlewares
 const {
   existsCompetitionSimple,
@@ -121,10 +120,9 @@ const obtenerArchivos = async(req, res) => {
   });
 };
 
-const obtenerDatosArchivo = async(req, res) => {
-  const { id } = req.params;
+const obtenerDatosArchivo = async(req,res) => {
+  const {id} = req.params;
   const file = await File.findById(id);
-
   if(!file){
     return res.status(400).json({
       ok: false,
@@ -133,12 +131,10 @@ const obtenerDatosArchivo = async(req, res) => {
       }
     })
   }
-
   const path = file.link.split('/empresas');
   const pathFile = `empresas${path[path.length - 1]}`;
   const streamJson = await getFileToS3(pathFile);
   const dataFile = formatJSON(streamJson);
-  
   res.json({
     ok: true,
     msg: "Detalle de Archivo",
