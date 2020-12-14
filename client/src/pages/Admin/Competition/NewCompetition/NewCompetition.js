@@ -132,6 +132,7 @@ const NewCompetition = ({setReloadUser}) => {
                       format="DD/MM/YYYY"
                       defaultValue={formik.values.fechaInicio}
                       // onChange={(e,value) => {formik.values.fechaInicio=value}}
+                      onChange={(e,value) => {formik.values.fechaInicio = e}}
                     />
                     <span style={{color : '#b83a38'}}>{formik.errors.fechaInicio}</span>
                   </Form.Item>
@@ -147,6 +148,7 @@ const NewCompetition = ({setReloadUser}) => {
                       format="DD/MM/YYYY"
                       defaultValue={formik.values.fechaFin}
                       // onChange={(e,value) => {formik.values.fechaFin=value}}
+                      onChange={(e,value) => {formik.values.fechaFin = e}}
                     />
                     <span style={{color : '#b83a38'}}>{formik.errors.fechaFin}</span>
                   </Form.Item>

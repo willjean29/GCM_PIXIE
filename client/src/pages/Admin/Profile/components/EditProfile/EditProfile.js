@@ -13,7 +13,7 @@ const EditProfile = ({administrator}) => {
   const actualizarAdmin = (dataAdmin) => dispatch(actualizarAdminAction(dataAdmin));
   const formik = useFormik({
     initialValues: {
-      fechaNacimiento: moment(),
+      fechaNacimiento: moment.utc(administrator.fechaNacimiento),
       genero: administrator.genero ? administrator.genero : '',
       cargo: administrator.cargo ? administrator.cargo : '',
       direccion: administrator.direccion ? administrator.direccion : '',
@@ -59,6 +59,7 @@ const EditProfile = ({administrator}) => {
                 name="fechaNacimiento"
                 format="DD/MM/YYYY"
                 defaultValue={formik.values.fechaNacimiento}
+                onChange={(e,value) => {formik.values.fechaNacimiento = e}}
               />
               </Form.Item>
             </Col>
