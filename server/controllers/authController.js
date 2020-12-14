@@ -4,17 +4,17 @@
   inicio de sesión y validación de datos.
 */
 
+// Importando librerías
 const axios = require('axios');
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 // Importando modelos
 const Administrator = require('../models/Administrator');
 const WebMaster = require('../models/WebMaster');
 
-require('dotenv').config();
-
-const verificarDNI = async(req,res) => {
-  const {dni} = req.body;
+const verificarDNI = async(req, res) => {
+  const { dni } = req.body;
   const url = `${process.env.LINK_API_DNI}/${dni}?token=${process.env.API_KEY}`;
   console.log(url);
 
@@ -36,9 +36,9 @@ const verificarDNI = async(req,res) => {
   }
 }
 
-const autenticarAdministrador = async (req, res) => {
-
-  // verificar usuario y password en la DB
+// Para verificar si el administrador esta autenticado
+const autenticarAdministrador = async(req, res) => {
+  // Verificamos usuario y password en la BD
   let { email, password } = req.body;
   console.log(req.body)
   const administrator = await Administrator.findOne({ email: email }).populate("empresa").catch((err) => {
@@ -51,14 +51,14 @@ const autenticarAdministrador = async (req, res) => {
   if (!administrator) return res.status(400).json({
     ok: false,
     err: {
-      msg: "(Usuario) o Contraseña invalidos"
+      msg: "(Usuario) o Contraseña inválidos"
     }
   });
 
   if (!administrator.compararPassword(password)) return res.status(400).json({
     ok: false,
     err: {
-      msg: "Usuario o (Contraseña) invalidos"
+      msg: "Usuario o (Contraseña) inválidos"
     }
   })
 
@@ -68,7 +68,6 @@ const autenticarAdministrador = async (req, res) => {
     expiresIn: '48h'
   });
 
-  //= res.sent: respuesta al servidor
   res.json({
     ok: true,
     administrator,
@@ -78,16 +77,16 @@ const autenticarAdministrador = async (req, res) => {
 
 }
 
-const validarTokenAdmin = async (req, res) => {
+const validarTokenAdmin = async(req, res) => {
   let { token } = req.body;
   console.log(token)
   let existeToken = false;
   const webmasters = await WebMaster.find({ role: "webMaster" });
-  // console.log(webmasters);
+  //console.log(webmasters);
 
   webmasters.forEach((webmaster) => {
     const verificarToken = webmaster.compararPassword(token);
-    // console.log(verificarToken);
+    //console.log(verificarToken);
     if (verificarToken) {
       existeToken = true;
     } else {
@@ -98,19 +97,20 @@ const validarTokenAdmin = async (req, res) => {
   if (existeToken) {
     res.json({
       ok: true,
-      msg: 'WebMaster validado'
+      msg: 'webMaster validado'
     });
   } else {
     res.json({
       ok: false,
-      msg: 'Token no valido'
+      msg: 'Token no válido'
     });
   }
 }
 
-const registrarTokenAdmin = async (req, res) => {
+const registrarTokenAdmin = async(req, res) => {
   console.log(req.body);
   const master = new WebMaster(req.body);
+
   try {
     await master.save();
     res.json({
@@ -125,8 +125,9 @@ const registrarTokenAdmin = async (req, res) => {
   }
 }
 
-const administradorActual = async (req,res) => {
+const administradorActual = async(req, res) => {
   let admin;
+
   try {
     admin = await Administrator.findById(req.administrator._id).populate('empresa');
   } catch (error) {
@@ -154,9 +155,9 @@ const administradorActual = async (req,res) => {
 }
 
 module.exports = {
+  verificarDNI,
   autenticarAdministrador,
-  administradorActual,
-  registrarTokenAdmin,
   validarTokenAdmin,
-  verificarDNI
+  registrarTokenAdmin,
+  administradorActual
 }
