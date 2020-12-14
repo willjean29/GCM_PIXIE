@@ -3,7 +3,7 @@ import { RedditOutlined, InfoCircleOutlined, CheckCircleOutlined} from '@ant-des
 import { Card, Row, Col, Descriptions, Tabs, Image, Button } from 'antd';
 import {useSelector, useDispatch} from 'react-redux';
 import moment from 'moment';
-import {obtenerConcursoAction} from '../../../../redux/actions/competitionActions';
+import {obtenerConcursoAction,activarConcursoAction} from '../../../../redux/actions/competitionActions';
 import NoAvatar from '../../../../assets/img/png/no-avatar.png';
 import Information from './components/Information';
 import Actions from './components/Actions';
@@ -12,6 +12,7 @@ import './InfoCompetition.scss';
 const InfoCompetition = () => {
   const dispatch = useDispatch();
   const obtenerConcurso = () => dispatch(obtenerConcursoAction());
+  const activarConcurso = (concurso) => dispatch(activarConcursoAction(concurso));
   const competition = useSelector(state => state.competition.data);
   const [reloadCompetition, setReloadCompetition] = useState(false);
   const { TabPane } = Tabs;
@@ -20,6 +21,11 @@ const InfoCompetition = () => {
     setReloadCompetition(false);
     // eslint-disable-next-line
   }, [dispatch,reloadCompetition])
+
+  const handleActive = () => {
+    console.log(competition._id);
+    activarConcurso(competition);
+  }
   return (
     <>
       <Card>
@@ -66,6 +72,7 @@ const InfoCompetition = () => {
               type="primary" 
               style={{width: '100%'}} 
               className="btn-submit" 
+              onClick={handleActive}
               disabled={competition && (
                 competition.estado ? true : (
                   competition.active ? false : true

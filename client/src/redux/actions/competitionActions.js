@@ -10,7 +10,10 @@ import {
   COMPETITION_IMAGE_ERROR,
   UPDATE_COMPETITION,
   UPDATE_COMPETITION_OK,
-  UPDATE_COMPETITION_ERROR
+  UPDATE_COMPETITION_ERROR,
+  ACTIVE_COMPETITION,
+  ACTIVE_COMPETITION_OK,
+  ACTIVE_COMPETITION_ERROR
 } from '../types';
 
 import Notification from '../../components/UiElements/Notification';
@@ -141,4 +144,33 @@ const modificarConcursoOk = (concurso) => ({
 })
 const modificarConcursoError = () => ({
   type: UPDATE_COMPETITION_ERROR
+})
+
+export const activarConcursoAction = (concurso) => {
+  return async (dispatch) => {
+    dispatch(activarConcurso());
+    tokenAuthAdmin();
+    try {
+      const response = await clienteAxios.post(`/competition/active/${concurso._id}`);
+      const data = response.data;
+      Notification(data.ok,data.msg);
+      dispatch(activarConcursoOk(data.competition));
+    } catch (error) {
+      console.log(error.response);
+      const msg = error.response.data ? error.response.data.err.msg : "Hubo un error";
+      Notification(error.response.data.ok,msg);
+      dispatch(activarConcursoError());
+    }
+  }
+}
+
+const activarConcurso = () => ({
+  type: ACTIVE_COMPETITION
+})
+const activarConcursoOk = (concurso) => ({
+  type: ACTIVE_COMPETITION_OK,
+  payload: concurso
+})
+const activarConcursoError = () => ({
+  type: ACTIVE_COMPETITION_ERROR
 })
