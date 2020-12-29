@@ -7,7 +7,13 @@ import {
   GET_COMPETITION_ERROR,
   COMPETITION_IMAGE,
   COMPETITION_IMAGE_OK,
-  COMPETITION_IMAGE_ERROR
+  COMPETITION_IMAGE_ERROR,
+  UPDATE_COMPETITION,
+  UPDATE_COMPETITION_OK,
+  UPDATE_COMPETITION_ERROR,
+  ACTIVE_COMPETITION,
+  ACTIVE_COMPETITION_OK,
+  ACTIVE_COMPETITION_ERROR
 } from '../types';
 
 import Notification from '../../components/UiElements/Notification';
@@ -25,7 +31,7 @@ export const registrarConcursoAction = (dataCompetition,setReloadUser) => {
       dispatch(registrarConcursoOk());
       if(data.ok){
         setReloadUser(true);
-      }
+      } 
     } catch (error) {
       console.log(error)
       const msg = error.response.data ? error.response.data.err.msg : "Hubo un error";
@@ -108,4 +114,63 @@ const agregarImagenOk = (data) => ({
 })
 const agregarImagenError = () => ({
   type: COMPETITION_IMAGE_ERROR
+})
+
+export const modificarConcursoAction = (dataConcurso) => {
+  return async (dispatch) => {
+    dispatch(modificarConcurso());
+    tokenAuthAdmin();
+    try {
+      const response = await clienteAxios.put('/competition',dataConcurso);
+      const data = response.data;
+      console.log(data)
+      Notification(data.ok,data.msg);
+      dispatch(modificarConcursoOk(data.competition));
+    } catch (error) {
+      console.log(error.response);
+      const msg = error.response.data ? error.response.data.err.msg : "Hubo un error";
+      Notification(error.response.data.ok,msg);
+      dispatch(modificarConcursoError());
+    }
+  }
+}
+
+const modificarConcurso = () => ({
+  type: UPDATE_COMPETITION
+})
+const modificarConcursoOk = (concurso) => ({
+  type: UPDATE_COMPETITION_OK,
+  payload: concurso
+})
+const modificarConcursoError = () => ({
+  type: UPDATE_COMPETITION_ERROR
+})
+
+export const activarConcursoAction = (concurso) => {
+  return async (dispatch) => {
+    dispatch(activarConcurso());
+    tokenAuthAdmin();
+    try {
+      const response = await clienteAxios.post(`/competition/active/${concurso._id}`);
+      const data = response.data;
+      Notification(data.ok,data.msg);
+      dispatch(activarConcursoOk(data.competition));
+    } catch (error) {
+      console.log(error.response);
+      const msg = error.response.data ? error.response.data.err.msg : "Hubo un error";
+      Notification(error.response.data.ok,msg);
+      dispatch(activarConcursoError());
+    }
+  }
+}
+
+const activarConcurso = () => ({
+  type: ACTIVE_COMPETITION
+})
+const activarConcursoOk = (concurso) => ({
+  type: ACTIVE_COMPETITION_OK,
+  payload: concurso
+})
+const activarConcursoError = () => ({
+  type: ACTIVE_COMPETITION_ERROR
 })

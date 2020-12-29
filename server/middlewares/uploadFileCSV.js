@@ -1,18 +1,22 @@
-/**
- * Procesa el archivo para que sea subido y luego sea accesible en la función principal
- * Guia: Documentación de multer 
- */
-const multer = require('multer'); //multer da el filtro del tamaño para que después se pueda acceder desde otro lado
+/*
+  Procesa el archivo para ser subido y luego
+  estar accesible en la función principal.
+  Guia: Documentación de multer.
+*/
+
+// Importando librerías
+const multer = require('multer'); // Da el filtro del tamaño para que después se pueda acceder desde otro lado
 const path = require('path');
 const shortId = require('shortid');
+
 let dir = "";
 
-// Valida la subida del archivo (template)
+// Validamos la subida del archivo (template)
 const uploadCSV = (req, res, next) => {
   dir = req.headers.dir;
   console.log(dir)
 
-  upload(req, res, function (err) { //cb
+  upload(req, res, function(err) {
     if (err) {
       if (err instanceof multer.MulterError) {
         if (err.code == "LIMIT_FILE_SIZE") {
@@ -38,16 +42,18 @@ const uploadCSV = (req, res, next) => {
           }
         });
       }
-    } else { //cuando no hay errores pasa a la siguiente función o al siguiente middlewares si es que existe
-      //console.log("llego");
+    } else { 
+      // Cuando no hay errores pasa a la siguiente función 
+      // o al siguiente middleware, si es que existe
       return next();
     }
   });
 }
 
-//Configuración a tomar en cuenta cuando se sube el archivo
+// Configuración a tomar en cuenta cuando se suba el archivo
 const upload = multer({
-  limits: {fieldSize: 500000},
+  limits: { fieldSize: 500000 },
+
   storage: fileStorage = multer.memoryStorage({
     destination: (req,file,cb) => {
       console.log("procesando csv");
@@ -61,8 +67,8 @@ const upload = multer({
   fileFilter: (req, file, cb) => {
     console.log(file)
     const filetypes = /csv|vnd.ms-excel|txt|doc/;
-    const mimeType = filetypes.test(file.mimetype); //tipo del archivo
-    const extname = filetypes.test(path.extname(file.originalname)); //nombre de la extensión del archivo
+    const mimeType = filetypes.test(file.mimetype); // Tipo del archivo
+    const extname = filetypes.test(path.extname(file.originalname)); // Nombre de la extensión del archivo
     if (mimeType && extname) {
       return cb(null, true);
     }
@@ -71,5 +77,5 @@ const upload = multer({
 }).single('csv');
 
 module.exports = {
-  uploadCSV
+    uploadCSV
 }

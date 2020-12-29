@@ -36,6 +36,10 @@ const competitionSchema = mongoose.Schema({
     puntos: {
       type: Number
     }
+  },
+  active: {
+    type: Boolean,
+    default: false
   }
 });
 

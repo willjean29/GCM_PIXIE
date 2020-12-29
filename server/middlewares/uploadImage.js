@@ -1,20 +1,21 @@
-/**
- * Middelwares para validar la subida de imágenes
- */
+/*
+  Validación de la subida de imágenes.
+*/
 
+// Importando librerías
 const multer = require('multer');
 const path = require('path');
 const shortId = require('shortid');
 
 const uploadImage = (req, res, next) => {
-  upload(req, res, function (err) {
-    if (err) {
-      if (err instanceof multer.MulterError) {
-        if (err.code == "LIMIT_FILE_SIZE") {
+  upload(req, res, function(err){
+    if(err){
+      if(err instanceof multer.MulterError){
+        if(err.code == "LIMIT_FILE_SIZE"){
           return res.status(500).json({
             ok: false,
             err: {
-              msg: "El archivo es muy pesado : Peso max 500kb"
+              msg: "El archivo es muy pesado: Peso max 500kb"
             }
           })
         } else {
@@ -56,7 +57,7 @@ const upload = multer({
     if (mimeType && extname) {
       return cb(null, true);
     }
-    cb('El archivo debe ser una imagen valida')
+    cb('El archivo debe ser una imagen válida')
   }
 }).single('image');
 

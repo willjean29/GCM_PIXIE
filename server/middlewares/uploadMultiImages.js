@@ -1,13 +1,11 @@
 /**
  * Middelwares para validar la subida de imágenes 
  */
-const multer = require("multer");
-const path = require("path");
-const shortid = require("shortid");
-let dir = "";
+const multer = require('multer');
+const path = require('path');
+const shortId = require('shortid');
+
 const uploadImage = (req, res, next) => {
-  dir = req.headers.dir;
-  console.log(dir);
   upload(req, res, function (err) {
     if (err) {
       if (err instanceof multer.MulterError) {
@@ -15,54 +13,52 @@ const uploadImage = (req, res, next) => {
           return res.status(500).json({
             ok: false,
             err: {
-              msg: "El archivo es muy pesado : Peso max 500Kb",
-            },
-          });
+              msg: "El archivo es muy pesado : Peso max 500kb"
+            }
+          })
         } else {
           return res.status(500).json({
             ok: false,
             err: {
-              msg: err.message,
-            },
-          });
+              msg: err.message
+            }
+          })
         }
       } else {
         return res.status(500).json({
           ok: false,
           err: {
-            msg: err,
-          },
-        });
+            msg: err
+          }
+        })
       }
     } else {
-      console.log("llego");
-      return next();
+      next();
     }
-  });
-};
+  })
+}
 
 const upload = multer({
   limits: { fieldSize: 500000 },
-  storage: (fileStorage = multer.diskStorage({
+  storage: fileStorage = multer.diskStorage({
     destination: (req, file, cb) => {
-      console.log("procesando img");
-      cb(null, path.join(__dirname, `../public/uploads/perfiles/${dir}`));
+      cb(null, path.join(__dirname, '../uploads/img'));
     },
     filename: (req, file, cb) => {
-      cb(null, shortid.generate() + path.extname(file.originalname));
-    },
-  })),
+      cb(null, shortId.generate() + path.extname(file.originalname));
+    }
+  }),
   fileFilter: (req, file, cb) => {
-    const filetypes = /jpeg|jpg|gif|png/;
-    const mimeType = filetypes.test(file.mimetype);
-    const extname = filetypes.test(path.extname(file.originalname));
+    const filesTypes = /jpeg|jpg|png/;
+    const mimeType = filesTypes.test(file.mimetype);
+    const extname = filesTypes.test(path.extname(file.originalname));
     if (mimeType && extname) {
       return cb(null, true);
     }
-    cb("Error: El archivo debe ser una imagen valida");
-  },
-}).array("image");
+    cb('El archivo debe ser una imagen valida')
+  }
+}).array('image');
 
 module.exports = {
-  uploadImage,
+  uploadImage
 };

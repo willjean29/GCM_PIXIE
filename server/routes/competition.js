@@ -1,29 +1,44 @@
-const express = require("express");
-const router = express.Router();
-const competitionController = require("../controllers/competitionController");
-const { verifyTokenAdmin } = require("../middlewares/verifyToken");
-const { uploadImage } = require("../middlewares/uploadImage");
+/*
+  Rutas del concurso.
+*/
 
-router.post(
-  "/register",
+// Importando librerías
+const express = require('express');
+const router = express.Router();
+
+// Importando controladores
+const competitionController = require('../controllers/competitionController');
+
+// Importando middlewares
+const {verifyTokenAdmin} = require('../middlewares/verifyToken');
+const {uploadImage} = require('../middlewares/uploadImage');
+
+// Para registrar un concurso
+router.post('/register',
   verifyTokenAdmin,
   competitionController.registrarConcurso
 );
 
-router.get("/", verifyTokenAdmin, competitionController.obtenerConcurso);
+// Para obtener un concurso
+router.get('/',
+  verifyTokenAdmin,
+  competitionController.obtenerConcurso
+);
 
-router.put(
-  "/image",
+// Para agregar imagen de concurso
+router.put('/image',
   verifyTokenAdmin,
   uploadImage,
   competitionController.agregarImagenConcurso
 );
 
-// Modifcar parametros de concursos
-router.put(
-  "/modify",
+router.put('/',
   verifyTokenAdmin,
-  competitionController.modificarCompetition
+  competitionController.modificarConcurso
 );
 
+router.post('/active/:id',
+  verifyTokenAdmin,
+  competitionController.activarConcurso
+);
 module.exports = router;
