@@ -1,26 +1,28 @@
-/*
-  COMPETITIONCONTROLLER:
-  Controlador de concursos, gestiona las
-  operaciones de creación y activación
-  de concursos.
-*/
+/**
+ * COMPETITIONCONTROLLER:
+ * Controlador de concursos, gestiona las
+ * operaciones de creación y activación
+ * de concursos.
+ */
 
-// Importando librerías
-const cloudinary = require('../config/cloudinary');
-const fs = require('fs-extra');
-
-// Importando modelos
-const Administrator = require("../models/Administrator");
-const Competition = require('../models/Competition');
-const Business = require('../models/Business');
-const cloudinary = require('../config/cloudinary');
-const {existsCatalogoBusiness} = require('../middlewares/exists');
-const fs = require('fs-extra');
-const registrarConcurso = async(req,res) => {
+const Competition = require("../models/Competition");
+const Business = require("../models/Business");
+const cloudinary = require("../config/cloudinary");
+const { existsCatalogoBusiness } = require("../middlewares/exists");
+const fs = require("fs-extra");
+const registrarConcurso = async (req, res) => {
   const id = req.administrator._id;
+  // conmprobar que el administrador cuente con una empresa asociada
+  const business = await Business.findOne({ administrador: id }).catch(
+    (err) => {
+      return res.status(400).json({
+        ok: false,
+        err,
+      });
+    }
+  );
 
-  // Comprobamos que el administrador cuente con una empresa asociada
-  const business = await Business.findOne({administrador: id}).catch((err) => {
+  if (!business)
     return res.status(400).json({
       ok: false,
       err: {
@@ -28,17 +30,9 @@ const registrarConcurso = async(req,res) => {
       },
     });
 
-  if(!business) return res.status(400).json({
-    ok: false,
-    err: {
-      msg: "El Administrador no cuenta con una empresa asociada"
-    }
-  });
+  const { name, fechaInicio, fechaFin, soles, puntos, tipo } = req.body;
 
-  const { name,fechaInicio,fechaFin,soles,puntos,tipo } = req.body;
-  const reglas = {
-    parametro : soles,puntos
-  };
+  const reglas = { parametro: soles, puntos };
   const competition = new Competition({
     name,
     fechaInicio,
@@ -47,9 +41,12 @@ const registrarConcurso = async(req,res) => {
     tipo,
     reglas,
   });
-  const competitions = [{
-    idCompetition: competition._id
-  }];
+
+  const competitions = [
+    {
+      idCompetition: competition._id,
+    },
+  ];
 
   await competition.save().catch((err) => {
     return res.status(400).json({
@@ -73,11 +70,19 @@ const registrarConcurso = async(req,res) => {
   });
 };
 
-const obtenerConcurso = async(req, res) => {
+const obtenerConcurso = async (req, res) => {
   const id = req.administrator._id;
+  // conmprobar que el administrador cuente con una empresa asociada
+  const business = await Business.findOne({ administrador: id }).catch(
+    (err) => {
+      return res.status(400).json({
+        ok: false,
+        err,
+      });
+    }
+  );
 
-  // Comprobamos que el administrador cuente con una empresa asociada
-  const business = await Business.findOne({administrador: id}).catch((err) => {
+  if (!business)
     return res.status(400).json({
       ok: false,
       err: {
@@ -101,16 +106,9 @@ const obtenerConcurso = async(req, res) => {
         msg: "El Administrador no cuenta con una empresa asociada",
       },
     });
-
-  if(!competition) return res.status(400).json({
-    ok: false,
-    err: {
-      msg: "El Administrador no cuenta con una empresa asociada"
-    }
-  });
   const existeCatalogo = await existsCatalogoBusiness(id);
-  console.log(existeCatalogo)
-  if(existeCatalogo){
+  console.log(existeCatalogo);
+  if (existeCatalogo) {
     competition.active = true;
     await competition.save();
   }
@@ -122,7 +120,7 @@ const obtenerConcurso = async(req, res) => {
   });
 };
 
-const agregarImagenConcurso = async(req, res) => {
+const agregarImagenConcurso = async (req, res) => {
   const id = req.administrator._id;
 
   const business = await Business.findOne({ administrador: id }).catch(
@@ -183,7 +181,7 @@ const agregarImagenConcurso = async(req, res) => {
   });
 };
 
-const modificarCompetition = async(req, res) => {
+const modificarConcurso = async (req, res) => {
   const id = req.administrator._id;
   const { soles, puntos } = req.body;
   const reglas = { parametro: soles, puntos };
@@ -192,35 +190,20 @@ const modificarCompetition = async(req, res) => {
     reglas,
   };
 
-  const administrator = await Administrator.findById(id).catch((err) => {
-    return res.status(400).json({
-      ok: false,
-      err,
-    });
-  });
-
-  if (!administrator)
-    return res.status(400).json({
-      ok: false,
-      err: {
-        msg: "El administrador no existe o no tiene permisos",
-      },
-    });
-
-  const business = await Business.findOne({
-    administrador: administrator._id,
-  }).catch((err) => {
-    return res.status(400).json({
-      ok: false,
-      err,
-    });
-  });
+  const business = await Business.findOne({ administrador: id }).catch(
+    (err) => {
+      return res.status(400).json({
+        ok: false,
+        err,
+      });
+    }
+  );
 
   if (!business)
     return res.status(400).json({
       ok: false,
       err: {
-        msg: "El administrador no tiene relación con la empresa",
+        msg: "El administrator no tiene relación con la empresa",
       },
     });
 
@@ -228,12 +211,14 @@ const modificarCompetition = async(req, res) => {
     { business: business._id },
     data,
     { new: true, runValidators: true }
-  ).catch((err) => {
-    return res.status(400).json({
-      ok: false,
-      err,
+  )
+    .populate("business")
+    .catch((err) => {
+      return res.status(400).json({
+        ok: false,
+        err,
+      });
     });
-  });
 
   if (!competition)
     return res.status(400).json({
@@ -246,68 +231,28 @@ const modificarCompetition = async(req, res) => {
   res.json({
     ok: true,
     competition,
+    msg: "Concurso actualizado",
   });
-}
+};
 
-const modificarConcurso = async(req,res) => {
-  const id = req.administrator._id;
-  const {soles,puntos} = req.body;
-  const reglas = {parametro : soles,puntos};
-  const data = {
-    ...req.body,
-    reglas
-  };
-
-  const business = await Business.findOne({administrador: id}).catch((err) => {
-    return res.status(400).json({
-      ok: false,
-      err
-    });
-  });
-
-  if(!business) return res.status(400).json({
-    ok: false,
-    err: {
-      msg: "El administrator no tiene relación con la empresa"
-    }
-  });
-
-  const competition = await Competition.findOneAndUpdate({business: business._id},data,{new: true, runValidators: true}).populate('business').catch((err) => {
-    return res.status(400).json({
-      ok: false,
-      err
-    });
-  })
-
-  if(!competition) return res.status(400).json({
-    ok: false,
-    err: {
-      msg: "El concurso no se encuntra registrado"
-    }
-  });
-
-  res.json({
-    ok: true,
-    competition,
-    msg: "Concurso actualizado"
-  });
-}
-
-const activarConcurso = async (req,res) => {
+const activarConcurso = async (req, res) => {
   const id = req.params.id;
-  const competition = await Competition.findById(id).populate("business").catch((err) => {
+  const competition = await Competition.findById(id)
+    .populate("business")
+    .catch((err) => {
+      return res.status(400).json({
+        ok: false,
+        err,
+      });
+    });
+
+  if (!competition)
     return res.status(400).json({
       ok: false,
-      err
+      err: {
+        msg: "Concurso no se encuentra registrado",
+      },
     });
-  })
-
-  if(!competition) return res.status(400).json({
-    ok: false,
-    err: {
-      msg: "Concurso no se encuentra registrado"
-    }
-  })
 
   competition.estado = true;
   await competition.save();
@@ -315,14 +260,14 @@ const activarConcurso = async (req,res) => {
   res.json({
     ok: true,
     competition,
-    msg: "Concurso Activado"
-  })
-}
+    msg: "Concurso Activado",
+  });
+};
 
 module.exports = {
   registrarConcurso,
   obtenerConcurso,
   agregarImagenConcurso,
   modificarConcurso,
-  activarConcurso
-}
+  activarConcurso,
+};

@@ -1,35 +1,35 @@
-/*
-  FILECONTROLLER:
-  Controlador de template, se encarga
-  del manejo de archivos.
-*/
+/**
+ * FILECONTROLLER:
+ * Controlador de template, se encarga
+ * del manejo de archivos.
+ */
 
-// Importando librerías
-const shortId = require('shortid');
-
-// Importando modelos
-const File = require('../models/File');
-const Business = require('../models/Business');
-const Administrator = require('../models/Administrator');
-const Competition = require('../models/Competition');
-const Client = require('../models/Client');
+ // Importando modelos
+const File = require("../models/File");
+const Business = require("../models/Business");
+const Competition = require("../models/Competition");
+const Client = require("../models/Client");
+const shortId = require("shortid");
 
 // Importando utilidades
-const { leerCSV } = require('../utils/leerCSV');
-const { puntosSoles } = require('../utils/points');
+const { leerCSV } = require("../utils/leerCSV");
+const { puntosSoles } = require("../utils/points");
 const { uploadToS3, getFileToS3 } = require("../utils/aws");
-const { formatJSON } = require('../utils/formatJson');
-// Importando middlewares
-const {
-  existsCompetitionSimple,
-  existsCatalogoBusiness,
-} = require("../middlewares/exists");
+const { formatJSON } = require("../utils/formatJson");3
 
-const registrarArchivo = async(req, res) => {
+const registrarArchivo = async (req, res) => {
   let file;
   const id = req.administrator._id;
+  const business = await Business.findOne({ administrador: id }).catch(
+    (err) => {
+      return res.status(400).json({
+        ok: false,
+        err,
+      });
+    }
+  );
 
-  const business = await Business.findOne({ administrador: id }).catch((err) => {
+  if (!business)
     return res.status(400).json({
       ok: false,
       err: {
@@ -51,10 +51,12 @@ const registrarArchivo = async(req, res) => {
     const { originalname, buffer } = req.file;
     const fileName = originalname.split(".");
     const ext = fileName[fileName.length - 1];
+
     const fileInfo = {
       name: `${file._id}.${ext}`,
       path: `empresas/${business.id}`,
     };
+
     const fileSent = await uploadToS3(fileInfo, buffer);
 
     if (!fileSent.ok) {
@@ -65,11 +67,9 @@ const registrarArchivo = async(req, res) => {
         },
       });
     }
-
     console.log(fileSent);
-    // Link que genera el AWS cuando se sube al S3
-    file.link = fileSent.data.Location;
-    await file.save()
+    file.link = fileSent.data.Location; //es el link que te bota el aws cuando se sube al s3
+    await file.save();
 
     res.json({
       ok: true,
@@ -79,9 +79,8 @@ const registrarArchivo = async(req, res) => {
   }
 };
 
-const obtenerArchivos = async(req, res) => {
+const obtenerArchivos = async (req, res) => {
   let business;
-
   try {
     business = await Business.findOne({ administrador: req.administrator._id });
   } catch (error) {
@@ -120,29 +119,29 @@ const obtenerArchivos = async(req, res) => {
   });
 };
 
-const obtenerDatosArchivo = async(req,res) => {
-  const {id} = req.params;
+const obtenerDatosArchivo = async (req, res) => {
+  const { id } = req.params;
   const file = await File.findById(id);
-  if(!file){
+  if (!file) {
     return res.status(400).json({
       ok: false,
       err: {
-        mag: "El archivo no existe"
-      }
-    })
+        mag: "El archivo no existe",
+      },
+    });
   }
-  const path = file.link.split('/empresas');
+  const path = file.link.split("/empresas");
   const pathFile = `empresas${path[path.length - 1]}`;
   const streamJson = await getFileToS3(pathFile);
   const dataFile = formatJSON(streamJson);
   res.json({
     ok: true,
     msg: "Detalle de Archivo",
-    file: dataFile
-  })
-}
+    file: dataFile,
+  });
+};
 
-const cargarDataCliente = async(req, res) => {
+const cargarDataCliente = async (req, res) => {
   const id = req.params.id;
 
   const file = await File.findById(id).catch((err) => {
@@ -152,26 +151,28 @@ const cargarDataCliente = async(req, res) => {
     });
   });
 
-  if(!file) return res.status(400).json({
-    ok: false,
-    err: {
-      msg: "Archivo no registrado"
-    }
-  });
+  if (!file)
+    return res.status(400).json({
+      ok: false,
+      err: {
+        msg: "Archivo no registrado",
+      },
+    });
 
   const datos = leerCSV(file.name);
+
   const business = await Business.findById(file.business);
-  const competition = await Competition.findOne({business: business._id});
-  
-  if(!competition){
+
+  const competition = await Competition.findOne({ business: business._id });
+
+  if (!competition) {
     return res.status(404).json({
       ok: false,
       err: {
-        msg: "No hay concursos activos"
-      }
-    })
-  };
-
+        msg: "No hay concursos activos",
+      },
+    });
+  }
   const { parametro, puntos } = competition.reglas;
 
   datos.forEach(async (data, index) => {
@@ -191,8 +192,9 @@ const cargarDataCliente = async(req, res) => {
       });
       let puntuacion = {
         idBusiness: business._id,
-        puntos: puntosGanados
-      }
+        puntos: puntosGanados,
+      };
+
       client.puntuacion.push(puntuacion);
       await client.save();
     } else {
@@ -222,7 +224,6 @@ const cargarDataCliente = async(req, res) => {
   file.estado = true;
   await file.save();
   await actualizarClientes(business._id);
-
   res.json({
     ok: true,
     msg: "Puntajes Cargados",
@@ -236,7 +237,7 @@ const actualizarClientes = async (id) => {
 
   for (let client of clients) {
     let puntuacion = client.puntuacion;
-    for (info of puntuacion) {
+    for (let info of puntuacion) {
       if (JSON.stringify(info.idBusiness) === JSON.stringify(business._id)) {
         let clientes = {
           idCliente: client._id,
@@ -249,9 +250,8 @@ const actualizarClientes = async (id) => {
   await business.save();
 };
 
-const eliminarArchivo = async(req, res) => {
+const eliminarArchivo = async (req, res) => {
   const { id } = req.params;
-  
   const file = await File.findByIdAndDelete(id).catch((err) => {
     return res.status(400).json({
       ok: false,
@@ -270,7 +270,7 @@ const eliminarArchivo = async(req, res) => {
   res.json({
     ok: true,
     file,
-    msg: "Archivo Eliminado"
+    msg: "Archivo Eliminado",
   });
 };
 
