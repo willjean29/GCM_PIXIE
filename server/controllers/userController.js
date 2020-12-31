@@ -111,7 +111,35 @@ const autenticarCliente = async (req, res) => {
   });
 };
 
+const mostrarListadoEmpresas = async (req, res) => {
+  //  cargar las empresas asosciadas
+  let afiliadas = await actualizarEmpresasAfiliadas(req);
+  console.log(afiliadas);
+  res.send({
+    layout: "user.hbs",
+    empresas: afiliadas,
+    name: req.user.name,
+    Session: true,
+  });
+};
+
+const actualizarEmpresasAfiliadas = async (req) => {
+  let empresas = [];
+  for (let puntuacion of req.user.puntuacion) {
+    const empresa = await Business.findById(puntuacion.idBusiness);
+    const data = {
+      id: empresa._id,
+      nombre: empresa.razonSocial,
+      puntos: puntuacion.puntos,
+    };
+    empresas.push(data);
+  }
+  return empresas;
+};
+
 module.exports = {
   registrarCliente,
   autenticarCliente,
+  mostrarListadoEmpresas,
+  actualizarEmpresasAfiliadas,
 };
