@@ -15,7 +15,7 @@ const shortId = require("shortid");
 const { leerCSV } = require("../utils/leerCSV");
 const { puntosSoles } = require("../utils/points");
 const { uploadToS3, getFileToS3 } = require("../utils/aws");
-const { formatJSON } = require("../utils/formatJson");3
+const { formatJSON } = require("../utils/formatJson");
 
 const registrarArchivo = async (req, res) => {
   let file;
