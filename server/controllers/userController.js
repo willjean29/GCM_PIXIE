@@ -1,7 +1,7 @@
 /**
  * USERCONTROLLER
  * Controlador del Cliente, controla las
- * operaciones de registro
+ * operaciones de registro, login...
  */
 
 const Client = require("../models/Client");
@@ -10,8 +10,6 @@ const Catalog = require("../models/Catalog");
 const Business = require("../models/Business");
 const Prize = require("../models/Prize");
 
-const cloudinary = require("../config/cloudinary");
-const fs = require("fs-extra");
 const jwt = require("jsonwebtoken");
 require("dotenv").config(); //Se leen las variables de entorno
 
@@ -74,6 +72,46 @@ const registrarCliente = async (req, res) => {
   });
 };
 
+const autenticarCliente = async (req, res) => {
+  // Verificamos usuario y password en la BD
+  let { email, password } = req.body;
+
+  const usuario = await Client.findOne({ email: email });
+  // el usuario no se encuentra registrado
+  if (!usuario)
+    return res.status(400).json({
+      ok: false,
+      err: {
+        msg: "Cliente no registrado",
+      },
+    });
+
+  if (!usuario.compararPassword(password))
+    return res.status(400).json({
+      ok: false,
+      err: {
+        msg: "Usuario o Contraseña incorrecto",
+      },
+    });
+  let token = jwt.sign(
+    {
+      user: usuario,
+    },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: "48h",
+    }
+  );
+
+  res.json({
+    ok: true,
+    usuario,
+    token,
+    msg: `Bienvenid@ ${usuario.name}`,
+  });
+};
+
 module.exports = {
   registrarCliente,
+  autenticarCliente,
 };
