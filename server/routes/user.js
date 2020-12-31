@@ -13,4 +13,10 @@ app.get("/business_list",
   userController.mostrarListadoEmpresas
 );
 
+app.get(
+  "/business/:id",
+  verifyTokenCliente,
+  userController.mostrarCatalogoEmpresa
+);
+
 module.exports = app;
