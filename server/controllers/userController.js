@@ -1,7 +1,7 @@
 /**
  * USERCONTROLLER
- * Controlador del Cliente, controla las
- * operaciones de registro, login...
+ * Controlador del Cliente, controla las operaciones de registro, 
+ * login, mostrar lista de empresas, mostrar catálogo de empresa...
  */
 
 const Client = require("../models/Client");
@@ -137,9 +137,74 @@ const actualizarEmpresasAfiliadas = async (req) => {
   return empresas;
 };
 
+const mostrarCatalogoEmpresa = async (req, res) => {
+  const categorias = await obtenerCategorias(req.params.id);
+  const catalogo = await Catalog.findOne({ business: req.params.id });
+  // premios por pagina
+  let premio = 6;
+  let paginaActual = req.query.p || 1;
+
+  const filtroPuntos = req.query.puntos || false;
+
+  // condicionar la busqueda de premiosTotales
+  let premios;
+  let premiosTotales;
+  if (filtroPuntos) {
+    premios = await Prize.find({
+      catalog: catalogo._id,
+      points: { $gte: 0, $lte: filtroPuntos },
+    })
+      .skip(premio * paginaActual - premio)
+      .limit(premio)
+      .sort("points")
+      .lean();
+
+    premiosTotales = await Prize.count({
+      catalog: catalogo._id,
+      points: { $gte: 0, $lte: filtroPuntos },
+    });
+  } else {
+    premios = await Prize.find({ catalog: catalogo._id })
+      .skip(premio * paginaActual - premio)
+      .limit(premio)
+      .sort("points")
+      .lean();
+
+    premiosTotales = await Prize.count({ catalog: catalogo._id });
+  }
+
+  const paginasTotales = Math.ceil(premiosTotales / premio);
+
+  // obtener datos de la empresa actual
+  //  cargar las empresas asosciadas
+  let afiliadas = await actualizarEmpresasAfiliadas(req);
+  let empresaActual;
+  for (let empresa of afiliadas) {
+    if (req.params.id == empresa.id) {
+      empresaActual = empresa;
+    }
+  }
+
+  res.send({
+    layout: "user.hbs",
+    categorias,
+    premios,
+    pagination: {
+      page: paginaActual, // The current page the user is on
+      pageCount: paginasTotales, // The total number of available pages
+      parmPuntos: filtroPuntos,
+    },
+    empresa: empresaActual,
+    name: req.user.name,
+    Session: true,
+    filtroPuntos,
+  });
+};
+
 module.exports = {
   registrarCliente,
   autenticarCliente,
   mostrarListadoEmpresas,
   actualizarEmpresasAfiliadas,
+  mostrarCatalogoEmpresa,
 };
