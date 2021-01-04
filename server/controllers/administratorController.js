@@ -6,7 +6,6 @@
 */
 
 // Importando librerías
-const jwt = require('jsonwebtoken');
 const cloudinary = require('../config/cloudinary');
 const fs = require('fs-extra');
 
@@ -173,7 +172,7 @@ const agregarAvatar = async(req, res) => {
   });
 }
 
-const actualizarAdministrador = async (req,res) => {
+const actualizarAdministrador = async(req, res) => {
   const id = req.administrator._id;
   const data = req.body;
   let administrator;
@@ -186,6 +185,7 @@ const actualizarAdministrador = async (req,res) => {
       err
     })
   }
+  
   if(!administrator) return res.status(400).json({
     ok: false,
     err: {

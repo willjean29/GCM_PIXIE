@@ -1,6 +1,6 @@
 /*
   USERCONTROLLER:
-  Controlador de usuarios, controlas las
+  Controlador de usuarios, controla las
   operaciones de registro y modificación
   de usuarios.
 */
