@@ -26,7 +26,6 @@ const credentials = {
  * @param {Object} fileData <Data> del archivo
  * @returns {Object} Validacion
  */
-
 const uploadToS3 = (fileInfo, fileData) =>
   new Promise((resolve) => {
     const s3bucket = new AWS.S3(credentials);
@@ -65,3 +64,4 @@ module.exports = {
   uploadToS3,
   getFileToS3
 }
+

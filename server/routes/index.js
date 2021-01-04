@@ -10,13 +10,13 @@ const app = express();
 // app.use(require)
 
 // endpoints for admin
-app.use('/admin', require('./admin'));
+app.use("/admin", require("./admin"));
 
 // endpoints for businness
-app.use('/business', require('./business'));
+app.use("/business", require("./business"));
 
 // endpoints for files
-app.use('/file', require('./file'));
+app.use("/file", require("./file"));
 
 // endpoints for competition
 app.use('/competition',require('./competition'));

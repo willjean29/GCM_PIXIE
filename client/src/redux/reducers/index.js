@@ -5,12 +5,13 @@ import newBusinessReducer from './newBusinessReducer';
 import businessReducer from './businessReducer';
 import fileReducer from './fileReducer';
 import competitionReducer from './competitionReducer';
-
+import catalogReducer from './catalogReducer';
 export default combineReducers({
   authentication :authReducer,
   newAdmin: newAdminReducer,
   newBusiness: newBusinessReducer,
   business: businessReducer,
   files: fileReducer,
-  competition: competitionReducer
+  competition: competitionReducer,
+  catalog: catalogReducer,
 })

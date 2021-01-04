@@ -1,20 +1,34 @@
-.profile-content {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	.wrapper {
-		max-width: 500px;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		img {
-			width: 100%;
-			min-height: 500px;
+@import '../../../scss//index.scss';
+.info-profile {
+	&__card {
+		.card {
+			&__image {
+				border: 2px solid #f0f2f5;
+				width: 100% !important;
+				max-width: 200px;
+				border-radius: 50%;
+				margin-top: 10px;
+				min-height: 200px;
+
+				img {
+					min-width: 100%;
+					border-radius: 50%;
+					min-height: 200px;
+				}
+			}
+			&__content {
+				margin: 10px 0;
+				.ant-descriptions-row {
+					display: flex;
+					flex-direction: column;
+					@media (min-width: $media-breackpoint-up-lg) {
+						display: table-row;
+					}
+				}
+				.ant-descriptions-item-label {
+					font-weight: bold;
+				}
+			}
 		}
-	}
-	h2 {
-		color: #1890ff;
-		font-weight: bold;
 	}
 }

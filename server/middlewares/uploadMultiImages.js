@@ -1,8 +1,6 @@
-/*
-  Validación de la subida de imágenes.
-*/
-
-// Importando librerías
+/**
+ * Middelwares para validar la subida de imágenes 
+ */
 const multer = require('multer');
 const path = require('path');
 const shortId = require('shortid');
