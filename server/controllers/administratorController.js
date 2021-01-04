@@ -177,6 +177,7 @@ const actualizarAdministrador = async (req,res) => {
   const id = req.administrator._id;
   const data = req.body;
   let administrator;
+
   try {
     administrator = await Administrator.findByIdAndUpdate(id,data,{new: true, runValidators: true}).populate('empresa');
   } catch (err) {
@@ -201,8 +202,8 @@ const actualizarAdministrador = async (req,res) => {
 
 const agregarAvatar = async(req,res) => {
   const id = req.administrator._id;
-
   let administrator;
+  
   try {
     administrator = await Administrator.findById(id).populate('empresa');
   } catch (err) {
