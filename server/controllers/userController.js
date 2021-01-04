@@ -62,7 +62,42 @@ const registrarCliente = async(req, res) => {
   })
 }
 
+const actualizarCliente = async(req, res) => {
+    const id = req.client._id;
+    const data = req.body;
+    let cliente;
+  
+    // Buscamos el cliente por su identificados y actualizamos
+    try {
+      cliente = await Client.findByIdAndUpdate(
+        id,
+        data,
+        {new: true, runValidators: true}
+      );
+    } catch (err) {
+        return res.status(500).json({
+          ok: false,
+          err
+        })
+    }
+  
+    if (!cliente)
+      return res.status(400).json({
+        ok: false,
+        err: {
+          msg: "El cliente no se encuentra registrado",
+        },
+      });
+  
+    res.json({
+      ok: true,
+      cliente,
+      msg: "Cliente Actualizado",
+    });
+  };
+
 module.exports = {
-  registrarCliente
+  registrarCliente,
+  actualizarCliente
 }
 

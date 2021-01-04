@@ -30,4 +30,7 @@ app.use('/catalog',require('./catalog'));
 // endpoints for prizes
 app.use('/prize',require('./prize'));
 
+// endpoints for users
+app.use('/user',require('./user'));
+
 module.exports = app;

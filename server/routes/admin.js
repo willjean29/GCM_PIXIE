@@ -11,8 +11,6 @@ const administratorController = require('../controllers/administratorController'
 const authController = require('../controllers/authController');
 const {uploadImage} = require('../middlewares/uploadImage');
 const {verifyTokenAdmin} = require('../middlewares/verifyToken');
-// iniciar sesión
-router.post('/login', authController.autenticarAdministrador);
 
 // Para iniciar sesión
 router.post('/login', 
