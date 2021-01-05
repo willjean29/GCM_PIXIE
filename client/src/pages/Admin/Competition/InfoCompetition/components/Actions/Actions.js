@@ -1,18 +1,22 @@
 import React, {useState} from 'react';
 import {Card, Button, Image} from 'antd';
 import {DeleteOutlined, EditOutlined} from '@ant-design/icons';
-import Competition from '../../../../../../assets/img/svg/undraw_winners_ao2o.svg'
 import Modal from '../../../../../../components/Admin/Modal';
+import EditCompetiton from '../../../EditCompetition';
+import Competition from '../../../../../../assets/img/svg/undraw_winners_ao2o.svg';
 import './Actions.scss';
-import EditCompetition from '../../../EditCompetition';
 const Actions = ({competition}) => {
   const [showModal, setShowModal] = useState(false);
   const [modalTitle, setModalTitle] = useState('');
   const [contentModal, setContentModal] = useState(null);
-  const handlerEditCompetition = () => {
-    setModalTitle("Editar Concurso"); 
-    setContentModal( 
-      <EditCompetition competition={competition}/> 
+  // const [reloadFiles, setReloadFiles] = useState(false);
+  const handleModal = () => {
+    setModalTitle("Editar Concurso");
+    setContentModal(
+      <EditCompetiton 
+        competition={competition} 
+        setShowModal={setShowModal} 
+      />
     )
     setShowModal(true);
   }
@@ -27,7 +31,8 @@ const Actions = ({competition}) => {
       >
         <Button
           type="primary"
-          onClick={handlerEditCompetition}//si esta activo
+          onClick={handleModal}
+          disabled={competition && competition.estado ? true: false}
         >
           <EditOutlined />
           Editar
@@ -35,6 +40,7 @@ const Actions = ({competition}) => {
         <Button
           type="primary"
           danger
+          disabled={competition && competition.estado ? true: false}
         >
           <DeleteOutlined />
           Eliminar

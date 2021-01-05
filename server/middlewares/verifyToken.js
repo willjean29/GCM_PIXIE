@@ -1,10 +1,12 @@
-/**
- * Middleware de autorización para cada petición del administrador
- */
+/*
+  Autorización para cada petición del administrador.
+*/
+
 const jwt = require('jsonwebtoken');
 
 const verifyTokenAdmin = (req, res, next) => {
   let token = req.headers['access-token-admin'];
+
   jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
     if (err) {
       // Pruebas en Rest API 
@@ -14,9 +16,6 @@ const verifyTokenAdmin = (req, res, next) => {
           msg: "Token no valido"
         }
       })
-
-      // Redireccionar en el sistema
-      // return res.redirect('/admin/login'):
     }
 
     req.administrator = decoded.administrator;

@@ -7,10 +7,12 @@ import AdminHome from '../pages/Admin';
 import AdminSingIn from '../pages/Admin/SingIn';
 import AdminProfile from '../pages/Admin/Profile';
 import AdminFiles from '../pages/Admin/Files';
+import AdminFilesDetail from '../pages/Admin/Files/ViewFile';
 import AdminCompetitionNew from '../pages/Admin/Competition/NewCompetition';
 import AdminCompetitionInfo from '../pages/Admin/Competition/InfoCompetition';
 import AdminBusinessNew from '../pages/Admin/Business/NewBusiness';
 import AdminBusinessInfo from '../pages/Admin/Business/InfoBusiness';
+import AdminCatalogueInfo from '../pages/Admin/Catalogue/InfoCatalogue';
 
 // import pages client
 import Home from '../pages/Home';
@@ -60,8 +62,18 @@ const routes = [
         exact: true
       }, 
       {
+        path: '/admin/catalogue/info',
+        component: AdminCatalogueInfo,
+        exact: true
+      },
+      {
         path: '/admin/files',
         component: AdminFiles,
+        exact: true
+      },
+      {
+        path: '/admin/files/:id',
+        component: AdminFilesDetail,
         exact: true
       },
       {

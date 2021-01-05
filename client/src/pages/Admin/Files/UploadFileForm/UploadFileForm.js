@@ -61,16 +61,15 @@ const UploadFileForm = ({setShowModal, registrarArchivo, setReloadFiles}) => {
           </Dragger>
          
          <br></br>
-         <Row justify="center"> 
-         <Col span={24} md={8}>
+          <Row justify="center"> 
+            <Col span={24} md={8}>
               <Form.Item style={{textAlign: 'center' }}>          
                 <Button type="primary" htmlType="submit" className="btn-submit" size="large">
-                 Enviar archivo
+                  Enviar archivo
                 </Button>
               </Form.Item>
             </Col>
-            </Row>
-            
+          </Row>
         </Form>
         
         </Card>

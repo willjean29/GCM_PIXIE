@@ -1,62 +1,64 @@
-//Content: Compnente de la tabla donde se observan los archivos del registro de ventas
-import React from 'react'
-
-import { Layout, Card, Table} from 'antd' 
-import './ViewFile.scss'
+import React from 'react';
+import { Layout, Card, Table, Spin} from 'antd' // Esto sirve para importar los componentes
+import {useSelector} from 'react-redux';
+import './ViewFile.scss' // importa el css
 
 const ViewFile = (props) => {
   const {Content} = Layout
-
+  const dataFiles = useSelector(state => state.files.fileCurret);
+  const loading = useSelector(state => state.files.loading);
   const columns = [
     {
       title: 'ID',
-      key: 'id'
-      },
+      key: 'ID',
+      dataIndex: 'ID'
+    },
     {
       title: 'DNI',
-
-      key: 'dni'
+      key: 'DNI',
+      dataIndex: 'DNI'
     },
     {
-      title: 'Apellido',
-      key: 'lastname'
-       },
-    {
-      title: 'Tipo de pago',
-      key: 'type'
-   
+      title: 'Nombres',
+      key: 'Nombres',
+      dataIndex: 'Nombres'
     },
     {
-      title: 'Monto Total',
-      key: 'amount'
-
+      title: 'Apellidos',
+      key: 'Apellidos',
+      dataIndex: 'Apellidos'
     },
     {
-      title: 'Fecha',
-      key: 'date'
-
+      title: 'Método de Pago',
+      key: 'Metodo_Pago',
+      dataIndex: 'Metodo_Pago'
+    },
+    {
+      title: 'Total Venta',
+      key: 'Total_Venta',
+      dataIndex: 'Total_Venta'
+    },
+    {
+      title: 'Fecha Venta',
+      key: 'Fecha_Venta',
+      dataIndex: 'Fecha_Venta'
     }
   ]
 
-  const data = [
-    {
-      key: '1',
-      id: "01",
-      dni: "73008470",
-      name: 'Name',
-      lastname: 'Lastname',
-      type: 'Efectivo',
-      amount: 158.9,
-      date: '2020-10-10'
-    }
-  ]
+  const data = dataFiles;
   return (
-    <Layout className='vfiles'>
-      <Content className='vfiles__content'>
-        <h1 className='vfiles__content-title'>Registros de Ventas</h1>
+    <Layout className='files'>
+      <Content className='files__content'>
+        <h1 className='files__content-title'>Registros de Ventas</h1>
         <br/>
-        <Card className='vfiles__content-body'>
-          <Table className='vfiles__content-body-table' columns={columns} dataSource={data} />
+        <Card className='files__content-body'>
+          <Spin size="large" spinning={loading}>
+            <Table className='files__content-body-table' 
+              columns={columns} 
+              dataSource={data} 
+              scroll={{x: 380}}
+            />
+          </Spin>
         </Card>
       </Content>
     </Layout>

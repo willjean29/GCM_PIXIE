@@ -1,9 +1,9 @@
-import React, {useEffect} from 'react';
+import React, {useState,useEffect} from 'react';
 import { RedditOutlined, InfoCircleOutlined, CheckCircleOutlined} from '@ant-design/icons';
 import { Card, Row, Col, Descriptions, Tabs, Image, Button } from 'antd';
 import {useSelector, useDispatch} from 'react-redux';
 import moment from 'moment';
-import {obtenerConcursoAction} from '../../../../redux/actions/competitionActions';
+import {obtenerConcursoAction,activarConcursoAction} from '../../../../redux/actions/competitionActions';
 import NoAvatar from '../../../../assets/img/png/no-avatar.png';
 import Information from './components/Information';
 import Actions from './components/Actions';
@@ -12,12 +12,20 @@ import './InfoCompetition.scss';
 const InfoCompetition = () => {
   const dispatch = useDispatch();
   const obtenerConcurso = () => dispatch(obtenerConcursoAction());
+  const activarConcurso = (concurso) => dispatch(activarConcursoAction(concurso));
   const competition = useSelector(state => state.competition.data);
-  const { TabPane } = Tabs; 
+  const [reloadCompetition, setReloadCompetition] = useState(false);
+  const { TabPane } = Tabs;
   useEffect(() => {
     obtenerConcurso();
+    setReloadCompetition(false);
     // eslint-disable-next-line
-  }, [dispatch])
+  }, [dispatch,reloadCompetition])
+
+  const handleActive = () => {
+    console.log(competition._id);
+    activarConcurso(competition);
+  }
   return (
     <>
       <Card>
@@ -60,7 +68,17 @@ const InfoCompetition = () => {
                   }
                 </Descriptions.Item>
               </Descriptions>
-              <Button type="primary" style={{width: '100%'}} className="btn-submit" disabled>Activar</Button>
+              <Button 
+              type="primary" 
+              style={{width: '100%'}} 
+              className="btn-submit" 
+              onClick={handleActive}
+              disabled={competition && (
+                competition.estado ? true : (
+                  competition.active ? false : true
+                )
+              )}
+              >Activar</Button>
             </Card>
           </Col>
           <Col span={24} md={16}
@@ -71,7 +89,7 @@ const InfoCompetition = () => {
                 <Information competition={competition}/>
               </TabPane>
               <TabPane tab={<span className="tab_text"><CheckCircleOutlined />Acciones</span>} key="2" >
-                <Actions competition={competition}/>
+                <Actions competition={competition} />
               </TabPane>
               <TabPane tab={<span className="tab_text"><RedditOutlined />Logo</span>} key="3" >
                 <Logo/>

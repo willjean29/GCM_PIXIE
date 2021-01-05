@@ -4,7 +4,13 @@ import {
   FILE_SALE_ERROR,
   GET_FILES,
   GET_FILES_OK,
-  GET_FILES_ERROR
+  GET_FILES_ERROR,
+  FILE_DETAIL,
+  FILE_DETAIL_OK,
+  FILE_DETAIL_ERROR,
+  DELETE_FILE,
+  DELETE_FILE_OK,
+  DELETE_FILE_ERROR
 } from '../types';
 
 import Notification from '../../components/UiElements/Notification';
@@ -55,7 +61,7 @@ export const obtenerArchivosAction = () => {
       const response = await clienteAxios.get('/file/all')
       const data = response.data;
       dispatch(obtenerArchivosOk(data.files));
-      // console.log(data);
+      console.log(data);
     } catch (error) {
       console.log(error.response);
       dispatch(obtenerArchivosError());
@@ -72,4 +78,60 @@ const obtenerArchivosOk = (data) => ({
 })
 const obtenerArchivosError = () => ({
   type: GET_FILES_ERROR
+})
+
+export const detalleArchivoAction = (file) => {
+  return async (dispatch) => {
+    dispatch(detalleArchivo());
+    tokenAuthAdmin();
+    try {
+      const response = await clienteAxios.get(`/file/ventas/${file._id}`);
+      const data = response.data;
+      console.log(data);
+      dispatch(detalleArchivoOk(data.file));
+    } catch (error) {
+      console.log(error.response);
+      dispatch(detalleArchivoError())
+    }
+  }
+}
+
+const detalleArchivo = () => ({
+  type: FILE_DETAIL
+})
+const detalleArchivoOk = (file) => ({
+  type: FILE_DETAIL_OK,
+  payload: file
+})
+const detalleArchivoError = () => ({
+  type: FILE_DETAIL_ERROR
+})
+
+export const eliminarArchivoAction = (file) => {
+  return async (dispatch) => {
+    dispatch(eliminarArchivo());
+    tokenAuthAdmin();
+    try {
+      const response = await clienteAxios.delete(`/file/${file._id}`);
+      const data = response.data;
+      console.log(data);
+      Notification(data.ok,data.msg);
+      dispatch(eliminarArchivoOk());
+    } catch (error) {
+      console.log(error.response);
+      const msg = error.response.data ? error.response.data.err.msg : "Hubo un error";
+      Notification(error.response.data.ok,msg);
+      dispatch(eliminarArchivoError());
+    }
+  }
+}
+
+const eliminarArchivo = () => ({
+  type: DELETE_FILE
+})
+const eliminarArchivoOk = () => ({
+  type: DELETE_FILE_OK
+})
+const eliminarArchivoError = () => ({
+  type: DELETE_FILE_ERROR
 })
