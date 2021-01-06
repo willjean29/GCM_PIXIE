@@ -1,103 +1,109 @@
-// import layout 
-import LayoutAdmin from '../layouts/LayoutAdmin';
-import LayoutClient from '../layouts/LayoutClient';
+// import layout
+import LayoutAdmin from "../layouts/LayoutAdmin";
+import LayoutClient from "../layouts/LayoutClient";
 
 // import pages admin
-import AdminHome from '../pages/Admin';
-import AdminSingIn from '../pages/Admin/SingIn';
-import AdminProfile from '../pages/Admin/Profile';
-import AdminFiles from '../pages/Admin/Files';
-import AdminFilesDetail from '../pages/Admin/Files/ViewFile';
-import AdminCompetitionNew from '../pages/Admin/Competition/NewCompetition';
-import AdminCompetitionInfo from '../pages/Admin/Competition/InfoCompetition';
-import AdminBusinessNew from '../pages/Admin/Business/NewBusiness';
-import AdminBusinessInfo from '../pages/Admin/Business/InfoBusiness';
-import AdminCatalogueInfo from '../pages/Admin/Catalogue/InfoCatalogue';
+import AdminHome from "../pages/Admin";
+import AdminSingIn from "../pages/Admin/SingIn";
+import AdminProfile from "../pages/Admin/Profile";
+import AdminFiles from "../pages/Admin/Files";
+import AdminFilesDetail from "../pages/Admin/Files/ViewFile";
+import AdminCompetitionNew from "../pages/Admin/Competition/NewCompetition";
+import AdminCompetitionInfo from "../pages/Admin/Competition/InfoCompetition";
+import AdminBusinessNew from "../pages/Admin/Business/NewBusiness";
+import AdminBusinessInfo from "../pages/Admin/Business/InfoBusiness";
+import AdminCatalogueInfo from "../pages/Admin/Catalogue/InfoCatalogue";
 
 // import pages client
-import Home from '../pages/Home';
-import Contact from '../pages/Contact';
+import Home from "../pages/Home";
+import Contact from "../pages/Contact";
+import ClientProfile from "../pages/Client/Profile";
 // other
-import Error404 from '../pages/Error404';
+import Error404 from "../pages/Error404";
 
 const routes = [
   {
-    path: '/admin',
-    component : LayoutAdmin,
+    path: "/admin",
+    component: LayoutAdmin,
     exact: false,
     routes: [
       {
-        path: '/admin',
+        path: "/admin",
         component: AdminHome,
-        exact: true
+        exact: true,
       },
       {
-        path: '/admin/login',
+        path: "/admin/login",
         component: AdminSingIn,
-        exact: true
+        exact: true,
       },
       {
-        path: '/admin/profile',
+        path: "/admin/profile",
         component: AdminProfile,
-        exact: true
+        exact: true,
       },
       {
-        path: '/admin/business/new',
+        path: "/admin/business/new",
         component: AdminBusinessNew,
-        exact: true
+        exact: true,
       },
       {
-        path: '/admin/business/info',
+        path: "/admin/business/info",
         component: AdminBusinessInfo,
-        exact: true
+        exact: true,
       },
       {
-        path: '/admin/competition/new',
+        path: "/admin/competition/new",
         component: AdminCompetitionNew,
-        exact: true
+        exact: true,
       },
       {
-        path: '/admin/competition/info',
+        path: "/admin/competition/info",
         component: AdminCompetitionInfo,
-        exact: true
-      }, 
+        exact: true,
+      },
       {
-        path: '/admin/catalogue/info',
+        path: "/admin/catalogue/info",
         component: AdminCatalogueInfo,
-        exact: true
+        exact: true,
       },
       {
-        path: '/admin/files',
+        path: "/admin/files",
         component: AdminFiles,
-        exact: true
+        exact: true,
       },
       {
-        path: '/admin/files/:id',
+        path: "/admin/files/:id",
         component: AdminFilesDetail,
-        exact: true
+        exact: true,
       },
       {
-        component: Error404
-      }
-    ]
+        component: Error404,
+      },
+    ],
   },
   {
-    path: '/',
-    component : LayoutClient,
+    path: "/",
+    component: LayoutClient,
     exact: false,
     routes: [
       {
-        path: '/',
+        path: "/",
         component: Home,
-        exact: true
+        exact: true,
       },
       {
-        path: '/contact',
+        path: "/contact",
         component: Contact,
-        exact: true
+        exact: true,
       },
-    ]
-  }
+      {
+        path: "/profile",
+        component: ClientProfile,
+        exact: true,
+      },
+    ],
+  },
 ];
 
 export default routes;
