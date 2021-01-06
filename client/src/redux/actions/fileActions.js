@@ -10,7 +10,10 @@ import {
   FILE_DETAIL_ERROR,
   DELETE_FILE,
   DELETE_FILE_OK,
-  DELETE_FILE_ERROR
+  DELETE_FILE_ERROR,
+  FILE_PROCESSING,
+  FILE_PROCESSING_OK,
+  FILE_PROCESSING_ERROR
 } from '../types';
 
 import Notification from '../../components/UiElements/Notification';
@@ -134,4 +137,21 @@ const eliminarArchivoOk = () => ({
 })
 const eliminarArchivoError = () => ({
   type: DELETE_FILE_ERROR
+})
+
+export const procesarArchivoAction = (file) => {
+  console.log("Procesar archivo de venta");
+  return async (dispatch) => {
+    console.log("Procesar archivo de venta");
+  }
+}
+
+const procesarArchivo = () => ({
+  type: FILE_PROCESSING
+})
+const procesarArchivoOk = () => ({
+  type: FILE_PROCESSING_OK
+})
+const procesarArchivoError = () => ({
+  type: FILE_PROCESSING_ERROR
 })
