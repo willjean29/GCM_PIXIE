@@ -23,7 +23,7 @@ router.get('/ventas/:id',
   verifyTokenAdmin,
   fileController.obtenerDatosArchivo
 );
-router.get('/clientes/:id',
+router.post('/clientes/:id',
   verifyTokenAdmin,
   fileController.cargarDataCliente
 );
