@@ -10,7 +10,23 @@ import {tokenAuthAdmin} from '../../config/token';
 
 export const getClientsAction = () => {
   return async (dispatch) => {
-    console.log("obtener clientes desde la base de datos")
+    dispatch(getClients());
+    tokenAuthAdmin();
+    try {
+      const responseActives = await clienteAxios.get('/clients/activos');
+      const responseInactives = await clienteAxios.get('/clients/inactivos');
+      const {clientesActivos} = responseActives.data;
+      const {clientesInactivos} = responseInactives.data;
+      const clientsData = {
+        actives: clientesActivos,
+        inactives: clientesInactivos
+      }
+      dispatch(getClientsOk(clientsData));
+    } catch (error) {
+      console.log(error.response);
+      dispatch(getClientsError());
+
+    }
   }
 }
 

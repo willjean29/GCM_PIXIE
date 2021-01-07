@@ -23,8 +23,8 @@ const clientsReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         error: false,
-        activeClients: action.payload.activeClients,
-        inactiveClients: action.payload.inactiveClients
+        activeClients: action.payload.actives,
+        inactiveClients: action.payload.inactives
       }
     case UPLOAD_CLIENTS_ERROR:
       return {

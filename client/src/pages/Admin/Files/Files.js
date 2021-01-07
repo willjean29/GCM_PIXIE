@@ -49,6 +49,7 @@ const Files = (props) => {
         setShowModal={setShowModal} 
         registrarArchivo={registrarArchivo}
         setReloadFiles={setReloadFiles}
+        setContentModal={setContentModal}
       />
     )
 
