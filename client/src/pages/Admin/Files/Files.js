@@ -23,7 +23,7 @@ const Files = (props) => {
   const obtenerArchivos = () => dispatch(obtenerArchivosAction());
   const detalleArchivo = (file) => dispatch(detalleArchivoAction(file));
   const eliminarArchivo = (file) => dispatch(eliminarArchivoAction(file));
-  const procesarArchivo = (file) => dispatch(procesarArchivoAction(file));
+  const procesarArchivo = (file,setReloadFiles) => dispatch(procesarArchivoAction(file,setReloadFiles));
   const listaArchivos = useSelector(state => state.files.data);
   const {Content} = Layout
   // const {TableLayout} = Card
@@ -76,9 +76,7 @@ const Files = (props) => {
   }
 
   const handleFileProcessing = (file) => {
-    console.log(file);
-    console.log("procesar archivo");
-    procesarArchivoAction(file)
+    procesarArchivo(file,setReloadFiles);
   }
 
   const columns = [
@@ -105,7 +103,7 @@ const Files = (props) => {
         <div style={{textAlign: 'center'}}>
           {file.estado ? (
             <Tooltip title="Archivo Cargado">
-              <SafetyOutlined style={{ color: "green"}} onClick={() => handleFileProcessing(file)}/>
+              <SafetyOutlined style={{ color: "green"}}/>
             </Tooltip>
             
           ) : (

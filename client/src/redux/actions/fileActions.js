@@ -139,10 +139,24 @@ const eliminarArchivoError = () => ({
   type: DELETE_FILE_ERROR
 })
 
-export const procesarArchivoAction = (file) => {
-  console.log("Procesar archivo de venta");
+export const procesarArchivoAction = (file,setReloadFiles) => {
   return async (dispatch) => {
-    console.log("Procesar archivo de venta");
+    dispatch(procesarArchivo());
+    tokenAuthAdmin();
+    try {
+      const response = await clienteAxios.post(`/file/clientes/${file._id}`);
+      const data = response.data;
+      Notification(data.ok,data.msg);
+      if(data.ok){
+        setReloadFiles(true);
+      }
+      dispatch(procesarArchivoOk())
+    } catch (error) {
+      console.log(error.response);
+      const msg = error.response.data ? error.response.data.err.msg : "Hubo un error";
+      Notification(error.response.data.ok,msg);
+      dispatch(procesarArchivoError())
+    }
   }
 }
 

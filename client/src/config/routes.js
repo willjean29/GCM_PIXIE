@@ -13,6 +13,7 @@ import AdminCompetitionInfo from '../pages/Admin/Competition/InfoCompetition';
 import AdminBusinessNew from '../pages/Admin/Business/NewBusiness';
 import AdminBusinessInfo from '../pages/Admin/Business/InfoBusiness';
 import AdminCatalogueInfo from '../pages/Admin/Catalogue/InfoCatalogue';
+import AdminClientsInfo from '../pages/Admin/Clients';
 
 // import pages client
 import Home from '../pages/Home';
@@ -49,6 +50,11 @@ const routes = [
       {
         path: '/admin/business/info',
         component: AdminBusinessInfo,
+        exact: true
+      },
+      {
+        path: '/admin/business/clients',
+        component: AdminClientsInfo,
         exact: true
       },
       {
