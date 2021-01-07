@@ -7,7 +7,8 @@ import {
 const initialState = {
   error: false,
   loading: false,
-  clients: []
+  activeClients: [],
+  inactiveClients: []
 }
 
 const clientsReducer = (state = initialState, action) => {
@@ -22,7 +23,8 @@ const clientsReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         error: false,
-        clients: action.payload
+        activeClients: action.payload.activeClients,
+        inactiveClients: action.payload.inactiveClients
       }
     case UPLOAD_CLIENTS_ERROR:
       return {
