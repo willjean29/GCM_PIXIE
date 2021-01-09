@@ -1,16 +1,44 @@
 .admin-content {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	.wrapper {
-		max-width: 500px;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		img {
+	.card-info {
+		border-radius: .25rem;
+		&-content {
+			display: flex;
+			justify-content: space-between;
+			&__text {
+				h3 {
+					font-weight: bold;
+					font-size: 2rem;
+				}
+				p {
+					font-weight: 600;
+					font-size: 1rem;
+				}
+			}
+			&__icon {
+				img {
+					width: 80px;
+				}
+			}
+		}
+		&-footer {
+			position: absolute;
+			border-radius: .25rem;
 			width: 100%;
-			min-height: 500px;
+			left: 0;
+			bottom: 0;
+			// background: red;
+			margin: 0;
+			p {
+				margin: 0;
+				text-align: center;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				padding: 5px 0;
+				span {
+					padding: 0 5px;
+				}
+			}
 		}
 	}
 	h2 {
