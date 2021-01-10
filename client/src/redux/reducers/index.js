@@ -7,6 +7,7 @@ import fileReducer from './fileReducer';
 import competitionReducer from './competitionReducer';
 import catalogReducer from './catalogReducer';
 import clientsReducer from './clientsReducer';
+import statisticsReducer from './statisticsReducer';
 export default combineReducers({
   authentication :authReducer,
   newAdmin: newAdminReducer,
@@ -16,4 +17,5 @@ export default combineReducers({
   competition: competitionReducer,
   catalog: catalogReducer,
   clients: clientsReducer,
+  statistics: statisticsReducer
 })

@@ -4,11 +4,33 @@ import Premio from '../../assets/img/svg/regalo.svg';
 import Archivo from '../../assets/img/svg/sobresalir.svg';
 import Cliente from '../../assets/img/svg/user-protection.svg';
 import Concurso from '../../assets/img/svg/trofeo.svg';
-import {Row, Col, Card, Tabs, Calendar, List, Avatar, Badge} from 'antd';
+import {Row, Col, Card, Tabs, Calendar, List, Avatar, Badge, Spin} from 'antd';
 import {RightCircleOutlined,RedditOutlined, PieChartOutlined, BarChartOutlined} from '@ant-design/icons';
+import {useDispatch, useSelector} from 'react-redux';
+import {Link} from 'react-router-dom';
 import { Line, Pie, Column } from '@ant-design/charts';
+import {dataDashboardAction, dataGeneroAction, dataEstadoAction, dataPuntosAction} from '../../redux/actions/statisticsActions';
 import './Admin.scss';
 const Admnin = () => {
+  const dispatch = useDispatch();
+  const dataDashboard = () => dispatch(dataDashboardAction());
+  const obtenerDatosGenero = () => dispatch(dataGeneroAction());
+  const obtenerDatosEstado = () => dispatch(dataEstadoAction());
+  const obtenerDatosPuntos = () => dispatch(dataPuntosAction());
+  const [reloadData, setReloadData] = useState(false);
+  const datosEstaticos = useSelector(state => state.statistics.data);
+  const admin = useSelector(state => state.authentication.user);
+  const datosGenero = useSelector(state => state.statistics.dataGenero);
+  const datosEstado = useSelector(state => state.statistics.dataEstado);
+  const datosPuntos = useSelector(state => state.statistics.dataPuntos);
+  useEffect(() => {
+    dataDashboard();
+    obtenerDatosGenero();
+    obtenerDatosEstado();
+    obtenerDatosPuntos();
+    setReloadData(false);
+    // eslint-disable-next-line
+  }, [dispatch,reloadData]);
   const { TabPane } = Tabs;
   const topColResponsiveProps = {
     xs: 24,
@@ -24,11 +46,11 @@ const Admnin = () => {
   const dataGenero = [
     {
       type: "Mujeres",
-      value: 27,
+      value: datosGenero ? datosGenero.clientesMujeres : 30,
     },
     {
       type: "Hombres",
-      value: 25,
+      value: datosGenero ? datosGenero.clientesHombres : 70,
     }
     
   ];
@@ -56,11 +78,11 @@ const Admnin = () => {
   const dataEstado = [
     {
       type: "Activos",
-      value: 30,
+      value: datosEstado ? datosEstado.clientesActivos : 30,
     },
     {
       type: "Inactivos",
-      value: 70,
+      value: datosEstado ? datosEstado.clientesInactivos : 70,
     }
     
   ];
@@ -87,56 +109,47 @@ const Admnin = () => {
   };
   const data = [
     {
-      title: 'Ant Design Title 1',
+      title: 'Producto 1',
     },
     {
-      title: 'Ant Design Title 2',
+      title: 'Producto 2',
     },
     {
-      title: 'Ant Design Title 3',
+      title: 'Producto 3',
     },
     {
-      title: 'Ant Design Title 4',
+      title: 'Producto 4',
+    },
+    {
+      title: 'Producto 5',
     },
   ];
   const dataCliente = [
     {
-        type: '77219890',
-        sales: 38
+        dni: '77219890',
+        puntos: 38
     },
     {
-        type: '77219891',
-        sales: 52
+        dni: '77219891',
+        puntos: 52
     },
     {
-        type: '77219892',
-        sales: 61
+        dni: '77219892',
+        puntos: 61
     },
     {
-        type: '77219893',
-        sales: 145
+        dni: '77219893',
+        puntos: 145
     },
     {
-        type: '77219894',
-        sales: 48
-    },
-    {
-        type: '77219895',
-        sales: 38
-    },
-    {
-        type: '77219896',
-        sales: 38
-    },
-    {
-        type: '77219897',
-        sales: 38
+        dni: '77219894',
+        puntos: 48
     }
 ];
 const configCliente = {
-    data: dataCliente,
-    xField: 'type',
-    yField: 'sales',
+    data: datosPuntos ? datosPuntos : dataCliente,
+    xField: 'dni',
+    yField: 'puntos',
     label: {
         position: 'middle',
         style: {
@@ -145,8 +158,8 @@ const configCliente = {
         }
     },
     meta: {
-        type: { alias: '1' },
-        sales: { alias: 'puntos' }
+        dni: { alias: '1' },
+        puntos: { alias: 'puntos' }
     }
 };
   return (  
@@ -163,7 +176,7 @@ const configCliente = {
         >
           <div className="card-info-content">
             <div className="card-info-content__text">
-              <h3>8</h3>
+              <h3>{datosEstaticos ? datosEstaticos.premios : 0}</h3>
               <p>Premios</p>
             </div>
             <div className="card-info-content__icon">
@@ -173,7 +186,14 @@ const configCliente = {
           <div className="card-info-footer"
             style={{backgroundColor: "#1591a5"}}
           >
-            <p>Mas Información <RightCircleOutlined /></p>
+            {datosEstaticos ? (
+              <Link to="/admin/catalogue/info">
+                <p style={{color: "#000"}}>Mas Información <RightCircleOutlined /></p>
+              </Link>
+            ) : (
+              <p>Mas Información <RightCircleOutlined /></p>
+            )} 
+
           </div>
         </Card>
       </Col>
@@ -186,7 +206,7 @@ const configCliente = {
         >
           <div className="card-info-content">
             <div className="card-info-content__text">
-              <h3>8</h3>
+              <h3>{datosEstaticos ? datosEstaticos.registros : 0}</h3>
               <p>Registros</p>
             </div>
             <div className="card-info-content__icon">
@@ -196,7 +216,13 @@ const configCliente = {
           <div className="card-info-footer"
             style={{backgroundColor: "#24963e"}}
           >
-            <p>Mas Información <RightCircleOutlined /></p>
+            {datosEstaticos ? (
+              <Link to="/admin/files">
+                <p style={{color: "#000"}}>Mas Información <RightCircleOutlined /></p>
+              </Link>
+            ) : (
+              <p>Mas Información <RightCircleOutlined /></p>
+            )} 
           </div>
         </Card>
       </Col>
@@ -209,7 +235,7 @@ const configCliente = {
         >
           <div className="card-info-content">
             <div className="card-info-content__text">
-              <h3>8</h3>
+              <h3>{datosEstaticos ? datosEstaticos.clientes : 0}</h3>
               <p>Clientes</p>
             </div>
             <div className="card-info-content__icon">
@@ -219,7 +245,13 @@ const configCliente = {
           <div className="card-info-footer"
             style={{backgroundColor: "#e5ad06"}}
           >
-            <p>Mas Información <RightCircleOutlined /></p>
+            {datosEstaticos ? (
+              <Link to="/admin/business/clients">
+                <p style={{color: "#000"}}>Mas Información <RightCircleOutlined /></p>
+              </Link>
+            ) : (
+              <p>Mas Información <RightCircleOutlined /></p>
+            )} 
           </div>
         </Card>
       </Col>
@@ -232,7 +264,7 @@ const configCliente = {
         >
           <div className="card-info-content">
             <div className="card-info-content__text">
-              <h3>8</h3>
+              <h3>{datosEstaticos ? datosEstaticos.concursos : 0}</h3>
               <p>Concurso</p>
             </div>
             <div className="card-info-content__icon">
@@ -242,7 +274,13 @@ const configCliente = {
           <div className="card-info-footer"
             style={{backgroundColor: "#c6303e"}}
           >
-            <p>Mas Información <RightCircleOutlined /></p>
+            {datosEstaticos ? (
+              <Link to="/admin/competition/info">
+                <p style={{color: "#000"}}>Mas Información <RightCircleOutlined /></p>
+              </Link>
+            ) : (
+              <p>Mas Información <RightCircleOutlined /></p>
+            )} 
           </div>
         </Card>
       </Col>
@@ -256,24 +294,30 @@ const configCliente = {
 
           <Tabs>
           <TabPane tab={<span><PieChartOutlined />Género</span>} key="1" >
-            <Pie {...configGenero} 
-              style={{height: "400px"}}
-            />
+              <Spin size="large" spinning={datosGenero ? false : true}>
+                <Pie {...configGenero} 
+                  style={{height: "400px"}}
+                />
+              </Spin>
           </TabPane>
           <TabPane tab={<span><PieChartOutlined />Estado</span>} key="2" >
-            <Pie {...configEstado} 
-              style={{height: "400px"}}
-            />
-            {/* Grafica 1 */}
+            <Spin size="large" spinning={datosEstado ? false : true}>
+              <Pie {...configEstado} 
+                style={{height: "400px"}}
+              />
+            </Spin>
           </TabPane>
           </Tabs>
         </Card>
         <Card>
         <Tabs>
           <TabPane tab={<span><BarChartOutlined />Clientes</span>} key="1" >
-            <Column {...configCliente} 
-              style={{height: "400px"}}
-            />
+
+            <Spin size="large" spinning={datosPuntos ? false : true}>
+              <Column {...configCliente} 
+                style={{height: "400px"}}
+              />
+            </Spin>
           </TabPane>
           </Tabs>
         </Card>
@@ -286,22 +330,28 @@ const configCliente = {
           <div>
             <List
               itemLayout="horizontal"
-              dataSource={data}
+              dataSource={datosEstaticos ? datosEstaticos.productos : data}
               renderItem={item => (
                 <List.Item>
                   <List.Item.Meta
-                    avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-                    title={<a href="https://ant.design">{item.title}</a>}
-                    description="Ant Design, a design UED Team"
+                    avatar={<Avatar src= {item.url ? item.url : "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"} />}
+                    title={<a href="https://ant.design">{item.title ? item.title : item.name}</a>}
+                    description={item.description ? item.description : "Descripcion del producto" }
                   />
                   <div>
-                    <Badge count={25} />
+                    <Badge count={item.points ? item.points : 100} />
                   </div>
                 </List.Item>
               )}
             />
             <div className="card-list-premios__footer">
+            {datosEstaticos ? (
+              <Link to="/admin/catalogue/info">
+                <p style={{color: "#000"}}>Mas Información <RightCircleOutlined /></p>
+              </Link>
+            ) : (
               <p>Mas Información <RightCircleOutlined /></p>
+            )} 
             </div>
           </div>
         </Card>

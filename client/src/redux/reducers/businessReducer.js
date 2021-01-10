@@ -13,7 +13,7 @@ import {
 const initialState = {
   loading: null,
   error: null,
-  data: null
+  data: null,
 }
 
 const businessReducer = (state = initialState, action) => {
