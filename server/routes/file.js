@@ -21,6 +21,7 @@ router.post('/upload',
   fileController.registrarArchivo
 );
 
+// Para obtener todos los archivos
 router.get('/all',
   verifyTokenAdmin,
   fileController.obtenerArchivos

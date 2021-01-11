@@ -20,6 +20,10 @@ const {
   existsCompetitionSimple, 
   existsCatalogoBusiness 
 } = require('../middlewares/exists');
+const {
+  clientesEstado, clientesGeneros, clientesTotales, productosTop,
+  clientesTop, premiosTotales, registrosTotales, concursosActivvos
+} = require('../utils/statistics');
 
 const agregarAdministrador = async(req, res) => {
   const data = req.body;
@@ -112,7 +116,7 @@ const actualizarAdministrador = async(req, res) => {
       err
     })
   }
-
+  
   if(!administrator) return res.status(400).json({
     ok: false,
     err: {
@@ -130,80 +134,8 @@ const actualizarAdministrador = async(req, res) => {
 const agregarAvatar = async(req, res) => {
   const id = req.administrator._id;
   let administrator;
-
+  
   // Buscamos al administrador por su número de identificación
-  try {
-    administrator = await Administrator.findById(id).populate('empresa');
-  } catch (err) {
-    return res.status(400).json({
-      ok: false,
-      err
-    })
-  }
-
-  if(!administrator) return res.status(400).json({
-    ok: false,
-    err: {
-      msg: "El administrador no existe o no tiene permisos"
-    }
-  });
-
-  if(req.file){
-    const result = await cloudinary.v2.uploader.upload(req.file.path);
-    administrator.image = result.secure_url;
-    await fs.unlink(req.file.path);
-  }
-
-  try {
-    await administrator.save();
-  } catch (err) {
-    return res.status(400).json({
-      ok: false,
-      err: {
-        msg: "No se pudo guardar la imagen"
-      }
-    }); 
-  }
-
-  res.json({
-    ok: true,
-    msg: "Avatar Actualizado",
-    administrator
-  });
-}
-
-const actualizarAdministrador = async(req, res) => {
-  const id = req.administrator._id;
-  const data = req.body;
-  let administrator;
-
-  try {
-    administrator = await Administrator.findByIdAndUpdate(id,data,{new: true, runValidators: true}).populate('empresa');
-  } catch (err) {
-    return res.status(500).json({
-      ok: false,
-      err
-    })
-  }
-  
-  if(!administrator) return res.status(400).json({
-    ok: false,
-    err: {
-      msg: "El administrador no existe"
-    }
-  });
-
-  res.json({
-    ok: true,
-    msg: "Administrador Actualizado",
-    administrator
-  });
-}
-
-const agregarAvatar = async(req,res) => {
-  const id = req.administrator._id;
-  let administrator;
-  
   try {
     administrator = await Administrator.findById(id).populate('empresa');
   } catch (err) {
@@ -244,10 +176,66 @@ const agregarAvatar = async(req,res) => {
   });
 }
 
+const obtenerDataGenero = async(req, res) => {
+  const id = req.administrator._id;
+  const dataGenero = await clientesGeneros(id);
+
+  res.json({
+    ok: true,
+    dataGenero
+  })
+}
+
+const obtenerDataPuntos = async(req, res) => {
+  const id = req.administrator._id;
+  const dataPuntos = await clientesTop(id);
+
+  res.json({
+    ok: true,
+    dataPuntos
+  })
+}
+
+const obtenerDataEstado = async(req, res) => {
+  const id = req.administrator._id;
+  const dataEstado = await clientesEstado(id);
+
+  res.json({
+    ok: true,
+    dataEstado
+  })
+}
+
+const obtenerDatosEstaticos = async(req, res) => {
+  const id = req.administrator._id;
+  const premios = await premiosTotales(id);
+  const registros = await registrosTotales(id);
+  const clientes = await clientesTotales(id);
+  const concursos = await concursosActivvos(id);
+  const productos = await productosTop(id);
+  const data = {
+    premios,
+    registros,
+    clientes,
+    concursos,
+    productos
+  }
+
+  res.json({
+    ok: true,
+    data
+  })
+
+}
+
 module.exports = {
   agregarAdministrador,
   obtenerAdministratorID,
   obtenerAdministradores,
   actualizarAdministrador,
-  agregarAvatar
+  agregarAvatar,
+  obtenerDataGenero,
+  obtenerDataPuntos,
+  obtenerDataEstado,
+  obtenerDatosEstaticos
 }

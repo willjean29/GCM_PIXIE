@@ -2,6 +2,7 @@
   Autorización para cada petición del administrador.
 */
 
+// Importando librerías
 const jwt = require('jsonwebtoken');
 
 const verifyTokenAdmin = (req, res, next) => {
