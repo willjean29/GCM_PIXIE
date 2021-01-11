@@ -32,6 +32,7 @@ const Actions = ({competition}) => {
         <Button
           type="primary"
           onClick={handleModal}
+          disabled={competition && competition.estado ? true: false}
         >
           <EditOutlined />
           Editar
@@ -39,6 +40,7 @@ const Actions = ({competition}) => {
         <Button
           type="primary"
           danger
+          disabled={competition && competition.estado ? true: false}
         >
           <DeleteOutlined />
           Eliminar

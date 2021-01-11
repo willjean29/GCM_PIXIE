@@ -1,7 +1,9 @@
-/**
- * Para la subida de archivos al S3
- * Guía: Documentación de AWS S3
- */
+/*
+  Para la subida de archivos al S3.
+  Guía: Documentación de AWS S3.
+*/
+
+// Importando librerías
 const AWS = require("aws-sdk");
 const csv = require ('csvtojson');
 require('dotenv').config();
@@ -36,6 +38,7 @@ const uploadToS3 = (fileInfo, fileData) =>
         Body: fileData,
         ACL: "public-read",
       };
+      
       console.log({ params });
       s3bucket.upload(params, (err, data) => {
         console.log({ err });

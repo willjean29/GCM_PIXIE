@@ -16,7 +16,7 @@ export const ADMIN_IMAGE = "ADMIN_IMAGE";
 export const ADMIN_IMAGE_OK = "ADMIN_IMAGE_OK";
 export const ADMIN_IMAGE_ERROR = "ADMIN_IMAGE_ERROR";
 
-export const DNI = "DNI"
+export const DNI = "DNI";
 export const DNI_OK = "DNI_OK";
 export const DNI_ERROR = "DNI_ERROR";
 
@@ -27,6 +27,18 @@ export const TOKEN_MASTER_ERROR = "TOKEN_MASTER_ERROR";
 export const REGISTER_ADMIN = "REGISTER_ADMIN";
 export const REGISTER_ADMIN_OK = "REGISTER_ADMIN_OK";
 export const REGISTER_ADMIN_ERROR = "REGISTER_ADMIN_ERROR";
+
+export const REGISTER_CLIENT = "REGISTER_CLIENT";
+export const REGISTER_CLIENT_OK = "REGISTER_CLIENT_OK";
+export const REGISTER_CLIENT_ERROR = "REGISTER_CLIENT_ERROR";
+
+export const CLIENT_EDIT = "CLIENT_EDIT";
+export const CLIENT_EDIT_OK = "CLIENT_EDIT_OK";
+export const CLIENT_EDIT_ERROR = "CLIENT_EDIT_ERROR";
+
+export const CLIENT_IMAGE = "CLIENT_IMAGE";
+export const CLIENT_IMAGE_OK = "CLIENT_IMAGE_OK";
+export const CLIENT_IMAGE_ERROR = "CLIENT_IMAGE_ERROR";
 
 export const RUC = "RUC";
 export const RUC_OK = "RUC_OK";
@@ -45,7 +57,7 @@ export const BUSINESS_EDIT_OK = "BUSINESS_EDIT_OK";
 export const BUSINESS_EDIT_ERROR = "BUSINESS_EDIT_ERROR";
 
 export const BUSINESS_IMAGE = "BUSINESS_IMAGE";
-export const BUSINESS_IMAGE_OK ="BUSINESS_IMAGE_OK";
+export const BUSINESS_IMAGE_OK = "BUSINESS_IMAGE_OK";
 export const BUSINESS_IMAGE_ERROR = "BUSINESS_IMAGE_ERROR";
 
 export const FILE_SALE = "FILE_SALE";

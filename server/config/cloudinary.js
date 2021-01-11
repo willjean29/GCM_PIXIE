@@ -1,9 +1,10 @@
-/**
- * Servidor Cloudinary
- */
+/*
+  Configuración de conexión a la BD de Cloudinary
+  para el almacenamiento de imágenes.
+*/
 
+// Importando librerías
 const cloudinary = require('cloudinary');
-
 require('dotenv').config();
 
 cloudinary.config({
