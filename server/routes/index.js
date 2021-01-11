@@ -31,7 +31,4 @@ app.use('/prize',require('./prize'));
 // endpoints for clients
 app.use('/clients',require('./client'));
 
-// endpoints for users
-app.use('/user',require('./user'));
-
 module.exports = app;

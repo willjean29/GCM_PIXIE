@@ -100,3 +100,4 @@ const imagenEmpresaOk = (data) => ({
 const imagenEmpresaError = () => ({
   type: BUSINESS_IMAGE_ERROR
 })
+
