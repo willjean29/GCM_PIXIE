@@ -1,13 +1,11 @@
-/*
-  Agrupa archivos, en este caso las rutas 
-  para exportarlas en una solo.
-*/
+/**
+ * Agrupa archivos, en este caso las rutas 
+ * para exportarlas en una solo.
+ */
 
 // Importando librerías
 const express = require('express');
 const app = express();
-
-// app.use(require)
 
 // endpoints for admin
 app.use("/admin", require("./admin"));
