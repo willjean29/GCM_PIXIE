@@ -3,16 +3,17 @@ import LayoutAdmin from "../layouts/LayoutAdmin";
 import LayoutClient from "../layouts/LayoutClient";
 
 // import pages admin
-import AdminHome from "../pages/Admin";
-import AdminSingIn from "../pages/Admin/SingIn";
-import AdminProfile from "../pages/Admin/Profile";
-import AdminFiles from "../pages/Admin/Files";
-import AdminFilesDetail from "../pages/Admin/Files/ViewFile";
-import AdminCompetitionNew from "../pages/Admin/Competition/NewCompetition";
-import AdminCompetitionInfo from "../pages/Admin/Competition/InfoCompetition";
-import AdminBusinessNew from "../pages/Admin/Business/NewBusiness";
-import AdminBusinessInfo from "../pages/Admin/Business/InfoBusiness";
-import AdminCatalogueInfo from "../pages/Admin/Catalogue/InfoCatalogue";
+import AdminHome from '../pages/Admin';
+import AdminSingIn from '../pages/Admin/SingIn';
+import AdminProfile from '../pages/Admin/Profile';
+import AdminFiles from '../pages/Admin/Files';
+import AdminFilesDetail from '../pages/Admin/Files/ViewFile';
+import AdminCompetitionNew from '../pages/Admin/Competition/NewCompetition';
+import AdminCompetitionInfo from '../pages/Admin/Competition/InfoCompetition';
+import AdminBusinessNew from '../pages/Admin/Business/NewBusiness';
+import AdminBusinessInfo from '../pages/Admin/Business/InfoBusiness';
+import AdminCatalogueInfo from '../pages/Admin/Catalogue/InfoCatalogue';
+import AdminClientsInfo from '../pages/Admin/Clients';
 
 // import pages client
 import Home from "../pages/Home";
@@ -53,7 +54,12 @@ const routes = [
         exact: true,
       },
       {
-        path: "/admin/competition/new",
+        path: '/admin/business/clients',
+        component: AdminClientsInfo,
+        exact: true
+      },
+      {
+        path: '/admin/competition/new',
         component: AdminCompetitionNew,
         exact: true,
       },

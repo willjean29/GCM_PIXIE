@@ -66,4 +66,24 @@ router.put('/avatar',
   administratorController.agregarAvatar
 );
 
+router.get('/status/genero',
+  verifyTokenAdmin,
+  administratorController.obtenerDataGenero
+);
+
+router.get('/status/estado',
+  verifyTokenAdmin,
+  administratorController.obtenerDataEstado
+);
+
+router.get('/status/puntos',
+  verifyTokenAdmin,
+  administratorController.obtenerDataPuntos
+);
+
+router.get('/data',
+  verifyTokenAdmin,
+  administratorController.obtenerDatosEstaticos
+);
+
 module.exports = router;

@@ -14,7 +14,7 @@ const initialState = {
   loading: null,
   error: null,
   data: null,
-};
+}
 
 const businessReducer = (state = initialState, action) => {
   switch (action.type) {

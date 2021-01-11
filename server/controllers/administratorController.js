@@ -15,6 +15,11 @@ const Administrator = require('../models/Administrator');
 const Business = require('../models/Business');
 const Competition = require('../models/Competition');
 const File = require('../models/File');
+const {
+  clientesEstado, clientesGeneros, clientesTotales, productosTop,
+  clientesTop, premiosTotales, registrosTotales, concursosActivvos
+} = require('../utils/statistics');
+
 
 // Importando middlewares
 const { 
@@ -243,10 +248,66 @@ const agregarAvatar = async(req,res) => {
   });
 }
 
+const obtenerDataGenero = async (req,res) => {
+  const id = req.administrator._id;
+  const dataGenero = await clientesGeneros(id);
+
+  res.json({
+    ok: true,
+    dataGenero
+  })
+}
+
+const obtenerDataPuntos = async (req,res) => {
+  const id = req.administrator._id;
+  const dataPuntos = await clientesTop(id);
+
+  res.json({
+    ok: true,
+    dataPuntos
+  })
+}
+
+const obtenerDataEstado = async (req,res) => {
+  const id = req.administrator._id;
+  const dataEstado = await clientesEstado(id);
+
+  res.json({
+    ok: true,
+    dataEstado
+  })
+}
+
+const obtenerDatosEstaticos = async (req,res) => {
+  const id = req.administrator._id;
+  const premios = await premiosTotales(id);
+  const registros = await registrosTotales(id);
+  const clientes = await clientesTotales(id);
+  const concursos = await concursosActivvos(id);
+  const productos = await productosTop(id);
+  const data = {
+    premios,
+    registros,
+    clientes,
+    concursos,
+    productos
+  }
+
+  res.json({
+    ok: true,
+    data
+  })
+
+}
+
 module.exports = {
   agregarAdministrador,
   obtenerAdministratorID,
   obtenerAdministradores,
   actualizarAdministrador,
-  agregarAvatar
+  agregarAvatar,
+  obtenerDatosEstaticos,
+  obtenerDataGenero,
+  obtenerDataPuntos,
+  obtenerDataEstado
 }
