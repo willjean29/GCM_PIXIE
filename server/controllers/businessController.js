@@ -110,9 +110,7 @@ const registrarEmpresa = async(req, res) => {
   //console.log(req.user);
   const rucBusiness = req.body.ruc;
 
-  const administrator = await Administrator.findById(
-    req.administrator._id
-  ).catch((err) => {
+  const administrator = await Administrator.findById(req.administrator._id).catch((err) => {
     return res.status(400).json({
       ok: false,
       err,
@@ -125,14 +123,6 @@ const registrarEmpresa = async(req, res) => {
       msg: "El administrador no existe o no tiene permisos"
     }
   });
-
-  if (!administrator)
-    return res.status(400).json({
-      ok: false,
-      err: {
-        msg: "El administrator no existe o no tiene permisos",
-      },
-    });
 
   // Validamos que la empresa sea única
   let business = await Business.findOne({ ruc: rucBusiness }).catch((err) => {
@@ -152,7 +142,6 @@ const registrarEmpresa = async(req, res) => {
 
   // Se valida y se crea una nueva
   const {
-    administrador,
     ruc,
     nombreComercial,
     razonSocial,
@@ -247,39 +236,6 @@ const actualizarEmpresa = async(req, res) => {
   const redes = { web, facebook, red };
   const data = {
     redes: redes,
-  };
-
-  const business = await Business.findOneAndUpdate(
-    { administrador: id },
-    data,
-    { new: true, runValidators: true }
-  ).catch((err) => {
-    return res.status(400).json({
-      ok: false,
-      err,
-    });
-  });
-
-  if (!business)
-    return res.status(400).json({
-      ok: false,
-      err: {
-        msg: "La empresa no se encuentra registrada",
-      },
-    });
-
-  res.json({
-    ok: true,
-    business,
-    msg: "Empresa Actualizada",
-  });
-};
-
-const actualizarUbicacionEmpresa = async (req, res) => {
-  const id = req.administrator._id;
-  const { lat, lng } = req.body;
-  const data = {
-    ubicacion: {coordinates: [lng, lat]},
   };
 
   const business = await Business.findOneAndUpdate(

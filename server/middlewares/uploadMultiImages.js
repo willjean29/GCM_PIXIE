@@ -1,5 +1,5 @@
 /*
-  Validación de la subida de imágenes.
+  Validación de la subida de multimágenes.
 */
 
 // Importando librerías
@@ -8,14 +8,14 @@ const path = require('path');
 const shortId = require('shortid');
 
 const uploadImage = (req, res, next) => {
-  upload(req, res, function (err) {
-    if (err) {
-      if (err instanceof multer.MulterError) {
-        if (err.code == "LIMIT_FILE_SIZE") {
+  upload(req, res, function(err){
+    if(err){
+      if(err instanceof multer.MulterError){
+        if(err.code == "LIMIT_FILE_SIZE"){
           return res.status(500).json({
             ok: false,
             err: {
-              msg: "El archivo es muy pesado : Peso max 500kb"
+              msg: "El archivo es muy pesado: Peso max 500kb"
             }
           })
         } else {

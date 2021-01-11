@@ -1,6 +1,5 @@
 /*
-  Para dar forma a los archivos json
-  y poder ver el detalle de cada uno.
+  Para formatear el archivo JSON.
 */
 
 // Importando librerías
@@ -24,7 +23,6 @@ const formatJSON = (stream) => {
       arrayDatos.push(objeto);
     }
   }
-  
   return arrayDatos;
 }
 

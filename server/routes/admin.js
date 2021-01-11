@@ -9,10 +9,8 @@ const router = express.Router();
 // Importando controladores
 const administratorController = require('../controllers/administratorController');
 const authController = require('../controllers/authController');
-
-// Importando middlewares
-const { uploadImage } = require('../middlewares/uploadImage');
-const { verifyTokenAdmin } = require('../middlewares/verifyToken');
+const {uploadImage} = require('../middlewares/uploadImage');
+const {verifyTokenAdmin} = require('../middlewares/verifyToken');
 
 // Para iniciar sesión
 router.post('/login', 
@@ -55,17 +53,41 @@ router.get('/all',
   administratorController.obtenerAdministradores
 );
 
-// Para actualizar datos de administrador
+// Para actualizar datos del administrador
 router.put('/',
   verifyTokenAdmin,
   administratorController.actualizarAdministrador
 );
 
-// Para agregar imagen de administrador
+// Para agregar imagen del administrador
 router.put('/avatar',
   verifyTokenAdmin,
   uploadImage,
   administratorController.agregarAvatar
+);
+
+// Para ver estadísticas por genero
+router.get('/status/genero',
+  verifyTokenAdmin,
+  administratorController.obtenerDataGenero
+);
+
+// Para ver estadisticas por estado
+router.get('/status/estado',
+  verifyTokenAdmin,
+  administratorController.obtenerDataEstado
+);
+
+// Para ver estadisticas por puntos
+router.get('/status/puntos',
+  verifyTokenAdmin,
+  administratorController.obtenerDataPuntos
+);
+
+// Para ver estadisticas
+router.get('/data',
+  verifyTokenAdmin,
+  administratorController.obtenerDatosEstaticos
 );
 
 module.exports = router;

@@ -1,5 +1,5 @@
 /*
-  Rutas de la categoría.
+  Rutas de categorías.
 */
 
 // Importando librerías
@@ -12,13 +12,13 @@ const categoryController = require('../controllers/categoryController');
 // Importando middlewares
 const { verifyTokenAdmin } = require('../middlewares/verifyToken');
 
-// Para registrar una categoría
+// Para registrar categoría
 router.post('/',
   // verifyTokenAdmin,
   categoryController.registrarCategoria
 );
 
-// Para obtener las categorías
+// Para obtener la lista de categorías
 router.get('/',
   verifyTokenAdmin,
   categoryController.obtenerCategorias

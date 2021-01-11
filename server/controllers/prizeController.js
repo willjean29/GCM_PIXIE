@@ -1,7 +1,8 @@
 /*
   PRIZECONTROLLER:
-  Controlador de precios, permite asignar,
-  obtener y eliminar los precios de productos.
+  Controlador de premios, se encarga
+  de la creación y eliminación
+  de premios.
 */
 
 // Importando modelos
@@ -12,8 +13,8 @@ const Category = require('../models/Category');
 
 const obtenerPremios = async(req, res) => {
   const id = req.administrator._id;
-
   const business = await Business.findOne({administrador: id});
+
   if(!business) {
     return res.status(400).json({
       ok: false,
@@ -24,15 +25,17 @@ const obtenerPremios = async(req, res) => {
   }
 
   const catalogo = await Catalog.findOne({business: business._id});
+  
   if(!catalogo) {
     return res.json({
       ok: true,
       msg: "El administrador no tiene premios registrados",
-      premios: [],
+      premios: []
     })
   }
 
   const premios = await Prize.find({catalog : catalogo._id}).populate('category');
+
   if(!premios) {
     return res.status(400).json({
       ok: false,
@@ -49,8 +52,7 @@ const obtenerPremios = async(req, res) => {
 }
 
 const eliminarPremio = async(req, res) => {
-  const { id } = req.params;
-  
+  const {id} = req.params;
   const prize = await Prize.findByIdAndDelete(id).catch((err) => {
     return res.status(400).json({
       ok: false,
@@ -77,7 +79,7 @@ const actualizarPremio = async(req, res) => {
   const data = req.body;
   console.log(data);
 
-  if(data.category) {
+  if(data.category){
     const category = await Category.findOne({name: data.category});
     data.category = category._id;
   }

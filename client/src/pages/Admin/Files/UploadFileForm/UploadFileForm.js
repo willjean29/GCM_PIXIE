@@ -1,4 +1,4 @@
-// Componente para Modal de Carga de Archivos
+// Content : Componente para Modal de Carga de Archivos
 import React, {useState} from 'react';
 import { Form, Col, Row, Button,Upload, Layout, Card, message  } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
@@ -61,16 +61,15 @@ const UploadFileForm = ({setShowModal, registrarArchivo, setReloadFiles}) => {
           </Dragger>
          
          <br></br>
-         <Row justify="center"> 
-         <Col span={24} md={8}>
+          <Row justify="center"> 
+            <Col span={24} md={8}>
               <Form.Item style={{textAlign: 'center' }}>          
                 <Button type="primary" htmlType="submit" className="btn-submit" size="large">
-                 Enviar archivo
+                  Enviar archivo
                 </Button>
               </Form.Item>
             </Col>
-            </Row>
-            
+          </Row>
         </Form>
         
         </Card>

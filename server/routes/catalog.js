@@ -1,5 +1,5 @@
 /*
-  Rutas del catálogo.
+  Rutas del catalogo de premios.
 */
 
 // Importando librerías
@@ -13,23 +13,11 @@ const catalogController = require('../controllers/catalogController');
 const {uploadImage} = require('../middlewares/uploadMultiImages');
 const {verifyTokenAdmin} = require('../middlewares/verifyToken');
 
-// Para registrar el catálogo de premios
+// Para registrar catalogo de premios
 router.post('/register',
   verifyTokenAdmin,
   uploadImage,
   catalogController.registrarCatalogoPremios
-);
-
-// Para mostrar el catálogo de premios
-router.get('/register',
-  verifyTokenAdmin,
-  catalogController.mostrarCrearCatalogo
-);
-
-// Para mostrar la lista de premios
-router.get('/list',
-  verifyTokenAdmin,
-  catalogController.mostrarListaCatalogo
 );
 
 module.exports = router;

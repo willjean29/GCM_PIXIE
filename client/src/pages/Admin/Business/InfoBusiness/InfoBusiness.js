@@ -9,7 +9,7 @@ import {obtenerEmpresaAction} from '../../../../redux/actions/businessActions';
 import NoAvatar from '../../../../assets/img/png/no-avatar.png';
 import './InfoBusiness.scss';
 const InfoBusiness = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch(); 
   const [reloadBusiness, setReloadBusiness] = useState(false);
   const obtenerEmpresa = () => dispatch(obtenerEmpresaAction());
   const business = useSelector(state => state.business.data);
