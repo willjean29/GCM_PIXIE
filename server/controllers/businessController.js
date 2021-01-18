@@ -6,10 +6,10 @@
 */
 
 // Importando librerías
-const axios = require('axios');
-const cloudinary = require('../config/cloudinary');
-const fs = require('fs-extra');
-require('dotenv').config();
+const axios = require("axios");
+const cloudinary = require("../config/cloudinary");
+const fs = require("fs-extra");
+require("dotenv").config();
 
 // Importando modelos
 const Business = require("../models/Business");
@@ -21,7 +21,7 @@ const {
   existsCatalogoBusiness,
 } = require("../middlewares/exists");
 
-const agregarAvatarEmpresa = async(req, res) => {
+const agregarAvatarEmpresa = async (req, res) => {
   const id = req.administrator._id;
 
   // Buscamos al administrador
@@ -30,29 +30,33 @@ const agregarAvatarEmpresa = async(req, res) => {
       ok: false,
       err,
     });
-  })
-
-  if (!administrator) return res.status(400).json({
-    ok: false,
-    err: {
-      msg: "El administrador no existe o no tiene permisos"
-    }
   });
 
+  if (!administrator)
+    return res.status(400).json({
+      ok: false,
+      err: {
+        msg: "El administrador no existe o no tiene permisos",
+      },
+    });
+
   // Validamos que el administrador tenga una empresa asociada
-  const business = await Business.findOne({ administrador: administrator._id }).catch((err) => {
+  const business = await Business.findOne({
+    administrador: administrator._id,
+  }).catch((err) => {
     return res.status(400).json({
       ok: false,
       err,
     });
   });
 
-  if (!business) return res.status(400).json({
-    ok: false,
-    err: {
-      msg: "El administrador no tiene relación con la empresa"
-    }
-  });
+  if (!business)
+    return res.status(400).json({
+      ok: false,
+      err: {
+        msg: "El administrador no tiene relación con la empresa",
+      },
+    });
 
   // Validamos que exista un archivo y lo subimos
   if (req.file) {
@@ -83,7 +87,7 @@ const agregarAvatarEmpresa = async(req, res) => {
   });
 };
 
-const validarRUC = async(req, res) => {
+const validarRUC = async (req, res) => {
   const { ruc } = req.body;
   const url = `${process.env.LINK_API_RUC}/${ruc}?token=${process.env.API_KEY}`;
   console.log(url);
@@ -106,7 +110,7 @@ const validarRUC = async(req, res) => {
   }
 };
 
-const registrarEmpresa = async(req, res) => {
+const registrarEmpresa = async (req, res) => {
   //console.log(req.user);
   const rucBusiness = req.body.ruc;
 
@@ -115,14 +119,23 @@ const registrarEmpresa = async(req, res) => {
       ok: false,
       err,
     });
-  })
-
-  if(!administrator) return res.status(400).json({
-    ok: false,
-    err: {
-      msg: "El administrador no existe o no tiene permisos"
-    }
   });
+
+  if (!administrator)
+    return res.status(400).json({
+      ok: false,
+      err: {
+        msg: "El administrador no existe o no tiene permisos",
+      },
+    });
+
+  if (!administrator)
+    return res.status(400).json({
+      ok: false,
+      err: {
+        msg: "El administrator no existe o no tiene permisos",
+      },
+    });
 
   // Validamos que la empresa sea única
   let business = await Business.findOne({ ruc: rucBusiness }).catch((err) => {
@@ -199,7 +212,7 @@ const registrarEmpresa = async(req, res) => {
   });
 };
 
-const obtenerEmpresa = async(req, res) => {
+const obtenerEmpresa = async (req, res) => {
   const idBusiness = req.administrator._id;
   let business;
 
@@ -230,7 +243,7 @@ const obtenerEmpresa = async(req, res) => {
   });
 };
 
-const actualizarEmpresa = async(req, res) => {
+const actualizarEmpresa = async (req, res) => {
   const id = req.administrator._id;
   const { web, facebook, red } = req.body;
   const redes = { web, facebook, red };
@@ -264,11 +277,11 @@ const actualizarEmpresa = async(req, res) => {
   });
 };
 
-const actualizarUbicacionEmpresa = async(req, res) => {
+const actualizarUbicacionEmpresa = async (req, res) => {
   const id = req.administrator._id;
   const { lat, lng } = req.body;
   const data = {
-    ubicacion: {coordinates: [lng, lat]},
+    ubicacion: { coordinates: [lng, lat] },
   };
 
   const business = await Business.findOneAndUpdate(
@@ -293,9 +306,9 @@ const actualizarUbicacionEmpresa = async(req, res) => {
   res.json({
     ok: true,
     business,
-    msg: "Ubicación de Empresa Actualizada",
+    msg: "Empresa Actualizada",
   });
-}
+};
 
 module.exports = {
   agregarAvatarEmpresa,
@@ -303,5 +316,5 @@ module.exports = {
   registrarEmpresa,
   obtenerEmpresa,
   actualizarEmpresa,
-  actualizarUbicacionEmpresa
-}
+  actualizarUbicacionEmpresa,
+};

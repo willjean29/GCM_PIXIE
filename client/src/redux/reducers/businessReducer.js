@@ -7,13 +7,13 @@ import {
   BUSINESS_EDIT_ERROR,
   BUSINESS_IMAGE,
   BUSINESS_IMAGE_OK,
-  BUSINESS_IMAGE_ERROR
-} from '../types';
+  BUSINESS_IMAGE_ERROR,
+} from "../types";
 
 const initialState = {
   loading: null,
   error: null,
-  data: null
+  data: null,
 }
 
 const businessReducer = (state = initialState, action) => {
@@ -24,7 +24,7 @@ const businessReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: true,
-      }
+      };
     case BUSINESS_ADMIN_OK:
     case BUSINESS_EDIT_OK:
     case BUSINESS_IMAGE_OK:
@@ -33,7 +33,7 @@ const businessReducer = (state = initialState, action) => {
         loading: false,
         data: action.payload,
         error: false,
-      }
+      };
     case BUSINESS_ADMIN_ERROR:
     case BUSINESS_EDIT_ERROR:
     case BUSINESS_IMAGE_ERROR:
@@ -41,11 +41,11 @@ const businessReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         error: false,
-        data: null
-      }
+        data: null,
+      };
     default:
-    return state;
+      return state;
   }
-}
+};
 
 export default businessReducer;
