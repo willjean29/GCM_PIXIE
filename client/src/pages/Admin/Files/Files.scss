@@ -27,6 +27,9 @@
 			}
 		}
 		&-body-table {
+			.ant-table-cell {
+				text-align: center;
+			}
 			.table-layout {
 				max-width: 100%;
 			}

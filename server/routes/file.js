@@ -21,6 +21,7 @@ router.post('/upload',
   fileController.registrarArchivo
 );
 
+// Para obtener todos los archivos
 router.get('/all',
   verifyTokenAdmin,
   fileController.obtenerArchivos
@@ -31,9 +32,7 @@ router.get('/ventas/:id',
   verifyTokenAdmin,
   fileController.obtenerDatosArchivo
 );
-
-// Para cargar datos de los clientes
-router.get('/clientes/:id',
+router.post('/clientes/:id',
   verifyTokenAdmin,
   fileController.cargarDataCliente
 );

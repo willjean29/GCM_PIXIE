@@ -27,8 +27,7 @@ router.post('/verificar-ruc',
 );
 
 // Para registar empresa
-router.post(
-  "/registrar",
+router.post('/registrar',
   verifyTokenAdmin,
   businessController.registrarEmpresa
 );
@@ -46,9 +45,8 @@ router.put('/avatar',
   businessController.agregarAvatarEmpresa
 );
 
-// actualizar ubicación de empresa
-router.put(
-  "/ubicacion",
+// Para actualizar ubicación de la empresa
+router.put('/ubicacion',
   verifyTokenAdmin,
   businessController.actualizarUbicacionEmpresa
 );
