@@ -114,9 +114,7 @@ const registrarEmpresa = async (req, res) => {
   //console.log(req.user);
   const rucBusiness = req.body.ruc;
 
-  const administrator = await Administrator.findById(
-    req.administrator._id
-  ).catch((err) => {
+  const administrator = await Administrator.findById(req.administrator._id).catch((err) => {
     return res.status(400).json({
       ok: false,
       err,

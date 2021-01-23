@@ -11,8 +11,6 @@ const administratorController = require('../controllers/administratorController'
 const authController = require('../controllers/authController');
 const {uploadImage} = require('../middlewares/uploadImage');
 const {verifyTokenAdmin} = require('../middlewares/verifyToken');
-// iniciar sesión
-router.post('/login', authController.autenticarAdministrador);
 
 // Para iniciar sesión
 router.post('/login', 
@@ -55,15 +53,37 @@ router.get('/all',
   administratorController.obtenerAdministradores
 );
 
+// Para actualizar datos del administrador
 router.put('/',
   verifyTokenAdmin,
   administratorController.actualizarAdministrador
 );
 
+// Para agregar imagen del administrador
 router.put('/avatar',
   verifyTokenAdmin,
   uploadImage,
   administratorController.agregarAvatar
+);
+
+router.get('/status/genero',
+  verifyTokenAdmin,
+  administratorController.obtenerDataGenero
+);
+
+router.get('/status/estado',
+  verifyTokenAdmin,
+  administratorController.obtenerDataEstado
+);
+
+router.get('/status/puntos',
+  verifyTokenAdmin,
+  administratorController.obtenerDataPuntos
+);
+
+router.get('/data',
+  verifyTokenAdmin,
+  administratorController.obtenerDatosEstaticos
 );
 
 module.exports = router;

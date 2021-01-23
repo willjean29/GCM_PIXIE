@@ -6,13 +6,31 @@
 */
 
 // Importando librerías
-const cloudinary = require("../config/cloudinary");
-const fs = require("fs-extra");
+const cloudinary = require('../config/cloudinary');
+const fs = require('fs-extra');
 
 // Importando modelos
-const Administrator = require("../models/Administrator");
+const Administrator = require('../models/Administrator');
+const Business = require('../models/Business');
+const Competition = require('../models/Competition');
+const File = require('../models/File');
+const {
+  clientesEstado, clientesGeneros, clientesTotales, productosTop,
+  clientesTop, premiosTotales, registrosTotales, concursosActivvos
+} = require('../utils/statistics');
 
-const agregarAdministrador = async (req, res) => {
+
+// Importando middlewares
+const { 
+  existsCompetitionSimple, 
+  existsCatalogoBusiness 
+} = require('../middlewares/exists');
+const {
+  clientesEstado, clientesGeneros, clientesTotales, productosTop,
+  clientesTop, premiosTotales, registrosTotales, concursosActivvos
+} = require('../utils/statistics');
+
+const agregarAdministrador = async(req, res) => {
   const data = req.body;
   const { dni, email } = req.body;
 
@@ -107,14 +125,13 @@ const actualizarAdministrador = async (req, res) => {
       err,
     });
   }
-
-  if (!administrator)
-    return res.status(400).json({
-      ok: false,
-      err: {
-        msg: "El administrador no existe",
-      },
-    });
+  
+  if(!administrator) return res.status(400).json({
+    ok: false,
+    err: {
+      msg: "El administrador no existe"
+    }
+  });
 
   res.json({
     ok: true,
@@ -126,7 +143,7 @@ const actualizarAdministrador = async (req, res) => {
 const agregarAvatar = async (req, res) => {
   const id = req.administrator._id;
   let administrator;
-
+  
   // Buscamos al administrador por su número de identificación
   try {
     administrator = await Administrator.findById(id).populate("empresa");
@@ -137,15 +154,14 @@ const agregarAvatar = async (req, res) => {
     });
   }
 
-  if (!administrator)
-    return res.status(400).json({
-      ok: false,
-      err: {
-        msg: "El administrador no existe o no tiene permisos",
-      },
-    });
+  if(!administrator) return res.status(400).json({
+    ok: false,
+    err: {
+      msg: "El administrator no existe o no tiene permisos"
+    }
+  });
 
-  if (req.file) {
+  if(req.file){
     const result = await cloudinary.v2.uploader.upload(req.file.path);
     administrator.image = result.secure_url;
     await fs.unlink(req.file.path);
@@ -157,22 +173,125 @@ const agregarAvatar = async (req, res) => {
     return res.status(400).json({
       ok: false,
       err: {
-        msg: "No se pudo guardar la imagen",
+        msg: "El administrador no existe o no tiene permisos",
       },
     });
-  }
 
   res.json({
     ok: true,
     msg: "Avatar Actualizado",
-    administrator,
+    administrator
   });
-};
+}
+
+const obtenerDataGenero = async(req, res) => {
+  const id = req.administrator._id;
+  const dataGenero = await clientesGeneros(id);
+
+  res.json({
+    ok: true,
+    dataGenero
+  })
+}
+
+const obtenerDataPuntos = async(req, res) => {
+  const id = req.administrator._id;
+  const dataPuntos = await clientesTop(id);
+
+  res.json({
+    ok: true,
+    dataPuntos
+  })
+}
+
+const obtenerDataEstado = async(req, res) => {
+  const id = req.administrator._id;
+  const dataEstado = await clientesEstado(id);
+
+  res.json({
+    ok: true,
+    dataEstado
+  })
+}
+
+const obtenerDatosEstaticos = async(req, res) => {
+  const id = req.administrator._id;
+  const premios = await premiosTotales(id);
+  const registros = await registrosTotales(id);
+  const clientes = await clientesTotales(id);
+  const concursos = await concursosActivvos(id);
+  const productos = await productosTop(id);
+  const data = {
+    premios,
+    registros,
+    clientes,
+    concursos,
+    productos
+  }
+
+  res.json({
+    ok: true,
+    data
+  })
+
+}
+
+const obtenerDataGenero = async (req,res) => {
+  const id = req.administrator._id;
+  const dataGenero = await clientesGeneros(id);
+
+  res.json({
+    ok: true,
+    dataGenero
+  })
+}
+
+const obtenerDataPuntos = async (req,res) => {
+  const id = req.administrator._id;
+  const dataPuntos = await clientesTop(id);
+
+  res.json({
+    ok: true,
+    dataPuntos
+  })
+}
+
+const obtenerDataEstado = async (req,res) => {
+  const id = req.administrator._id;
+  const dataEstado = await clientesEstado(id);
+
+  res.json({
+    ok: true,
+    dataEstado
+  })
+}
+
+const obtenerDatosEstaticos = async (req,res) => {
+  const id = req.administrator._id;
+  const premios = await premiosTotales(id);
+  const registros = await registrosTotales(id);
+  const clientes = await clientesTotales(id);
+  const concursos = await concursosActivvos(id);
+  const productos = await productosTop(id);
+  const data = {
+    premios,
+    registros,
+    clientes,
+    concursos,
+    productos
+  }
+
+  res.json({
+    ok: true,
+    data
+  })
+
+}
 
 module.exports = {
   agregarAdministrador,
   obtenerAdministratorID,
   obtenerAdministradores,
   actualizarAdministrador,
-  agregarAvatar,
-};
+  agregarAvatar
+}

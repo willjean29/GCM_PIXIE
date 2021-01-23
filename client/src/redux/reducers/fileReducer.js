@@ -10,7 +10,10 @@ import {
   FILE_DETAIL_ERROR,
   DELETE_FILE,
   DELETE_FILE_OK,
-  DELETE_FILE_ERROR
+  DELETE_FILE_ERROR,
+  FILE_PROCESSING,
+  FILE_PROCESSING_OK,
+  FILE_PROCESSING_ERROR,
 } from '../types';
 
 const initialState = {
@@ -26,6 +29,7 @@ const fileReducer = (state = initialState, action) => {
     case GET_FILES:
     case FILE_DETAIL:
     case DELETE_FILE:
+    case FILE_PROCESSING:
       return {
         ...state,
         loading: true,
@@ -40,6 +44,7 @@ const fileReducer = (state = initialState, action) => {
       }
     case FILE_SALE_OK:
     case DELETE_FILE_OK:
+    case FILE_PROCESSING_OK:
       return {
         ...state,
         loading: false,
@@ -56,10 +61,11 @@ const fileReducer = (state = initialState, action) => {
     case GET_FILES_ERROR:
     case FILE_DETAIL_ERROR:
     case DELETE_FILE_ERROR:
+    case FILE_PROCESSING_ERROR:
       return {
         ...state,
         loading: false,
-        error: false,
+        error: true,
       }
     default:
       return state;

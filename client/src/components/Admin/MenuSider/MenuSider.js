@@ -10,7 +10,8 @@ import {
   BankOutlined, 
   AimOutlined, 
   CarryOutOutlined,
-  DropboxOutlined
+  DropboxOutlined,
+  UsergroupAddOutlined
 } from '@ant-design/icons';
 import NoAvatar from '../../../assets/img/png/no-avatar.png';
 import './MenuSider.scss';
@@ -75,6 +76,12 @@ const MenuSider = (props) => {
             )
           }
         </SubMenu>
+        <Menu.Item key="/admin/business/clients">
+          <Link to="/admin/business/clients">
+            <UsergroupAddOutlined />
+            <span className="nav-text">Clientes</span>
+          </Link>
+        </Menu.Item>
         {
           administrador && administrador.estado ? (
             <SubMenu icon={<AimOutlined />} title="Concursos">

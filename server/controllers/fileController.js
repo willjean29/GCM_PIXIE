@@ -32,13 +32,19 @@ const registrarArchivo = async (req, res) => {
   if (!business)
     return res.status(400).json({
       ok: false,
-      err: {
-        msg: "La empresa no se encuentra registrada",
-      },
-    });
+      err
+    })
+  });
+
+  if (!business) return res.status(400).json({
+    ok: false,
+    err: {
+      msg: "La empresa no se encuentra registrada"
+    }
+  })
 
   if (req.file) {
-    //Crea el archivo eb la BD
+    // Creamos el archivo en la BD
     file = new File({
       name: `${shortId.generate()}.csv`,
       type: req.file.mimetype,
@@ -87,8 +93,8 @@ const obtenerArchivos = async (req, res) => {
     return res.status(500).json({
       ok: false,
       err: {
-        msg: "Error del servidor",
-      },
+        msg: "Error del servidor"
+      }
     });
   }
 
@@ -96,8 +102,8 @@ const obtenerArchivos = async (req, res) => {
     return res.status(500).json({
       ok: false,
       err: {
-        msg: "La empresa no existe",
-      },
+        msg: "La empresa no existe"
+      }
     });
   }
 
@@ -107,15 +113,15 @@ const obtenerArchivos = async (req, res) => {
     return res.status(400).json({
       ok: false,
       err: {
-        msg: "No existe archivos",
-      },
+        msg: "No existe archivos"
+      }
     });
   }
 
   res.json({
     ok: true,
     msg: "Archivos obtenidos",
-    files,
+    files
   });
 };
 
@@ -134,6 +140,7 @@ const obtenerDatosArchivo = async (req, res) => {
   const pathFile = `empresas${path[path.length - 1]}`;
   const streamJson = await getFileToS3(pathFile);
   const dataFile = formatJSON(streamJson);
+
   res.json({
     ok: true,
     msg: "Detalle de Archivo",
@@ -159,7 +166,10 @@ const cargarDataCliente = async (req, res) => {
       },
     });
 
-  const datos = leerCSV(file.name);
+  const path = file.link.split('/empresas');
+  const pathFile = `empresas${path[path.length - 1]}`;
+  const streamJson = await getFileToS3(pathFile);
+  const dataFile = formatJSON(streamJson);
 
   const business = await Business.findById(file.business);
 
@@ -175,7 +185,7 @@ const cargarDataCliente = async (req, res) => {
   }
   const { parametro, puntos } = competition.reglas;
 
-  datos.forEach(async (data, index) => {
+  datos.forEach(async(data, index) => {
     // Buscamos cliente
     let client = await Client.findOne({ dni: data.DNI });
     // Calculamos los puntos por operación
@@ -230,7 +240,7 @@ const cargarDataCliente = async (req, res) => {
   });
 };
 
-const actualizarClientes = async (id) => {
+const actualizarClientes = async(id) => {
   const business = await Business.findById(id);
   let clientesActuales = [];
   const clients = await Client.find();

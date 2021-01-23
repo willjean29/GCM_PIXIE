@@ -1,6 +1,14 @@
-const express = require("express");
+/*
+  Rutas de usuario.
+*/
+
+// Importando librerías
+const express = require('express');
+const router = express.Router();
 const app = express.Router();
-const userController = require("../controllers/userController");
+
+// Importando controladores
+const userController = require('../controllers/userController');
 
 const { verifyTokenCliente } = require("../middlewares/verifyToken");
 
@@ -26,4 +34,13 @@ app.get(
   userController.mostrarCategoriaCatalogo
 );
 
-module.exports = app;
+// Para registrar nuevo cliente
+router.post('/register',
+  userController.registrarCliente
+);
+
+router.put('/',
+  userController.actualizarCliente
+);
+
+module.exports = router;

@@ -4,7 +4,8 @@
  * del administrador y usuario.
  */
 
-const jwt = require("jsonwebtoken");
+// Importando librerías
+const jwt = require('jsonwebtoken');
 
 const verifyTokenAdmin = (req, res, next) => {
   let token = req.headers["access-token-admin"];

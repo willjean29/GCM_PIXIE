@@ -1,15 +1,24 @@
-const Business = require('../models/Business');
-const Catalog = require('../models/Catalog');
-const Prize = require('../models/Prize');
-const Category = require('../models/Category');
+/*
+  CATALOGCONTROLLER:
+  Controlador de catalogo, gestiona las
+  operaciones de registro de catalogos
+  y premios.
+*/
+
+// Importando librerías
 const cloudinary = require('../config/cloudinary');
 const fs = require('fs-extra');
 const shortId = require('shortid');
 
+// Importando modelos
+const Business = require('../models/Business');
+const Catalog = require('../models/Catalog');
+const Prize = require('../models/Prize');
+const Category = require('../models/Category');
 
-const registrarCatalogoPremios = async(req,res) => {
+const registrarCatalogoPremios = async(req, res) => {
   const id = req.administrator._id;
-  // return;
+
   const business = await Business.findOne({administrador: id}).catch((err) => {
     return res.status(500).json({
       ok: false,
@@ -24,10 +33,11 @@ const registrarCatalogoPremios = async(req,res) => {
     }
   });
 
-  // revisar si ya existe un catalog de la empresa
+  // Revisamos si ya existe un catalogo de la empresa
   let catalog = await Catalog.findOne({business: business._id});
+  // En caso de que no exista
   if(!catalog){
-    // crear catalogo de premios
+    // Creamos un catalogo de premios
     catalog = new Catalog({
       name: "Cátalogo de Premios",
       description: "Lista de premios a canjear",

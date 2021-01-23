@@ -25,10 +25,9 @@ const registrarConcurso = async (req, res) => {
   if (!business)
     return res.status(400).json({
       ok: false,
-      err: {
-        msg: "El Administrador no cuenta con una empresa asociada",
-      },
+      err
     });
+  })
 
   const { name, fechaInicio, fechaFin, soles, puntos, tipo } = req.body;
 
@@ -39,7 +38,7 @@ const registrarConcurso = async (req, res) => {
     business: business._id,
     fechaFin,
     tipo,
-    reglas,
+    reglas
   });
 
   const competitions = [
@@ -51,7 +50,7 @@ const registrarConcurso = async (req, res) => {
   await competition.save().catch((err) => {
     return res.status(400).json({
       ok: false,
-      err,
+      err
     });
   });
 
@@ -59,14 +58,14 @@ const registrarConcurso = async (req, res) => {
   await business.save().catch((err) => {
     return res.status(400).json({
       ok: false,
-      err,
+      err
     });
   });
 
   res.json({
     ok: true,
     competition,
-    msg: "Concurso Registrado",
+    msg: "Concurso Registrado"
   });
 };
 
@@ -85,26 +84,29 @@ const obtenerConcurso = async (req, res) => {
   if (!business)
     return res.status(400).json({
       ok: false,
-      err: {
-        msg: "El Administrador no cuenta con una empresa asociada",
-      },
+      err
     });
+  })
 
-  const competition = await Competition.findOne({ business: business._id })
-    .populate("business")
-    .catch((err) => {
+  if(!business) return res.status(400).json({
+    ok: false,
+    err: {
+      msg: "El Administrador no cuenta con una empresa asociada"
+    }
+  });
+
+  const competition = await Competition.findOne({ business: business._id }).populate("business").catch((err) => {
       return res.status(400).json({
         ok: false,
-        err,
+        err
       });
     });
 
-  if (!competition)
-    return res.status(400).json({
+  if (!competition) return res.status(400).json({
       ok: false,
       err: {
         msg: "El Administrador no cuenta con una empresa asociada",
-      },
+      }
     });
   const existeCatalogo = await existsCatalogoBusiness(id);
   console.log(existeCatalogo);
@@ -116,7 +118,7 @@ const obtenerConcurso = async (req, res) => {
   res.json({
     ok: true,
     competition,
-    msg: "Concurso Actual",
+    msg: "Concurso Actual"
   });
 };
 
@@ -127,35 +129,30 @@ const agregarImagenConcurso = async (req, res) => {
     (err) => {
       return res.status(400).json({
         ok: false,
-        err,
-      });
-    }
-  );
-
-  if (!business)
-    return res.status(400).json({
-      ok: false,
-      err: {
-        msg: "El empresa no existe",
-      },
-    });
-
-  const competition = await Competition.findOne({ business: business._id })
-    .populate("business")
-    .catch((err) => {
-      return res.status(400).json({
-        ok: false,
-        err,
+        err
       });
     });
 
-  if (!competition)
+  if (!business) return res.status(400).json({
+    ok: false,
+    err: {
+      msg: "El empresa no existe",
+    },
+  });
+
+  const competition = await Competition.findOne({ business: business._id }).populate("business").catch((err) => {
     return res.status(400).json({
       ok: false,
-      err: {
-        msg: "No se ha encontrado ningún concurso",
-      },
+      err
     });
+  });
+
+  if (!competition) return res.status(400).json({
+    ok: false,
+    err: {
+      msg: "No se ha encontrado ningún concurso",
+    },
+  });
 
   if (req.file) {
     const result = await cloudinary.v2.uploader.upload(req.file.path);
@@ -183,8 +180,8 @@ const agregarImagenConcurso = async (req, res) => {
 
 const modificarConcurso = async (req, res) => {
   const id = req.administrator._id;
-  const { soles, puntos } = req.body;
-  const reglas = { parametro: soles, puntos };
+  const { soles,puntos } = req.body;
+  const reglas = { parametro : soles,puntos };
   const data = {
     ...req.body,
     reglas,
