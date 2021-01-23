@@ -44,4 +44,10 @@ router.post('/active/:id',
   competitionController.activarConcurso
 );
 
+// Para eliminar concurso
+router.delete('/',
+  verifyTokenAdmin,
+  competitionController.eliminarConcurso
+);
+
 module.exports = router;

@@ -247,10 +247,34 @@ const activarConcurso = async(req, res) => {
   })
 }
 
+const eliminarConcurso = async(req, res) => {
+  const {id} = req.params;
+  const competition = await Competition.findByIdAndDelete({business: business._id},data,{new: true, runValidators: true}).populate('business').catch((err) => {
+    return res.status(400).json({
+      ok: false,
+      err
+    });
+  })
+
+  if(!competition) return res.status(400).json({
+    ok: false,
+    err: {
+      msg: "Concurso no se encuentra registrado"
+    }
+  });
+
+  res.json({
+    ok: true,
+    competition,
+    msg: "Concurso eliminado"
+  });
+}
+
 module.exports = {
   registrarConcurso,
   obtenerConcurso,
   agregarImagenConcurso,
   modificarConcurso,
-  activarConcurso
+  activarConcurso,
+  eliminarConcurso
 }
