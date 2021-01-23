@@ -1,7 +1,7 @@
-/**
- * Agrupa archivos, en este caso las rutas 
- * para exportarlas en una solo.
- */
+/*
+  Agrupa archivos, en este caso las rutas 
+  para exportarlas en una solo.
+*/
 
 // Importando librerías
 const express = require('express');
@@ -30,5 +30,8 @@ app.use('/prize',require('./prize'));
 
 // endpoints for clients
 app.use('/clients',require('./client'));
+
+// endpoints for users
+app.use('/user',require('./user'));
 
 module.exports = app;

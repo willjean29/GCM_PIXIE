@@ -64,4 +64,3 @@ module.exports = {
   uploadToS3,
   getFileToS3
 }
-

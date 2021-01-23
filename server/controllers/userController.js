@@ -1,84 +1,110 @@
-/**
- * USERCONTROLLER
- * Controlador del Cliente, controla las operaciones de registro,
- * login, mostrar listado de empresas, mostrar catálogo de empresa,
- * filtros de búsqueda...
- */
+/*
+  USERCONTROLLER:
+  Controlador de usuarios, controla las operaciones de registro,
+  mostrar empresas asociadas, catálogo, filtros de búsqueda, etc.
+*/
 
+// Importando librerías
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
+
+// Importando modelos
 const Client = require("../models/Client");
 const Category = require("../models/Category");
 const Catalog = require("../models/Catalog");
 const Business = require("../models/Business");
 const Prize = require("../models/Prize");
 
-const jwt = require("jsonwebtoken");
-require("dotenv").config(); //Se leen las variables de entorno
+const registrarCliente = async(req, res) => {
+  const {dni,email,password,sexo} = req.body;
 
-const registrarCliente = async (req, res) => {
-  const { dni, email, password, sexo } = req.body;
-  // validar si ya existe el cliente
+  // Validamos si el cliente ya existe
   console.log(req.body);
-  let cliente = await Client.findOne({ email: email });
-
-  if (cliente) {
+  let cliente = await Client.findOne({email: email});
+  
+  if(cliente){
     return res.status(400).json({
       ok: false,
-      msg: "El correo ya se encuentra registrado",
+      msg: "El correo ya se encuentra registrado"
     });
   }
-
-  // registrar o activar cuenta
-  cliente = await Client.findOne({ dni: dni });
-
-  if (cliente) {
-    // activar cuenta / actualizar datos
+  
+  // Registramos o activamos cuenta
+  cliente = await Client.findOne({dni: dni});
+    
+  if(cliente){
+    // Activamos cuenta / Actualizamos datos
     cliente.email = email;
     cliente.password = password;
     cliente.sexo = sexo;
     cliente.estado = true;
     await cliente.save();
-
+  
     return res.json({
       ok: true,
       cliente,
-      msg: "Cliente actualizado",
-    });
+      msg: "Cliente actualizado"
+    })
   }
-
-  // registrar nuevo clientes
+  
+  // Registramos nuevo cliente
   cliente = new Client(req.body);
   cliente.estado = true;
+
   await cliente.save().catch((error) => {
     return res.status(400).json({
       ok: false,
-      error,
+      error
     });
   });
-
-  let token = jwt.sign(
-    {
-      user: cliente,
-    },
-    process.env.JWT_SECRET,
-    {
-      expiresIn: "48h",
-    }
-  );
-
+  
   res.json({
     ok: true,
     cliente,
-    token,
-    msg: "Cliente registrado",
+    msg: "Cliente registrado"
+  })
+};
+
+const actualizarCliente = async(req, res) => {
+  const id = req.client._id;
+  const data = req.body;
+  let cliente;
+  
+  // Buscamos el cliente por su identificados y actualizamos
+  try {
+    cliente = await Client.findByIdAndUpdate(
+      id,
+      data,
+      {new: true, runValidators: true}
+    );
+  } catch (err) {
+    return res.status(500).json({
+      ok: false,
+      err
+    })
+  }
+  
+  if (!cliente)
+    return res.status(400).json({
+      ok: false,
+      err: {
+        msg: "El cliente no se encuentra registrado",
+      },
+    });
+  
+  res.json({
+    ok: true,
+    cliente,
+    msg: "Cliente Actualizado",
   });
 };
 
-const autenticarCliente = async (req, res) => {
+const autenticarCliente = async(req, res) => {
   // Verificamos usuario y password en la BD
   let { email, password } = req.body;
 
   const usuario = await Client.findOne({ email: email });
-  // el usuario no se encuentra registrado
+  // Si el usuario no se encuentra registrado
   if (!usuario)
     return res.status(400).json({
       ok: false,
@@ -94,14 +120,11 @@ const autenticarCliente = async (req, res) => {
         msg: "Usuario o Contraseña incorrecto",
       },
     });
-  let token = jwt.sign(
-    {
-      user: usuario,
-    },
-    process.env.JWT_SECRET,
-    {
-      expiresIn: "48h",
-    }
+  let token = jwt.sign({
+    user: usuario,
+  },process.env.JWT_SECRET,{
+    expiresIn: "48h",
+  }
   );
 
   res.json({
@@ -112,10 +135,11 @@ const autenticarCliente = async (req, res) => {
   });
 };
 
-const mostrarListadoEmpresas = async (req, res) => {
-  //  cargar las empresas asosciadas
+const mostrarListadoEmpresas = async(req, res) => {
+  // Cargamos las empresas asociadas
   let afiliadas = await actualizarEmpresasAfiliadas(req);
   console.log(afiliadas);
+
   res.send({
     layout: "user.hbs",
     empresas: afiliadas,
@@ -124,8 +148,9 @@ const mostrarListadoEmpresas = async (req, res) => {
   });
 };
 
-const actualizarEmpresasAfiliadas = async (req) => {
+const actualizarEmpresasAfiliadas = async(req) => {
   let empresas = [];
+
   for (let puntuacion of req.user.puntuacion) {
     const empresa = await Business.findById(puntuacion.idBusiness);
     const data = {
@@ -138,18 +163,17 @@ const actualizarEmpresasAfiliadas = async (req) => {
   return empresas;
 };
 
-const mostrarCatalogoEmpresa = async (req, res) => {
+const mostrarCatalogoEmpresa = async(req, res) => {
   const categorias = await obtenerCategorias(req.params.id);
   const catalogo = await Catalog.findOne({ business: req.params.id });
-  // premios por pagina
+  // Premios por pagina
   let premio = 6;
   let paginaActual = req.query.p || 1;
-
   const filtroPuntos = req.query.puntos || false;
-
-  // condicionar la busqueda de premiosTotales
+  // Condicionamos la busqueda de premiosTotales
   let premios;
   let premiosTotales;
+
   if (filtroPuntos) {
     premios = await Prize.find({
       catalog: catalogo._id,
@@ -175,11 +199,11 @@ const mostrarCatalogoEmpresa = async (req, res) => {
   }
 
   const paginasTotales = Math.ceil(premiosTotales / premio);
-
-  // obtener datos de la empresa actual
-  //  cargar las empresas asosciadas
+  // Obtenemos los datos de la empresa actual
+  // Cargamos las empresas asociadas
   let afiliadas = await actualizarEmpresasAfiliadas(req);
   let empresaActual;
+
   for (let empresa of afiliadas) {
     if (req.params.id == empresa.id) {
       empresaActual = empresa;
@@ -202,19 +226,18 @@ const mostrarCatalogoEmpresa = async (req, res) => {
   });
 };
 
-const mostrarCategoriaCatalogo = async (req, res) => {
+const mostrarCategoriaCatalogo = async(req, res) => {
   const categorias = await obtenerCategorias(req.params.id);
   const catalogo = await Catalog.findOne({ business: req.params.id });
   const category = await Category.findOne({ name: req.params.category });
-
-  // premios por pagina
+  // Premios por pagina
   let premio = 6;
   let paginaActual = req.query.p || 1;
-
   const filtroPuntos = req.query.puntos || false;
-  // condicionar la busqueda de premiosTotales
+  // Condicionamos la busqueda de premiosTotales
   let premios;
   let premiosTotales;
+
   if (filtroPuntos) {
     premios = await Prize.find({
       catalog: catalogo._id,
@@ -248,11 +271,11 @@ const mostrarCategoriaCatalogo = async (req, res) => {
   }
 
   const paginasTotales = Math.ceil(premiosTotales / premio);
-
-  // obtener datos de la empresa actual
-  //  cargar las empresas asosciadas
+  // Obtenemos datos de la empresa actual
+  // Cargamos las empresas asociadas
   let afiliadas = await actualizarEmpresasAfiliadas(req);
   let empresaActual;
+
   for (let empresa of afiliadas) {
     if (req.params.id == empresa.id) {
       empresaActual = empresa;
@@ -275,10 +298,9 @@ const mostrarCategoriaCatalogo = async (req, res) => {
   });
 };
 
-const obtenerCategorias = async (idBusiness) => {
+const obtenerCategorias = async(idBusiness) => {
   const catalogo = await Catalog.findOne({ business: idBusiness });
   const premios = await Prize.find({ catalog: catalogo._id });
-
   let categorias = [];
   let categories = new Set();
 

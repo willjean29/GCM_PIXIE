@@ -32,7 +32,9 @@ router.get('/ventas/:id',
   verifyTokenAdmin,
   fileController.obtenerDatosArchivo
 );
-router.post('/clientes/:id',
+
+// Para cargar datos de los clientes
+router.get('/clientes/:id',
   verifyTokenAdmin,
   fileController.cargarDataCliente
 );

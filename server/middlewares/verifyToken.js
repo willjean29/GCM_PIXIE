@@ -1,8 +1,7 @@
-/**
- * Middelware para la
- * autorización para cada petición
- * del administrador y usuario.
- */
+/*
+  Autorización para cada petición del administrador y usuario.
+*/
+
 
 // Importando librerías
 const jwt = require('jsonwebtoken');

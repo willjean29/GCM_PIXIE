@@ -1,3 +1,9 @@
+/*
+  Para el cálculo de estadísticas totales
+  en el panel de administrador.
+*/
+
+// Importando modelos
 const Prize = require('../models/Prize');
 const File = require('../models/File');
 const Client = require('../models/Client');
@@ -37,8 +43,8 @@ const clientesTop = async(idAdministrator) => {
   if(!business){
      return [clientesDatos,clientesPuntos];
   }
-  const {clientes} = business;
 
+  const {clientes} = business;
   if(clientes.length > 0){
     for (let cliente of clientes) {
       let clienteInfo = await Client.findById(cliente.idCliente).lean();
@@ -63,6 +69,7 @@ const clientesTop = async(idAdministrator) => {
     // a must be equal to b
     return 0;
   })
+
   total = total.splice(0,5);
   clientesPuntos = total.map((info) => info['puntos']);
   clientesDatos = total.map((info) => info['info']);
@@ -78,11 +85,12 @@ const clientesTop = async(idAdministrator) => {
   return result;
 }
 
-const clientesEstado = async (idAdministrator) => {
+const clientesEstado = async(idAdministrator) => {
   const business = await Business.findOne({administrador: idAdministrator});
   if(!business){
     return [];
   }
+
   const {clientes} = business;
   let clientesActivvos = 0;
   let clientesInactivos = 0;
@@ -118,10 +126,10 @@ const clientesGeneros = async(idAdministrator) => {
   if(!business){
      return [];
   }
+
   let clientesHombres = 0;
   let clientesMujeres = 0;
   const {clientes} = business;
-
   if(clientes.length > 0){
     for (let cliente of clientes) {
       let clienteInfo = await Client.findById(cliente.idCliente).lean();
@@ -134,6 +142,7 @@ const clientesGeneros = async(idAdministrator) => {
   }
   return {clientesMujeres,clientesHombres};
 }
+
 module.exports = {
   premiosTotales,
   registrosTotales,

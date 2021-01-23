@@ -66,21 +66,25 @@ router.put('/avatar',
   administratorController.agregarAvatar
 );
 
+// Para ver estadísticas por genero
 router.get('/status/genero',
   verifyTokenAdmin,
   administratorController.obtenerDataGenero
 );
 
+// Para ver estadisticas por estado
 router.get('/status/estado',
   verifyTokenAdmin,
   administratorController.obtenerDataEstado
 );
 
+// Para ver estadisticas por puntos
 router.get('/status/puntos',
   verifyTokenAdmin,
   administratorController.obtenerDataPuntos
 );
 
+// Para ver estadisticas
 router.get('/data',
   verifyTokenAdmin,
   administratorController.obtenerDatosEstaticos
