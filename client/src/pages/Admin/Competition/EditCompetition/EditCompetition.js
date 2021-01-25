@@ -22,9 +22,9 @@ const EditCompetiton = ({competition,setShowModal}) => {
     validationSchema: Yup.object({
       nombre: Yup.string().required('El nombre es obligatorio'),
       soles: Yup.number('Ingrese un número valido').required('La cantidad en soles es obligatoria')
-        .min(1,'Ingrese una cantida valida'),
+        .min(1,'Ingrese una cantida valida de [1-100]').max(100,"Ingrese una cantida valida de [1-100]"),
       puntos: Yup.number('Ingrese un número valido').required('La cantidad de puntos es obligatoria')
-        .min(1,'Ingrese una cantida valida'),
+        .min(1,'Ingrese una cantida valida de [1-100]').max(100,"Ingrese una cantida valida de [1-100]"),
       fechaInicio: Yup.date().required("Las fechas son obligatorias"),
       fechaFin: Yup.date().required("Las fechas son obligatorias"),
     }),
