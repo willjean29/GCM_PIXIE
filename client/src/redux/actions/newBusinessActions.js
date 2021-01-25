@@ -38,7 +38,7 @@ const validarRucError = () => ({
   type: RUC_ERROR
 })
 
-export const registrarEmpresaAction = (dataBusiness,next,setReloadUser) => {
+export const registrarEmpresaAction = (dataBusiness,next,prev,setReloadUser) => {
   return async (dispatch) => {
     dispatch(registrarEmpresa());
     tokenAuthAdmin();
@@ -53,9 +53,14 @@ export const registrarEmpresaAction = (dataBusiness,next,setReloadUser) => {
         setReloadUser(true);
       };
     } catch (error) {
-      console.log(error);
+      console.log(error.response);
       const msg = error.response.data ? error.response.data.err.msg : "Hubo un error";
       Notification(error.response.data.ok,msg);
+      const isError = error.response.data.ok ? true : false;
+      if(!isError){
+        prev();
+        setReloadUser(true);
+      }
       dispatch(registrarEmpresaError());
     }
   }
