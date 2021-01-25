@@ -134,11 +134,20 @@ const obtenerDatosArchivo = async(req,res) => {
   const path = file.link.split('/empresas');
   const pathFile = `empresas${path[path.length - 1]}`;
   const streamJson = await getFileToS3(pathFile);
-  const dataFile = formatJSON(streamJson);
+  const {arrayDatos, isValid} = formatJSON(streamJson);
+
+  if(!isValid){
+    return res.status(400).json({
+      ok: false,
+      err: {
+        msg: "Archivo incompatible con las cabeceras"
+      }
+    })
+  }
   res.json({
     ok: true,
     msg: "Detalle de Archivo",
-    file: dataFile
+    file: arrayDatos
   })
 }
 
@@ -162,8 +171,9 @@ const cargarDataCliente = async (req,res) => {
   const path = file.link.split('/empresas');
   const pathFile = `empresas${path[path.length - 1]}`;
   const streamJson = await getFileToS3(pathFile);
-  const dataFile = formatJSON(streamJson);
-
+  
+  const {arrayDatos, isValid} = formatJSON(streamJson);
+  const dataFile = arrayDatos;
   const business = await Business.findById(file.business);
   const competition = await Competition.findOne({business: business._id});
   
@@ -176,6 +186,15 @@ const cargarDataCliente = async (req,res) => {
     })
   }
   const { parametro, puntos } = competition.reglas;
+
+  if(!isValid){
+    return res.status(400).json({
+      ok: false,
+      err: {
+        msg: "Archivo incompatible con las cabeceras"
+      }
+    })
+  }
 
   dataFile.forEach(async(data, index) => {
     // Buscamos cliente

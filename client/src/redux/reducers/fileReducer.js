@@ -66,6 +66,7 @@ const fileReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         error: true,
+        fileCurret: null
       }
     default:
       return state;

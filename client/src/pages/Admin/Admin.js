@@ -23,6 +23,7 @@ const Admnin = () => {
   const datosGenero = useSelector(state => state.statistics.dataGenero);
   const datosEstado = useSelector(state => state.statistics.dataEstado);
   const datosPuntos = useSelector(state => state.statistics.dataPuntos);
+
   useEffect(() => {
     dataDashboard();
     obtenerDatosGenero();
@@ -78,11 +79,11 @@ const Admnin = () => {
   const dataEstado = [
     {
       type: "Activos",
-      value: datosEstado ? datosEstado.clientesActivos : 30,
+      value: datosEstado ? datosEstado.clientesActivvos : 30,
     },
     {
       type: "Inactivos",
-      value: datosEstado ? datosEstado.clientesInactivos : 70,
+      value: datosEstado ? datosEstado.clientesInactivos : 30,
     }
     
   ];
