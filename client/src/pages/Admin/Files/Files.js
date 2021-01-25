@@ -23,7 +23,7 @@ const Files = (props) => {
   const obtenerArchivos = () => dispatch(obtenerArchivosAction());
   const detalleArchivo = (file) => dispatch(detalleArchivoAction(file));
   const eliminarArchivo = (file) => dispatch(eliminarArchivoAction(file));
-  const procesarArchivo = (file,setReloadFiles) => dispatch(procesarArchivoAction(file,setReloadFiles));
+  const procesarArchivo = (file,setReloadFiles,eliminarArchivo) => dispatch(procesarArchivoAction(file,setReloadFiles,eliminarArchivo));
   const listaArchivos = useSelector(state => state.files.data);
   const {Content} = Layout
   // const {TableLayout} = Card
@@ -77,7 +77,7 @@ const Files = (props) => {
   }
 
   const handleFileProcessing = (file) => {
-    procesarArchivo(file,setReloadFiles);
+    procesarArchivo(file,setReloadFiles,eliminarArchivo);
   }
 
   const columns = [
@@ -127,7 +127,7 @@ const Files = (props) => {
       render: (file) => (
         <Space size='middle'>
           <Tooltip title="Procesar Archivos">
-            <Button type='primary' icon={<CheckCircleOutlined />} >
+            <Button type='primary' icon={<CheckCircleOutlined />} onClick={() => handleFileProcessing(file)} disabled={file.estado}>
             </Button>
           </Tooltip>
           <Tooltip title="Ver detalle de archivo">
