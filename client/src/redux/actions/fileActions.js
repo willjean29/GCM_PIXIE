@@ -176,3 +176,4 @@ const procesarArchivoError = () => ({
 })
 
 // Validación del correo
+// Validación del formulario
