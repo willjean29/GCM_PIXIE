@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {Form, Row, Col, Input, Card, Select, Avatar, Button} from 'antd';
 import {useDispatch} from 'react-redux';
+import Notification from '../../../../../components/UiElements/Notification';
 import {actualizarPremioAction} from '../../../../../redux/actions/catalogActions';
 import './ItemEdit.scss';
 const ItemEdit = ({prize, categories, setReloadPrizes, setShowModal}) => {
@@ -34,7 +35,12 @@ const ItemEdit = ({prize, categories, setReloadPrizes, setShowModal}) => {
     })
   }
   const handleSubmit = () => {
-    console.log(dataItem);
+    const isNumber = parseInt(dataItem.name);
+    console.log(isNumber)
+    if (!isNaN(isNumber)) {
+      Notification(false,"El nombre del producto no debe ser un número");
+      return;
+    }
     actualizarPremio(dataItem);
     setShowModal(false);
     setReloadPrizes(true);
@@ -136,6 +142,7 @@ const ItemEdit = ({prize, categories, setReloadPrizes, setShowModal}) => {
                     name="description"
                     onChange={handleChange}
                     value={dataItem.description}
+                    style={{resize: "none"}}
                     required
                   />
                 </Form.Item>
