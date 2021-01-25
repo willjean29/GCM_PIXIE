@@ -7,7 +7,7 @@ import {
   BUSINESS_EDIT_ERROR,
   BUSINESS_IMAGE,
   BUSINESS_IMAGE_OK,
-  BUSINESS_IMAGE_ERROR 
+  BUSINESS_IMAGE_ERROR
 } from '../types';
 import Notification from '../../components/UiElements/Notification';
 import clienteAxios from '../../config/clienteAxios';
@@ -83,6 +83,7 @@ export const imagenEmpresaAction = (dataImage) => {
       console.log(data);
       dispatch(imagenEmpresaOk(data.business));
     } catch (error) {
+      console.log(error.response);
       const msg = error.response.data ? error.response.data.err.msg : "Hubo un error";
       Notification(error.response.data.ok,msg);
       dispatch(imagenEmpresaError());
