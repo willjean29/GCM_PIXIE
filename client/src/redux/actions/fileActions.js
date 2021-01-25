@@ -139,7 +139,7 @@ const eliminarArchivoError = () => ({
   type: DELETE_FILE_ERROR
 })
 
-export const procesarArchivoAction = (file,setReloadFiles) => {
+export const procesarArchivoAction = (file,setReloadFiles,eliminarArchivo) => {
   return async (dispatch) => {
     dispatch(procesarArchivo());
     tokenAuthAdmin();
@@ -152,9 +152,14 @@ export const procesarArchivoAction = (file,setReloadFiles) => {
       }
       dispatch(procesarArchivoOk())
     } catch (error) {
-      console.log(error.response);
+      console.log(error.response.data);
       const msg = error.response.data ? error.response.data.err.msg : "Hubo un error";
+      const errorFile = error.response.data.ok ? true : false;
       Notification(error.response.data.ok,msg);
+      if(!errorFile){
+        eliminarArchivo(file);
+        setReloadFiles(true);
+      }
       dispatch(procesarArchivoError())
     }
   }
