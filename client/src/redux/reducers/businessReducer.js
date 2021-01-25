@@ -41,7 +41,6 @@ const businessReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         error: false,
-        data: null
       }
     default:
     return state;

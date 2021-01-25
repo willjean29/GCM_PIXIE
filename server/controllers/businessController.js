@@ -57,8 +57,16 @@ const agregarAvatarEmpresa = async (req, res) => {
   //Valida que exista un archivo y sube el archivo
   if (req.file) {
     const result = await cloudinary.v2.uploader.upload(req.file.path);
-    console.log(result)
-    console.log(req.file)
+    console.log(result);
+    console.log(req.file);
+    if(req.file.size > 1048576) {
+      return res.status(500).json({
+        ok: false,
+        err: {
+          msg: "Archivo supera el peso limite de 1M"
+        }
+      })
+    }
     business.imagen = result.secure_url; //Asigna el link al business y lo guarde en la bd
     await fs.unlink(req.file.path);
   }

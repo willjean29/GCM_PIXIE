@@ -83,6 +83,7 @@ export const imagenEmpresaAction = (dataImage) => {
       console.log(data);
       dispatch(imagenEmpresaOk(data.business));
     } catch (error) {
+      console.log(error.response);
       const msg = error.response.data ? error.response.data.err.msg : "Hubo un error";
       Notification(error.response.data.ok,msg);
       dispatch(imagenEmpresaError());
