@@ -29,7 +29,13 @@ const EditProfile = ({administrator}) => {
       direccion: Yup.string().required("La dirección es obligatoria"),
       departamento: Yup.string().required("El departamento es obligatorio"),
       provincia: Yup.string().required("La provincia es obligatoria"),
-      distrito: Yup.string().required("El distrito es obligatorio")
+      distrito: Yup.string().required("El distrito es obligatorio"),
+      telefono: Yup.string("Ingrese un número").
+        max(7,"El # de telefono tiene 7 digitos").
+        min(7,"El # de telefono tiene 7 digitos"),
+      celular: Yup.string("Ingrese un número").
+        max(9,"El # de celular tiene 9 digitos").
+        min(9,"El # de celular tiene 9 digitos"),
     }),
     onSubmit: (formData) => {
       const data = {
@@ -113,21 +119,27 @@ const EditProfile = ({administrator}) => {
 
           <Row gutter={24}>
             <Col span={24} md={12}>
-              <Form.Item label="Telefono">
+              <Form.Item label="Telefono"
+                validateStatus={formik.errors.telefono ? "error" : "success"}
+              >
                 <Input
-                  type="text"
+                  type="number"
                   name="telefono"
                   value={formik.values.telefono}
                 />
+                <span style={{color : '#ff4d4f'}}>{formik.errors.telefono}</span>
               </Form.Item>
             </Col>
             <Col span={24} md={12}>
-              <Form.Item label="Celular">
+              <Form.Item label="Celular"
+                 validateStatus={formik.errors.celular ? "error" : "success"}
+              >
                 <Input
-                  type="text"
+                  type="number"
                   name="celular"
                   value={formik.values.celular}
                 />
+                <span style={{color : '#ff4d4f'}}>{formik.errors.celular}</span>
               </Form.Item>
             </Col>
           </Row>
