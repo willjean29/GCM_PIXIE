@@ -174,3 +174,5 @@ const procesarArchivoOk = () => ({
 const procesarArchivoError = () => ({
   type: FILE_PROCESSING_ERROR
 })
+
+// Validación del correo
