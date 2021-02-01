@@ -13,56 +13,62 @@ import {
   UPDATE_COMPETITION_ERROR,
   ACTIVE_COMPETITION,
   ACTIVE_COMPETITION_OK,
-  ACTIVE_COMPETITION_ERROR
-} from '../types';
+  ACTIVE_COMPETITION_ERROR,
+  DELETE_COMPETITION,
+  DELETE_COMPETITION_OK,
+  DELETE_COMPETITION_ERROR,
+} from "../types";
 
 const initialState = {
   loading: null,
   error: null,
-  data: null
-}
+  data: null,
+};
 
 const competitionReducer = (state = initialState, action) => {
   switch (action.type) {
-    case REGISTER_COMPETITION: 
+    case REGISTER_COMPETITION:
     case GET_COMPETITION:
     case COMPETITION_IMAGE:
     case UPDATE_COMPETITION:
+    case DELETE_COMPETITION:
     case ACTIVE_COMPETITION:
       return {
         ...state,
-        loading: true
-      }
-    case REGISTER_COMPETITION_OK: 
+        loading: true,
+      };
+    case REGISTER_COMPETITION_OK:
       return {
         ...state,
         loading: false,
-        error: false
-      }
+        error: false,
+      };
     case GET_COMPETITION_OK:
     case COMPETITION_IMAGE_OK:
     case UPDATE_COMPETITION_OK:
+    case DELETE_COMPETITION_OK:
     case ACTIVE_COMPETITION_OK:
       return {
         ...state,
         loading: false,
         data: action.payload,
-        error: false
-      }
-    case REGISTER_COMPETITION_ERROR: 
+        error: false,
+      };
+    case REGISTER_COMPETITION_ERROR:
     case GET_COMPETITION_ERROR:
     case COMPETITION_IMAGE_ERROR:
     case UPDATE_COMPETITION_ERROR:
+    case DELETE_COMPETITION_ERROR:
     case ACTIVE_COMPETITION_ERROR:
       return {
         ...state,
         loading: false,
         error: true,
-        data: null
-      }
+        data: null,
+      };
     default:
       return state;
   }
-}
+};
 
 export default competitionReducer;

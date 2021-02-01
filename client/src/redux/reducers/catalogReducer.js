@@ -13,49 +13,49 @@ import {
   DELETE_PRIZE_ERROR,
   UPDATE_PRIZE,
   UPDATE_PRIZE_OK,
-  UPDATE_PRIZE_ERROR
-} from '../types';
+  UPDATE_PRIZE_ERROR,
+} from "../types";
 
 const initialState = {
   loading: null,
   error: null,
   categories: [],
-  prizes: null
-}
+  prizes: null,
+};
 
 const catalogReducer = (state = initialState, action) => {
   switch (action.type) {
-    case GET_CATEGORIES: 
+    case GET_CATEGORIES:
     case REGISTER_CATALOG:
     case GET_PRIZES:
     case DELETE_PRIZE:
     case UPDATE_PRIZE:
       return {
         ...state,
-        loading: true
-      }
+        loading: true,
+      };
     case GET_CATEGORIES_OK:
       return {
         ...state,
         loading: false,
         categories: action.payload,
-        error: false
-      }
+        error: false,
+      };
     case REGISTER_CATALOG_OK:
     case DELETE_PRIZE_OK:
     case UPDATE_PRIZE_ERROR:
       return {
         ...state,
         loading: false,
-        error: false
-      }
+        error: false,
+      };
     case GET_PRIZES_OK:
       return {
         ...state,
         loading: false,
         error: false,
-        prizes: action.payload
-      }
+        prizes: action.payload,
+      };
     case GET_CATEGORIES_ERROR:
     case REGISTER_CATALOG_ERROR:
     case GET_PRIZES_ERROR:
@@ -64,11 +64,11 @@ const catalogReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        error: true
-      }
+        error: true,
+      };
     default:
       return state;
   }
-}
+};
 
 export default catalogReducer;
