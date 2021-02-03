@@ -10,7 +10,10 @@ import {
   FILE_DETAIL_ERROR,
   DELETE_FILE,
   DELETE_FILE_OK,
-  DELETE_FILE_ERROR
+  DELETE_FILE_ERROR,
+  FILE_PROCESSING,
+  FILE_PROCESSING_OK,
+  FILE_PROCESSING_ERROR
 } from '../types';
 
 import Notification from '../../components/UiElements/Notification';
@@ -134,4 +137,35 @@ const eliminarArchivoOk = () => ({
 })
 const eliminarArchivoError = () => ({
   type: DELETE_FILE_ERROR
+})
+
+export const procesarArchivoAction = (file,setReloadFiles) => {
+  return async (dispatch) => {
+    dispatch(procesarArchivo());
+    tokenAuthAdmin();
+    try {
+      const response = await clienteAxios.post(`/file/clientes/${file._id}`);
+      const data = response.data;
+      Notification(data.ok,data.msg);
+      if(data.ok){
+        setReloadFiles(true);
+      }
+      dispatch(procesarArchivoOk())
+    } catch (error) {
+      console.log(error.response);
+      const msg = error.response.data ? error.response.data.err.msg : "Hubo un error";
+      Notification(error.response.data.ok,msg);
+      dispatch(procesarArchivoError())
+    }
+  }
+}
+
+const procesarArchivo = () => ({
+  type: FILE_PROCESSING
+})
+const procesarArchivoOk = () => ({
+  type: FILE_PROCESSING_OK
+})
+const procesarArchivoError = () => ({
+  type: FILE_PROCESSING_ERROR
 })

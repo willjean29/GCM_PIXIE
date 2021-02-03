@@ -166,7 +166,10 @@ const cargarDataCliente = async (req, res) => {
       },
     });
 
-  const datos = leerCSV(file.name);
+  const path = file.link.split('/empresas');
+  const pathFile = `empresas${path[path.length - 1]}`;
+  const streamJson = await getFileToS3(pathFile);
+  const dataFile = formatJSON(streamJson);
 
   const business = await Business.findById(file.business);
 
@@ -182,8 +185,8 @@ const cargarDataCliente = async (req, res) => {
   }
   const { parametro, puntos } = competition.reglas;
 
-  datos.forEach(async (data, index) => {
-    // Buscamos al cliente
+  datos.forEach(async(data, index) => {
+    // Buscamos cliente
     let client = await Client.findOne({ dni: data.DNI });
     // Calculamos los puntos por operación
     let puntosGanados = puntosSoles(parametro, puntos, data.Total_Venta);

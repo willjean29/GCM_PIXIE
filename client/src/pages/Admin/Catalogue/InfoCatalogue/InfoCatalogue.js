@@ -123,7 +123,7 @@ const InfoCatalogue = () => {
   return (  
     <Layout className="list-prizes">
       <Card className="list-prizes__title">
-          <h1 className="title-card">Lista de premios en el catalogo</h1>
+          <h1 className="title-card">Lista de Premios</h1>
       </Card>
       <Content className="list-prizes__buttons">
         <Space size='middle'>
